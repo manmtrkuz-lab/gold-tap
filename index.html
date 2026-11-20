@@ -59,6 +59,11 @@
     }
 
     .coin {
+      -webkit-tap-highlight-color: transparent;
+      outline: none;
+      user-select: none;
+      -webkit-apperance: none;
+      appearance: none;
       width: 215px;
       height: 215px;
       border-radius: 50%;
@@ -74,6 +79,12 @@
 
     .coin:active {
       transform: scale(0.92);
+    }
+
+    .coin:focus,
+    .coin:focus-visible {
+      outline: none !important;
+      box-shadow: 0 0 20px #ffc52e, 0 0 45px #bd8110;
     }
 
     .energy {
