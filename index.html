@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GOLD TAP</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #49340c, #17130a 48%, #050505);
+      color: #ffe6a0;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 25px 15px;
+    }
+
+    h1 {
+      color: #ffd65c;
+      font-size: 42px;
+      letter-spacing: 6px;
+      text-shadow: 0 0 15px #ffbd24, 0 0 30px #bd8110;
+      margin: 15px 0 5px;
+    }
+
+    .subtitle {
+      color: #a99566;
+      letter-spacing: 4px;
+      font-size: 12px;
+    }
+
+    .panel {
+      max-width: 390px;
+      margin: 25px auto;
+      padding: 25px 18px;
+      background: rgba(25, 21, 12, 0.92);
+      border: 1px solid #80601d;
+      border-radius: 22px;
+      box-shadow: 0 10px 35px #000;
+    }
+
+    .label {
+      color: #b8a477;
+      font-size: 13px;
+    }
+
+    #score {
+      color: #fff0b0;
+      font-size: 42px;
+      font-weight: bold;
+      margin: 12px 0 22px;
+      text-shadow: 0 0 15px #d99b18;
+    }
+
+    .coin {
+      width: 215px;
+      height: 215px;
+      border-radius: 50%;
+      border: 9px solid #fff0a6;
+      background: radial-gradient(circle at 32% 25%, #fffbd1, #ffe16a 25%, #e9a91c 55%, #9b5c00 82%, #633600);
+      color: #704300;
+      font-size: 31px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 0 20px #ffc52e, 0 0 45px #bd8110, inset 0 0 20px #fff4b5;
+      transition: transform 0.1s;
+    }
+
+    .coin:active {
+      transform: scale(0.92);
+    }
+
+    .energy {
+      margin-top: 25px;
+      color: #f5d36b;
+      font-size: 14px;
+    }
+
+    .bar {
+      width: 100%;
+      height: 12px;
+      background: #393020;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .fill {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, #d18a0b, #ffe58a);
+      transition: width 0.2s;
+    }
+
+    .action {
+      width: 100%;
+      margin-top: 13px;
+      padding: 15px;
+      border: 1px solid #d6a52e;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #47320b, #241904);
+      color: #ffe29a;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .action:active {
+      transform: scale(0.97);
+    }
+
+    .message {
+      min-height: 22px;
+      margin-top: 15px;
+      color: #ffd45c;
+      font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+
+    .footer {
+      color: #8c7950;
+      font-size: 11px;
+      margin-top: 20px;
+    }
+  </style>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+</head>
+
+<body>
+
+  <h1>GOLD TAP</h1>
+  <div class="subtitle">TAP • COLLECT • RISE</div>
+
+  <div class="panel">
+
+    <div class="label">YOUR GOLD BALANCE</div>
+    <div id="score">0</div>
+
+    <button class="coin" onclick="tapCoin()">
+      GOLD<br>TAP
+    </button>
+
+    <div class="energy">
+      ⚡ ENERGY:
+      <span id="energy">100</span> / 100
+      <div class="bar">
+        <div class="fill" id="energyBar"></div>
+      </div>
+    </div>
+
+    <button class="action" onclick="dailyBonus()">
+      🎁 DAILY BONUS +100 GOLD
+    </button>
+
+    <button class="action" onclick="inviteFriends()">
+      👥 INVITE FRIENDS
+    </button>
+
+    <div class="message" id="message"></div>
+
+    <div class="footer">
+      GOLD TAP — YOUR GOLD ADVENTURE
+    </div>
+
+  </div>
+
+  <script>
+    let score = Number(localStorage.getItem("goldScore")) || 0;
+    const tg = window.Telegram?.WebApp;
+
+    if (tg) {
+      tg.ready();
+      tg.expand();
+    }
+    let energy = 100;
+
+    function updateScreen() {
+      document.getElementById("score").textContent = score;
+      document.getElementById("energy").textContent = energy;
+      document.getElementById("energyBar").style.width = energy + "%";
+    }
+
+    function tapCoin() {
+      if (energy <= 0) {
+        document.getElementById("message").textContent =
+          "Энергия тугади. Бироз кутинг!";
+        return;
+      }
+
+      score++;
+      energy--;
+
+      localStorage.setItem("goldScore", score);
+      document.getElementById("message").textContent = "+1 GOLD!";
+      updateScreen();
+    }
+
+    function dailyBonus() {
+      const today = new Date().toDateString();
+      const lastBonus = localStorage.getItem("lastBonus");
+
+      if (lastBonus === today) {
+        document.getElementById("message").textContent =
+          "Бугунги бонусни олиб бўлдингиз!";
+        return;
+      }
+
+      score += 100;
+      localStorage.setItem("goldScore", score);
+      localStorage.setItem("lastBonus", today);
+
+      document.getElementById("message").textContent =
+        "Табриклаймиз! +100 GOLD!";
+      updateScreen();
+    }
+    {
+      const link = "https://t.me/goldtap_global_bot?start=invite";
+
+      if (navigator.share) {
+        navigator.share({
+          title: "GOLD TAP",
+          text: "GOLD TAP ўйинига қўшил!",
+          url: link
+        }).catch(() => { });
+      } else if (navigator.clipboard) {
+        navigator.clipboard.writeText(link)
+          .then(() => {
+            document.getElementById("message").textContent =
+              "Таклиф ҳаволаси нусхаланди!";
+          })
+          .catch(() => {
+            document.getElementById("message").textContent = link;
+          });
+      } else {
+        document.getElementById("message").textContent = link;
+      }
+    }
+
+    setInterval(function () {
+      if (energy < 100) {
+        energy = Math.min(100, energy + 1);
+        updateScreen();
+      }
+    }, 3000);
+
+    updateScreen();
+  </script>
+
+</body>
+
+</html>
