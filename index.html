@@ -190,7 +190,8 @@
       tg.ready();
       tg.expand();
     }
-    let energy = 100;
+    let energy =
+      Number(localStorage.getItem("goldEnergy") ?? 100);
 
     function updateScreen() {
       document.getElementById("score").textContent = score;
