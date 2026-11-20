@@ -259,7 +259,7 @@
     setInterval(function () {
       if (energy < 100) {
         energy = Math.min(100, energy + 1);
-        localStorage.setItem("goldEnergy", Energy);
+        localStorage.setItem("goldEnergy", energy);
         updateScreen();
       }
     }, 3000);
