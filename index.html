@@ -210,7 +210,7 @@
       energy--;
 
       localStorage.setItem("goldScore", score);
-      localStorage.setItem("goldenergy,energy");
+      localStorage.setItem("goldEnergy", energy);
       document.getElementById("message").textContent = "+1 GOLD!";
       updateScreen();
     }
@@ -259,7 +259,7 @@
     setInterval(function () {
       if (energy < 100) {
         energy = Math.min(100, energy + 1);
-        localStorage.setItem("goldEnergy", energy);
+        localStorage.setItem("goldEnergy", Energy);
         updateScreen();
       }
     }, 3000);
