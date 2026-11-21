@@ -142,6 +142,52 @@
       font-size: 13px;
       letter-spacing: 2px;
     }
+
+    .footer {
+      margin-top: 25px;
+      color: #a99560;
+      font-size: 13px;
+      letter-spacing: 2px;
+    }
+
+    .footer {
+      margin-top: 25px;
+      color: #a99560;
+      font-size: 13px;
+      letter-spacing: 2px;
+    }
+
+    .coin {
+      position: relative;
+      overflow: visible;
+    }
+
+    .tap-float {
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #ffe66d;
+      font-size: 28px;
+      font-weight: bold;
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 100;
+      text-shadow: 0 0 15px gold;
+      animation: goldFloat 0.8s ease-out forwards;
+    }
+
+    @keyframes goldFloat {
+      from {
+        opacity: 1;
+        margin-top: 0;
+      }
+
+      to {
+        opacity: 0;
+        margin-top: -100px;
+      }
+    }
   </style>
 </head>
 
@@ -180,7 +226,23 @@
     <button class="action" onclick="inviteFriends()">
       👥 INVITE FRIENDS
     </button>
+    <div class="tasks">
+      <h2>🎯 TASKS</h2>
 
+      <button class="action" id="task1" onclick="claimTask(1, 2)">
+        📢 1-CHANNEL — +2 GOLD / TAP
+      </button>
+
+      <button class="action" id="task2" onclick="claimTask(2, 3)">
+        📢 2-CHANNEL — +3 GOLD / TAP
+      </button>
+
+      <button class="action" id="task3" onclick="claimTask(3, 5)">
+        📢 3-CHANNEL — +5 GOLD / TAP
+      </button>
+
+      <div id="tapLevel">CURRENT TAP: 1 GOLD</div>
+    </div>
     <div class="message" id="message"></div>
 
     <div class="footer">
@@ -255,27 +317,43 @@
     // TAP COIN
     // ==========================
 
-    function tapCoin() {
+    let tapMultiplier = Number(
+      localStorage.getItem("tapMultiplier")
+    ) || 1;
 
+    function tapCoin() {
       recoverEnergy();
 
       if (energy <= 0) {
         document.getElementById("message").textContent =
-          "Энергия тугади. Бироз кутинг!";
+          "Энергия тугади!";
         return;
       }
 
-      score++;
+      score += tapMultiplier;
       energy--;
 
-      saveGame();
-
+      localStorage.setItem("goldScore", score);
+      localStorage.setItem("goldEnergy", energy);
       document.getElementById("message").textContent =
-        "+1 GOLD!";
-
+        "+" + tapMultiplier + " GOLD! 🪙";
+      showTapFloat();
       updateScreen();
-    }
+      function showTapFloat() {
+        const coin = document.querySelector(".coin");
 
+        const popup = document.createElement("span");
+
+        popup.className = "tap-float";
+        popup.textContent = "+" + tapMultiplier + " GOLD";
+
+        coin.appendChild(popup);
+
+        setTimeout(() => {
+          popup.remove();
+        }, 800);
+      }
+    }
     // ==========================
     // DAILY BONUS
     // ==========================
@@ -437,8 +515,64 @@
       recoverEnergy();
       updateBonusTimer();
     });
+    // TAP MULTIPLIER TEST
+    function setTapMultiplier(level) {
+      tapMultiplier = level;
 
-  </script>
+      localStorage.setItem("tapMultiplier", level);
+
+      document.getElementById("message").textContent =
+        "TAP қиймати: " + level + " GOLD";
+
+      updateScreen();
+    }
+
+    // ONE-TIME TASK SYSTEM
+    let claimedTasks = JSON.parse(
+      localStorage.getItem("claimedTasks") || "[]"
+    );
+
+    function claimTask(taskId, level) {
+
+      if (claimedTasks.includes(taskId)) {
+        document.getElementById("message").textContent =
+          "Бу вазифа аввал бажарилган!";
+        return;
+      }
+
+      claimedTasks.push(taskId);
+
+      localStorage.setItem(
+        "claimedTasks",
+        JSON.stringify(claimedTasks)
+      );
+
+      tapMultiplier = Math.max(tapMultiplier, level);
+
+      localStorage.setItem("tapMultiplier", tapMultiplier);
+
+      document.getElementById("message").textContent =
+        "Табриклаймиз! +" + level + " TAP!";
+
+      updateScreen();
+      updateTaskButtons();
+    }
+
+    function updateTaskButtons() {
+      for (let id = 1; id <= 3; id++) {
+        const button = document.getElementById("task" + id);
+
+        if (button && claimedTasks.includes(id)) {
+          button.disabled = true;
+          button.textContent = "✅ COMPLETED";
+        }
+      }
+
+      document.getElementById("tapLevel").textContent =
+        "CURRENT TAP: " + tapMultiplier + " GOLD";
+    }
+
+    updateTaskButtons();</script>
 
 </body>
 
