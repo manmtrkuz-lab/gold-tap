@@ -228,6 +228,20 @@
         margin-top: -100px;
       }
     }
+
+    bottom-nav button.active {
+      background: linear-gradient(135deg, #ffd700, #b8860b);
+      color: #1a1000;
+      border: 1px solid #ffe66d;
+      border-radius: 14px;
+      box-shadow: 0 0 15px gold;
+      transform: translateY(-4px);
+    }
+
+    .bottom-nav button.active span {
+      color: #1a1000;
+      font-weight: bold;
+    }
   </style>
 </head>
 
@@ -631,6 +645,11 @@
       if (tab === "bonus" && bonus) bonus.style.display = "block";
       if (tab === "friends" && friends) friends.style.display = "block";
       if (tab === "history" && history) history.style.display = "block";
+
+      document.querySelectorAll(".bottom-nav button").forEach((btn, index) => {
+        const tabs = ["home", "bonus", "friends", "history"];
+        btn.classList.toggle("active", tabs[index] === tab);
+      });
     }
     function updateTaskButtons() {
       for (let id = 1; id <= 3; id++) {
