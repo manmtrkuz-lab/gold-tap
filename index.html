@@ -237,8 +237,8 @@
   <div class="subtitle">TAP • COLLECT • RISE</div>
 
   <div class="panel">
-
-    <div class="label">YOUR GOLD BALANCE</div>
+    <div id="tab-home" class="tab-content>
+    <div class=" label">YOUR GOLD BALANCE</div>
 
     <div id="score">0</div>
 
@@ -254,6 +254,8 @@
     <div class="bar">
       <div class="fill" id="energyBar"></div>
     </div>
+  </div>
+  <div id="tab-bonus" class="tab-content">
 
     <button class="action" onclick="dailyBonus()">
       🎁 DAILY BONUS +100 GOLD
@@ -263,31 +265,32 @@
       Бонус таймери: --:--:--
     </div>
 
-    <button class="action" onclick="inviteFriends()">
-      👥 INVITE FRIENDS
+  </div>
+  <button class="action" onclick="inviteFriends()">
+    👥 INVITE FRIENDS
+  </button>
+  <div class="tasks">
+    <h2>🎯 TASKS</h2>
+
+    <button class="action" id="task1" onclick="claimTask(1, 2)">
+      📢 1-CHANNEL — +2 GOLD / TAP
     </button>
-    <div class="tasks">
-      <h2>🎯 TASKS</h2>
 
-      <button class="action" id="task1" onclick="claimTask(1, 2)">
-        📢 1-CHANNEL — +2 GOLD / TAP
-      </button>
+    <button class="action" id="task2" onclick="claimTask(2, 3)">
+      📢 2-CHANNEL — +3 GOLD / TAP
+    </button>
 
-      <button class="action" id="task2" onclick="claimTask(2, 3)">
-        📢 2-CHANNEL — +3 GOLD / TAP
-      </button>
+    <button class="action" id="task3" onclick="claimTask(3, 5)">
+      📢 3-CHANNEL — +5 GOLD / TAP
+    </button>
 
-      <button class="action" id="task3" onclick="claimTask(3, 5)">
-        📢 3-CHANNEL — +5 GOLD / TAP
-      </button>
+    <div id="tapLevel">CURRENT TAP: 1 GOLD</div>
+  </div>
+  <div class="message" id="message"></div>
 
-      <div id="tapLevel">CURRENT TAP: 1 GOLD</div>
-    </div>
-    <div class="message" id="message"></div>
-
-    <div class="footer">
-      GOLD TAP - YOUR GOLD ADVENTURE
-    </div>
+  <div class="footer">
+    GOLD TAP - YOUR GOLD ADVENTURE
+  </div>
 
   </div>
 
@@ -597,7 +600,21 @@
       updateScreen();
       updateTaskButtons();
     }
+    function showTab(tab) {
+      const home = document.getElementById("tab-home");
+      const bonus = document.getElementById("tab-bonus");
 
+      if (home) home.style.display = "none";
+      if (bonus) bonus.style.display = "none";
+
+      if (tab === "home" && home) {
+        home.style.display = "block";
+      }
+
+      if (tab === "bonus" && bonus) {
+        bonus.style.display = "block";
+      }
+    }
     function updateTaskButtons() {
       for (let id = 1; id <= 3; id++) {
         const button = document.getElementById("task" + id);
