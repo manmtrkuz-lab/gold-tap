@@ -218,23 +218,51 @@
     }
 
     function dailyBonus() {
-      const today = new Date().toDateString();
-      const lastBonus = localStorage.getItem("lastBonus");
+      const last = Number(localStorage.getItem("lastBonusTime")) || 0;
+      const now = Date.now();
 
-      if (lastBonus === today) {
+      if (now - last < 86400000) {
         document.getElementById("message").textContent =
-          "Бугунги бонусни олиб бўлдингиз!";
+          "Бонус вақти ҳали келмади!";
         return;
       }
 
       score += 100;
+
       localStorage.setItem("goldScore", score);
-      localStorage.setItem("lastBonus", today);
+      localStorage.setItem("lastBonusTime", now);
 
       document.getElementById("message").textContent =
         "Табриклаймиз! +100 GOLD!";
+
       updateScreen();
+      updateBonusTimer();
     }
+    function updateBonusTimer() {
+      const timer = document.getElementById("bonusTimer");
+
+      const last = Number(localStorage.getItem("lastBonusTime")) || 0;
+
+      if (!last) {
+        timer.textContent = "🎁 Бонус олишга тайёр!";
+        return;
+      }
+
+      const remaining = Math.max(0, 86400000 - (Date.now() - last));
+
+      const h = Math.floor(remaining / 3600000);
+      const m = Math.floor((remaining % 3600000) / 60000);
+      const s = Math.floor((remaining % 60000) / 1000);
+
+      timer.textContent =
+        "🎁 " +
+        String(h).padStart(2, "0") + ":" +
+        String(m).padStart(2, "0") + ":" +
+        String(s).padStart(2, "0");
+    }
+
+    setInterval(updateBonusTimer, 1000);
+    updateBonusTimer(); 
     function inviteFriends() {
       const link = "https://t.me/goldtap_global_bot?start=invite";
 
