@@ -280,16 +280,41 @@
     }
 
 
-    setInterval(function () {
-      if (energy < 100) {
-        energy = Math.min(100, energy + 1);
+    let lastEnergyTime =
+      Number(localStorage.getItem("goldEnergyTime")) || Date.now();
+
+    localStorage.setItem("goldEnergyTime", lastEnergyTime);
+
+    function recoverEnergy() {
+      const now = Date.now();
+
+      if (energy >= 100) {
+        lastEnergyTime = now;
+        localStorage.setItem("goldEnergyTime", now);
+        return;
+      }
+
+      const elapsed = Math.floor(
+        (now - lastEnergyTime) / 60000
+      );
+
+      if (elapsed > 0) {
+        energy = Math.min(100, energy + elapsed);
+
+        lastEnergyTime += elapsed * 60000;
+
+        if (energy >= 100) {
+          lastEnergyTime = now;
+        }
+
         localStorage.setItem("goldEnergy", energy);
+        localStorage.setItem("goldEnergyTime", lastEnergyTime);
+
         updateScreen();
       }
-    }, 3000);
+    }
+
+    recoverEnergy();
+
+    setInterval(recoverEnergy, 1000);
     updateScreen();
-  </script>
-
-</body>
-
-</html>
