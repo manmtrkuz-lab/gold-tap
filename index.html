@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GOLD TAP</title>
+  <title>GOLD TAP — Play</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
   <style>
@@ -182,7 +182,7 @@
     }
 
     /* Each tab is hidden; only the selected tab is shown. */
-    .tab-content { display: none; }
+    .tab-content { display: none; text-align: center; }
     #tab-home { display: block; }
 
     .bottom-nav {
@@ -352,30 +352,262 @@
       margin-top: 4px;
       color: #b9a779;
     }
+
+    body {
+      padding: 10px 14px 112px;
+      background:
+        radial-gradient(ellipse at 50% 28%, rgba(120, 76, 8, 0.25), transparent 48%),
+        radial-gradient(circle at top, #2b1c07, #100d07 48%, #070707);
+      overflow-x: hidden;
+    }
+
+    .language-row {
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto 16px;
+      min-height: 42px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 7px;
+      padding-right: 2px;
+    }
+
+    .language-globe {
+      color: #f4c94e;
+      font-size: 19px;
+      line-height: 1;
+    }
+
+    .language-row select {
+      width: auto;
+      min-width: 116px;
+      max-width: 150px;
+      background: linear-gradient(135deg, #241906, #120f08);
+      color: #ffe6a0;
+      border: 1px solid #d5a51e;
+      border-radius: 22px;
+      padding: 8px 13px;
+      font-size: 13px;
+      box-shadow: 0 0 10px rgba(255, 190, 20, 0.12);
+      outline: none;
+    }
+
+    .panel {
+      max-width: 500px;
+      padding: 22px 16px 28px;
+      border: 1px solid rgba(211, 164, 43, 0.8);
+      border-radius: 26px;
+      background: linear-gradient(145deg, rgba(25, 19, 8, 0.96), rgba(12, 10, 6, 0.96));
+      box-shadow: 0 0 18px rgba(176, 119, 12, 0.12), inset 0 0 24px rgba(255, 190, 30, 0.025);
+    }
+
+    .balance-card {
+      position: relative;
+      margin: 12px auto 28px;
+      padding: 23px 15px 15px;
+      border: 1.5px solid #e7ad19;
+      border-radius: 24px;
+      background: radial-gradient(ellipse at 50% 0%, rgba(132, 85, 8, 0.3), rgba(25, 17, 5, 0.92) 70%);
+      box-shadow: 0 0 18px rgba(255, 181, 0, 0.24), inset 0 0 20px rgba(255, 198, 38, 0.06);
+    }
+
+    .crown-mark {
+      position: absolute;
+      top: -24px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #ffd34e;
+      font-size: 34px;
+      line-height: 1;
+      text-shadow: 0 0 14px #ffb900;
+    }
+
+    .label {
+      color: #f3d477;
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+    }
+
+    .balance-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      min-height: 92px;
+    }
+
+    .coin-stack {
+      color: #ffd64c;
+      font-size: 28px;
+      line-height: 0.75;
+      filter: drop-shadow(0 0 8px rgba(255, 183, 0, 0.7));
+    }
+
+    #score {
+      font-size: clamp(54px, 16vw, 76px);
+      margin: 4px 0 0;
+      color: #fff0a8;
+      text-shadow: 0 0 18px #ffcc42, 0 0 35px rgba(255, 183, 0, 0.45);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .coin {
+      width: min(68vw, 270px);
+      height: min(68vw, 270px);
+      max-width: 270px;
+      max-height: 270px;
+      margin: 12px auto 28px;
+      border-width: 9px;
+      font-size: 43px;
+      letter-spacing: 1px;
+      color: #593300;
+      background: radial-gradient(circle at 32% 24%, #fff7ad 0%, #ffdc50 33%, #ffb900 68%, #b87508 100%);
+      box-shadow: 0 0 22px #ffca36, 0 0 52px rgba(255, 183, 0, 0.45), inset 0 0 0 5px rgba(255, 245, 166, 0.3);
+    }
+
+    .tab-heading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      margin: 8px 0 22px;
+      color: #ffda63;
+    }
+
+    .tab-heading > span {
+      font-size: 42px;
+      line-height: 1.1;
+      filter: drop-shadow(0 0 9px rgba(255, 187, 0, 0.45));
+    }
+
+    .tab-heading h2 {
+      margin: 0;
+      color: #fff0c1;
+      font-size: clamp(21px, 5.5vw, 27px);
+      text-shadow: 0 0 12px rgba(255, 196, 44, 0.2);
+    }
+
+    .tab-description {
+      color: #d7c18a;
+      font-size: 15px;
+      line-height: 1.5;
+      margin: -8px 0 18px;
+    }
+
+    .action {
+      border-color: #dcae2c;
+      background: linear-gradient(145deg, rgba(83, 54, 9, 0.62), rgba(28, 20, 7, 0.9));
+      color: #ffe8a0;
+      box-shadow: inset 0 0 14px rgba(255, 193, 32, 0.05);
+    }
+
+    .bonus-action {
+      min-height: 112px;
+      border-radius: 22px;
+      font-size: 21px;
+      line-height: 1.35;
+      box-shadow: 0 0 13px rgba(255, 189, 20, 0.18), inset 0 0 14px rgba(255, 200, 40, 0.08);
+    }
+
+    #bonusTimer {
+      display: inline-block;
+      margin: 17px auto;
+      padding: 10px 17px;
+      border: 1px solid rgba(202, 155, 36, 0.75);
+      border-radius: 24px;
+      background: rgba(20, 15, 6, 0.7);
+      font-size: 17px;
+    }
+
+    .invite-card {
+      padding: 18px 14px;
+      border: 1px solid rgba(215, 165, 37, 0.8);
+      border-radius: 20px;
+      background: rgba(68, 44, 8, 0.22);
+    }
+
+    .invite-symbol {
+      font-size: 35px;
+      color: #ffd24a;
+      margin-bottom: 5px;
+    }
+
+    .invite-copy {
+      color: #e8d39b;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    .invite-action {
+      margin-top: 8px;
+      border-radius: 30px;
+      background: linear-gradient(135deg, #ffd52d, #e49a00);
+      color: #241500;
+    }
+
+    .tasks {
+      margin-top: 25px;
+    }
+
+    .tasks h2 {
+      color: #ffdc73;
+      font-size: 21px;
+    }
+
+    #tapLevel {
+      color: #f6d36b;
+      margin-top: 12px;
+    }
+
+    .milestone-item, .history-item, .leaderboard-item {
+      border-color: rgba(218, 171, 54, 0.72);
+      border-radius: 16px;
+      background: linear-gradient(120deg, rgba(73, 48, 8, 0.4), rgba(20, 15, 7, 0.65));
+      padding: 14px;
+    }
+
+    .message {
+      color: #ffdf70;
+      margin: 15px 0 0;
+    }
+
+    @media (max-width: 380px) {
+      body { padding-left: 10px; padding-right: 10px; }
+      .panel { padding-left: 12px; padding-right: 12px; }
+      .bottom-nav { gap: 3px; padding: 6px; }
+      .bottom-nav .nav-icon { width: 38px; height: 38px; flex-basis: 38px; font-size: 26px; }
+      .bottom-nav .nav-label { font-size: 9px; }
+    }
+
   </style>
 </head>
 
 <body>
   <div class="language-row">
-    <label for="languageSelect">LANGUAGE / ТИЛ</label>
-    <select id="languageSelect" onchange="setLanguage(this.value)">
+    <span class="language-globe">◎</span>
+    <select id="languageSelect" aria-label="Language" onchange="setLanguage(this.value)">
       <option value="ru">Русский</option>
-      <option value="uzc">Ўзбекча — кирилл</option>
-      <option value="uzl">O‘zbekcha — lotin</option>
+      <option value="uzc">Ўзбекча</option>
+      <option value="uzl">O‘zbekcha</option>
     </select>
   </div>
-  <h1>GOLD TAP 👑</h1>
-  <div class="subtitle" data-i18n="subtitle">TAP • COLLECT • RISE</div>
 
   <div class="panel">
     <!-- HOME TAB -->
     <section id="tab-home" class="tab-content">
-      <div class="label" data-i18n="balance">YOUR GOLD BALANCE</div>
-      <div id="score">0</div>
+      <div class="balance-card">
+        <div class="crown-mark">♛</div>
+        <div class="label" data-i18n="balance">YOUR GOLD BALANCE</div>
+        <div class="balance-content">
+          <div class="coin-stack" aria-hidden="true">🪙<br>🪙</div>
+          <div id="score">0</div>
+        </div>
+      </div>
 
-      <button class="coin" onclick="tapCoin()">
-        GOLD<br>TAP
-      </button>
+      <button class="coin" onclick="tapCoin()">TAP</button>
 
       <div class="energy">
         ⚡️ <span data-i18n="energy">ENERGY</span>: <span id="energy">100</span> / 100
@@ -388,16 +620,20 @@
 
     <!-- BONUS TAB -->
     <section id="tab-bonus" class="tab-content">
-      <h2 data-i18n="dailyTitle">🎁 DAILY BONUS</h2>
-      <button class="action" onclick="dailyBonus()" data-i18n="dailyButton">🎁 DAILY BONUS +100 GOLD</button>
+      <div class="tab-heading"><span>🎁</span><h2 data-i18n="dailyTitle">🎁 DAILY BONUS</h2></div>
+      <button class="action bonus-action" onclick="dailyBonus()" data-i18n="dailyButton">🎁 DAILY BONUS +100 GOLD</button>
       <div id="bonusTimer">Бонус таймери: --:--:--</div>
     </section>
 
     <!-- FRIENDS TAB -->
     <section id="tab-friends" class="tab-content">
-      <h2 data-i18n="friendsTitle">👥 DO'STLAR</h2>
-      <p data-i18n="friendsDesc">Do'stlaringni taklif qil va GOLD yig!</p>
-      <button class="action" onclick="inviteFriends()" data-i18n="invite">👥 INVITE FRIENDS</button>
+      <div class="tab-heading"><span>👥</span><h2 data-i18n="friendsTitle">👥 DO'STLAR</h2></div>
+      <p class="tab-description" data-i18n="friendsDesc">Do'stlaringni taklif qil va GOLD yig!</p>
+      <div class="invite-card">
+        <div class="invite-symbol">↗</div>
+        <div class="invite-copy" data-i18n="inviteDesc">Do‘stlaringizni taklif qiling va o‘yinni birga o‘ynang</div>
+        <button class="action invite-action" onclick="inviteFriends()" data-i18n="invite">👥 INVITE FRIENDS</button>
+      </div>
 
       <div class="tasks">
         <h2 data-i18n="tasks">🎯 TASKS</h2>
@@ -420,7 +656,7 @@
 
     <!-- HISTORY TAB -->
     <section id="tab-history" class="tab-content">
-      <h2 data-i18n="milestones">🏆 TAP МАРРАЛАРИ</h2>
+      <div class="tab-heading"><span>🏆</span><h2 data-i18n="milestones">🏆 TAP МАРРАЛАРИ</h2></div>
       <p class="leaderboard-note" data-i18n="milestoneDesc">Ҳар бир босқичга етганда совға автоматик берилади. Ҳар бир совға фақат бир марта олинади.</p>
       <div class="milestone-progress">
         <strong><span data-i18n="totalTapsLabel">Жами TAP:</span> <span id="totalTaps">0</span></strong>
@@ -436,8 +672,6 @@
     <div class="message" id="message"></div>
   </div>
 
-  <div class="footer" data-i18n="footer">GOLD TAP - YOUR GOLD ADVENTURE</div>
-
   <nav class="bottom-nav">
     <button class="active" onclick="showTab('home')"><span class="nav-icon home-coin">G</span><span class="nav-label" data-i18n="home">АСОСИЙ</span></button>
     <button onclick="showTab('bonus')"><span class="nav-icon">🎁</span><span class="nav-label" data-i18n="bonus">БОНУС</span></button>
@@ -450,7 +684,7 @@
       ru: {
         subtitle:"НАЖИМАЙ • СОБИРАЙ • РАСТИ", balance:"ВАШ БАЛАНС GOLD", energy:"ЭНЕРГИЯ", dailyTitle:"🎁 ЕЖЕДНЕВНЫЙ БОНУС",
         dailyButton:"🎁 ЕЖЕДНЕВНЫЙ БОНУС +100 GOLD", friendsTitle:"👥 ДРУЗЬЯ",
-        friendsDesc:"Приглашайте друзей и собирайте GOLD!", invite:"👥 ПРИГЛАСИТЬ ДРУЗЕЙ",
+        friendsDesc:"Приглашайте друзей и собирайте GOLD!", inviteDesc:"Приглашайте друзей и играйте вместе", invite:"👥 ПРИГЛАСИТЬ ДРУЗЕЙ",
         tasks:"🎯 ЗАДАНИЯ", milestones:"🏆 ЭТАПЫ TAP",
         milestoneDesc:"Награда выдаётся автоматически при достижении этапа. Каждая награда доступна один раз.",
         totalTapsLabel:"Всего TAP:", ranking:"🏅 РЕЙТИНГ", home:"ГЛАВНАЯ", bonus:"БОНУС",
@@ -467,7 +701,7 @@
       uzc: {
         subtitle:"БОСИНГ • ЙИҒИНГ • ЎСИНГ", balance:"GOLD БАЛАНСИНГИЗ", energy:"ЭНЕРГИЯ", dailyTitle:"🎁 КУНЛИК БОНУС",
         dailyButton:"🎁 КУНЛИК БОНУС +100 GOLD", friendsTitle:"👥 ДЎСТЛАР",
-        friendsDesc:"Дўстларингизни таклиф қилинг ва GOLD йиғинг!", invite:"👥 ДЎСТЛАРНИ ТАКЛИФ ҚИЛИШ",
+        friendsDesc:"Дўстларингизни таклиф қилинг ва GOLD йиғинг!", inviteDesc:"Дўстларингизни таклиф қилинг ва бирга ўйнаң", invite:"👥 ДЎСТЛАРНИ ТАКЛИФ ҚИЛИШ",
         tasks:"🎯 ВАЗИФАЛАР", milestones:"🏆 TAP БОСҚИЧЛАРИ",
         milestoneDesc:"Босқичга етганда совға автоматик берилади. Ҳар бир совға бир марта олинади.",
         totalTapsLabel:"Жами TAP:", ranking:"🏅 РЕЙТИНГ", home:"АСОСИЙ", bonus:"БОНУС",
@@ -484,7 +718,7 @@
       uzl: {
         subtitle:"BOSING • YIG‘ING • O‘SING", balance:"GOLD BALANSINGIZ", energy:"ENERGIYA", dailyTitle:"🎁 KUNLIK BONUS",
         dailyButton:"🎁 KUNLIK BONUS +100 GOLD", friendsTitle:"👥 DO‘STLAR",
-        friendsDesc:"Do‘stlaringizni taklif qiling va GOLD yig‘ing!", invite:"👥 DO‘STLARNI TAKLIF QILISH",
+        friendsDesc:"Do‘stlaringizni taklif qiling va GOLD yig‘ing!", inviteDesc:"Do‘stlaringizni taklif qiling va birga o‘ynang", invite:"👥 DO‘STLARNI TAKLIF QILISH",
         tasks:"🎯 VAZIFALAR", milestones:"🏆 TAP BOSQICHLARI",
         milestoneDesc:"Bosqichga yetganda sovg‘a avtomatik beriladi. Har bir sovg‘a bir marta olinadi.",
         totalTapsLabel:"Jami TAP:", ranking:"🏅 REYTING", home:"ASOSIY", bonus:"BONUS",
