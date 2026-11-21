@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GOLD TAP</title>
 
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
   <style>
     * {
       box-sizing: border-box;
@@ -14,8 +16,8 @@
     body {
       margin: 0;
       min-height: 100vh;
-      background: radial-gradient(circle at top, #49340c, #17130a 48%, #050505);
-      color: #ffe6a0;
+      background: radial-gradient(circle at top, #49340c, #17130a 45%, #090909);
+      color: #fff6da;
       font-family: Arial, sans-serif;
       text-align: center;
       padding: 25px 15px;
@@ -30,128 +32,128 @@
     }
 
     .subtitle {
-      color: #a99566;
+      color: #c9b56a;
       letter-spacing: 4px;
       font-size: 12px;
+      margin-bottom: 45px;
     }
 
     .panel {
-      max-width: 390px;
-      margin: 25px auto;
-      padding: 25px 18px;
-      background: rgba(25, 21, 12, 0.92);
-      border: 1px solid #80601d;
-      border-radius: 22px;
-      box-shadow: 0 10px 35px #000;
+      width: 100%;
+      max-width: 500px;
+      margin: auto;
+      padding: 30px 20px;
+      border: 1px solid #a77c19;
+      border-radius: 25px;
+      background: rgba(20, 17, 9, 0.85);
     }
 
     .label {
-      color: #b8a477;
-      font-size: 13px;
+      color: #cbb879;
+      font-size: 18px;
     }
 
     #score {
-      color: #fff0b0;
-      font-size: 42px;
+      font-size: 75px;
       font-weight: bold;
-      margin: 12px 0 22px;
-      text-shadow: 0 0 15px #d99b18;
+      margin: 25px 0;
+      color: #fff0a8;
+      text-shadow: 0 0 20px #ffcc42;
     }
 
     .coin {
-      -webkit-tap-highlight-color: transparent;
-      outline: none;
-      user-select: none;
-      -webkit-apperance: none;
-      appearance: none;
-      width: 215px;
-      height: 215px;
+      width: 250px;
+      height: 250px;
+      max-width: 75vw;
+      max-height: 75vw;
       border-radius: 50%;
-      border: 9px solid #fff0a6;
-      background: radial-gradient(circle at 32% 25%, #fffbd1, #ffe16a 25%, #e9a91c 55%, #9b5c00 82%, #633600);
-      color: #704300;
-      font-size: 31px;
-      font-weight: 900;
+      border: 8px solid #ffe88c;
+      background: radial-gradient(circle at 30% 25%, #fff5a0, #ffc42e 50%, #a96b08);
+      color: #623800;
+      font-size: 38px;
+      font-weight: bold;
       cursor: pointer;
-      box-shadow: 0 0 20px #ffc52e, 0 0 45px #bd8110, inset 0 0 20px #fff4b5;
-      transition: transform 0.1s;
+      box-shadow: 0 0 25px #ffca36, 0 0 55px #b47b12;
+      margin: 0 auto 35px;
+      display: block;
+      transition: transform 0.08s;
     }
 
     .coin:active {
-      transform: scale(0.92);
-    }
-
-    .coin:focus,
-    .coin:focus-visible {
-      outline: none !important;
-      box-shadow: 0 0 20px #ffc52e, 0 0 45px #bd8110;
+      transform: scale(0.94);
     }
 
     .energy {
-      margin-top: 25px;
-      color: #f5d36b;
-      font-size: 14px;
+      font-size: 22px;
+      margin: 10px 0;
+      color: #ffdb70;
     }
 
     .bar {
       width: 100%;
-      height: 12px;
-      background: #393020;
+      height: 14px;
+      background: #493716;
       border-radius: 20px;
       overflow: hidden;
-      margin-top: 10px;
+      margin: 15px 0 25px;
     }
 
     .fill {
-      width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, #d18a0b, #ffe58a);
-      transition: width 0.2s;
+      width: 100%;
+      background: linear-gradient(90deg, #d18a08, #ffe27c);
+      transition: width 0.3s;
     }
 
     .action {
       width: 100%;
-      margin-top: 13px;
-      padding: 15px;
-      border: 1px solid #d6a52e;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #47320b, #241904);
-      color: #ffe29a;
-      font-size: 16px;
+      padding: 22px 10px;
+      margin: 8px 0;
+      border: 1px solid #c69a30;
+      border-radius: 20px;
+      background: rgba(72, 49, 9, 0.45);
+      color: #ffe6a0;
+      font-size: 21px;
       font-weight: bold;
       cursor: pointer;
     }
 
     .action:active {
-      transform: scale(0.97);
+      background: #68450d;
+    }
+
+    #bonusTimer {
+      color: #ffe6a0;
+      font-size: 20px;
+      margin: 3px 0 18px;
+      font-variant-numeric: tabular-nums;
     }
 
     .message {
-      min-height: 22px;
-      margin-top: 15px;
-      color: #ffd45c;
-      font-size: 13px;
-      overflow-wrap: anywhere;
+      min-height: 30px;
+      margin: 15px 0;
+      color: #ffdf70;
+      font-size: 16px;
     }
 
     .footer {
-      color: #8c7950;
-      font-size: 11px;
-      margin-top: 20px;
+      margin-top: 25px;
+      color: #a99560;
+      font-size: 13px;
+      letter-spacing: 2px;
     }
   </style>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
 </head>
 
 <body>
 
-  <h1>GOLD TAP</h1>
+  <h1>GOLD TAP 👑</h1>
   <div class="subtitle">TAP • COLLECT • RISE</div>
 
   <div class="panel">
 
     <div class="label">YOUR GOLD BALANCE</div>
+
     <div id="score">0</div>
 
     <button class="coin" onclick="tapCoin()">
@@ -161,17 +163,20 @@
     <div class="energy">
       ⚡ ENERGY:
       <span id="energy">100</span> / 100
-      <div class="bar">
-        <div class="fill" id="energyBar"></div>
-      </div>
+    </div>
+
+    <div class="bar">
+      <div class="fill" id="energyBar"></div>
     </div>
 
     <button class="action" onclick="dailyBonus()">
       🎁 DAILY BONUS +100 GOLD
     </button>
-    <div id=" bonusTimer">
-      Бонус таймери 23:59
+
+    <div id="bonusTimer">
+      Бонус таймери: --:--:--
     </div>
+
     <button class="action" onclick="inviteFriends()">
       👥 INVITE FRIENDS
     </button>
@@ -179,29 +184,81 @@
     <div class="message" id="message"></div>
 
     <div class="footer">
-      GOLD TAP — YOUR GOLD ADVENTURE
+      GOLD TAP - YOUR GOLD ADVENTURE
     </div>
 
   </div>
 
   <script>
+
+    // ==========================
+    // GOLD TAP SETTINGS
+    // ==========================
+
+    const MAX_ENERGY = 100;
+    const ENERGY_INTERVAL = 3000;
+    const BONUS_INTERVAL = 86400000;
+
     let score = Number(localStorage.getItem("goldScore")) || 0;
+
+    let energy = Number(
+      localStorage.getItem("goldEnergy") ?? 100
+    );
+
+    energy = Math.max(0, Math.min(MAX_ENERGY, energy));
+
     const tg = window.Telegram?.WebApp;
 
     if (tg) {
       tg.ready();
       tg.expand();
     }
-    let energy =
-      Number(localStorage.getItem("goldEnergy") ?? 100);
 
-    function updateScreen() {
-      document.getElementById("score").textContent = score;
-      document.getElementById("energy").textContent = energy;
-      document.getElementById("energyBar").style.width = energy + "%";
+    // ==========================
+    // ENERGY TIME
+    // ==========================
+
+    let lastEnergyTime =
+      Number(localStorage.getItem("goldEnergyTime")) || Date.now();
+
+    if (energy >= MAX_ENERGY) {
+      lastEnergyTime = Date.now();
     }
 
+    localStorage.setItem("goldEnergyTime", lastEnergyTime);
+
+    // ==========================
+    // SAVE DATA
+    // ==========================
+
+    function saveGame() {
+      localStorage.setItem("goldScore", score);
+      localStorage.setItem("goldEnergy", energy);
+      localStorage.setItem("goldEnergyTime", lastEnergyTime);
+    }
+
+    // ==========================
+    // UPDATE SCREEN
+    // ==========================
+
+    function updateScreen() {
+
+      document.getElementById("score").textContent = score;
+
+      document.getElementById("energy").textContent = energy;
+
+      document.getElementById("energyBar").style.width =
+        energy + "%";
+    }
+
+    // ==========================
+    // TAP COIN
+    // ==========================
+
     function tapCoin() {
+
+      recoverEnergy();
+
       if (energy <= 0) {
         document.getElementById("message").textContent =
           "Энергия тугади. Бироз кутинг!";
@@ -211,19 +268,31 @@
       score++;
       energy--;
 
-      localStorage.setItem("goldScore", score);
-      localStorage.setItem("goldEnergy", energy);
-      document.getElementById("message").textContent = "+1 GOLD!";
+      saveGame();
+
+      document.getElementById("message").textContent =
+        "+1 GOLD!";
+
       updateScreen();
     }
 
+    // ==========================
+    // DAILY BONUS
+    // ==========================
+
     function dailyBonus() {
-      const last = Number(localStorage.getItem("lastBonusTime")) || 0;
+
       const now = Date.now();
 
-      if (now - last < 86400000) {
+      const lastBonus =
+        Number(localStorage.getItem("lastBonusTime")) || 0;
+
+      if (now - lastBonus < BONUS_INTERVAL) {
+
         document.getElementById("message").textContent =
           "Бонус вақти ҳали келмади!";
+
+        updateBonusTimer();
         return;
       }
 
@@ -238,43 +307,62 @@
       updateScreen();
       updateBonusTimer();
     }
+
+    // ==========================
+    // BONUS TIMER
+    // ==========================
+
     function updateBonusTimer() {
+
       const timer = document.getElementById("bonusTimer");
 
-      const last = Number(localStorage.getItem("lastBonusTime")) || 0;
+      const lastBonus =
+        Number(localStorage.getItem("lastBonusTime")) || 0;
 
-      if (!last) {
+      if (!lastBonus) {
         timer.textContent = "🎁 Бонус олишга тайёр!";
         return;
       }
 
-      const remaining = Math.max(0, 86400000 - (Date.now() - last));
+      const remaining = Math.max(
+        0,
+        BONUS_INTERVAL - (Date.now() - lastBonus)
+      );
 
-      const h = Math.floor(remaining / 3600000);
-      const m = Math.floor((remaining % 3600000) / 60000);
-      const s = Math.floor((remaining % 60000) / 1000);
+      const hours = Math.floor(remaining / 3600000);
+
+      const minutes = Math.floor(
+        (remaining % 3600000) / 60000
+      );
+
+      const seconds = Math.floor(
+        (remaining % 60000) / 1000
+      );
 
       timer.textContent =
         "🎁 " +
-        String(h).padStart(2, "0") + ":" +
-        String(m).padStart(2, "0") + ":" +
-        String(s).padStart(2, "0");
+        String(hours).padStart(2, "0") + ":" +
+        String(minutes).padStart(2, "0") + ":" +
+        String(seconds).padStart(2, "0");
     }
 
-    setInterval(updateBonusTimer, 1000);
-    updateBonusTimer(); 
-    function inviteFriends() {
-      const link = "https://t.me/goldtap_global_bot?start=invite";
+    // ==========================
+    // INVITE FRIENDS
+    // ==========================
 
-      if (navigator.share) {
-        navigator.share({
-          title: "GOLD TAP",
-          text: "GOLD TAP ўйинига қўшил!",
-          url: link
-        }).catch(error => {
-          document.getElementById("message").textContent =
-            "Хавола улашилмади. Нусхалашни синаб кўринг!";
-        });
+    function inviteFriends() {
+
+      const link =
+        "https://t.me/goldtap_global_bot?start=invite";
+
+      const shareLink =
+        "https://t.me/share/url?url=" +
+        encodeURIComponent(link) +
+        "&text=" +
+        encodeURIComponent("GOLD TAP ўйинига қўшил!");
+
+      if (tg) {
+        tg.openTelegramLink(shareLink);
       } else if (navigator.clipboard) {
         navigator.clipboard.writeText(link)
           .then(() => {
@@ -282,69 +370,76 @@
               "Таклиф ҳаволаси нусхаланди!";
           })
           .catch(() => {
-            document.getElementById("message").textContent =
-              "Хаволани нусхалашда хато!";
+            document.getElementById("message").textContent = link;
           });
+      } else {
+        document.getElementById("message").textContent = link;
       }
     }
-    if (navigator.share) {
-      navigator.share({
-        title: "GOLD TAP",
-        text: "GOLD TAP ўйинига қўшил!",
-        url: link
-      }).catch((error) => {
-        document.getElementById("message").textContent =
-          "Ҳавола улашилмади. Нусхалашни синаб кўринг!";
-      });
-    } else if (navigator.clipboard) {
-      navigator.clipboard.writeText(link)
-        .then(() => {
-          document.getElementById("message").textContent =
-            "Таклиф ҳаволаси нусхаланди!";
-        })
-        .catch(() => {
-          document.getElementById("message").textContent = link;
-        });
-    } else {
-      document.getElementById("message").textContent = link;
-    }
 
-
-    let lastEnergyTime =
-      Number(localStorage.getItem("goldEnergyTime")) || Date.now();
-
-    localStorage.setItem("goldEnergyTime", lastEnergyTime);
+    // ==========================
+    // ONLINE + OFFLINE ENERGY
+    // ==========================
 
     function recoverEnergy() {
+
       const now = Date.now();
 
-      if (energy >= 100) {
+      if (energy >= MAX_ENERGY) {
+
+        energy = MAX_ENERGY;
         lastEnergyTime = now;
-        localStorage.setItem("goldEnergyTime", now);
+
+        saveGame();
         return;
       }
 
       const elapsed = Math.floor(
-        (now - lastEnergyTime) / 60000
+        (now - lastEnergyTime) / ENERGY_INTERVAL
       );
 
       if (elapsed > 0) {
-        energy = Math.min(100, energy + elapsed);
 
-        lastEnergyTime += elapsed * 60000;
+        energy = Math.min(
+          MAX_ENERGY,
+          energy + elapsed
+        );
 
-        if (energy >= 100) {
+        lastEnergyTime += elapsed * ENERGY_INTERVAL;
+
+        if (energy >= MAX_ENERGY) {
           lastEnergyTime = now;
         }
 
-        localStorage.setItem("goldEnergy", energy);
-        localStorage.setItem("goldEnergyTime", lastEnergyTime);
-
+        saveGame();
         updateScreen();
       }
     }
 
+    // ==========================
+
     recoverEnergy();
 
+    updateScreen();
+    updateBonusTimer();
+
     setInterval(recoverEnergy, 1000);
-    updateScreen(); 
+    setInterval(updateBonusTimer, 1000);
+
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) {
+        recoverEnergy();
+        updateBonusTimer();
+      }
+    });
+
+    window.addEventListener("focus", () => {
+      recoverEnergy();
+      updateBonusTimer();
+    });
+
+  </script>
+
+</body>
+
+</html>
