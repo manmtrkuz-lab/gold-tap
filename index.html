@@ -233,7 +233,7 @@
         "Табриклаймиз! +100 GOLD!";
       updateScreen();
     }
-    {
+    function inviteFriends() {
       const link = "https://t.me/goldtap_global_bot?start=invite";
 
       if (navigator.share) {
@@ -241,7 +241,10 @@
           title: "GOLD TAP",
           text: "GOLD TAP ўйинига қўшил!",
           url: link
-        }).catch(() => { });
+        }).catch(error => {
+          document.getElementById("message").textContent =
+            "Хавола улашилмади. Нусхалашни синаб кўринг!";
+        });
       } else if (navigator.clipboard) {
         navigator.clipboard.writeText(link)
           .then(() => {
@@ -249,12 +252,33 @@
               "Таклиф ҳаволаси нусхаланди!";
           })
           .catch(() => {
-            document.getElementById("message").textContent = link;
+            document.getElementById("message").textContent =
+              "Хаволани нусхалашда хато!";
           });
-      } else {
-        document.getElementById("message").textContent = link;
       }
     }
+    if (navigator.share) {
+      navigator.share({
+        title: "GOLD TAP",
+        text: "GOLD TAP ўйинига қўшил!",
+        url: link
+      }).catch((error) => {
+        document.getElementById("message").textContent =
+          "Ҳавола улашилмади. Нусхалашни синаб кўринг!";
+      });
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(link)
+        .then(() => {
+          document.getElementById("message").textContent =
+            "Таклиф ҳаволаси нусхаланди!";
+        })
+        .catch(() => {
+          document.getElementById("message").textContent = link;
+        });
+    } else {
+      document.getElementById("message").textContent = link;
+    }
+
 
     setInterval(function () {
       if (energy < 100) {
