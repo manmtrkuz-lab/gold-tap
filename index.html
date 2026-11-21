@@ -290,6 +290,18 @@
 
 
   </div>
+  <div id="tab-friends" class="tab-content" style="display:none;">
+    <h2>👥 DO'STLAR</h2>
+    <p>Do'stlaringni taklif qil va GOLD yig!</p>
+    <button class="action" onclick="inviteFriends()">
+      INVITE FRIENDS
+    </button>
+  </div>
+
+  <div id="tab-history" class="tab-content" style="display:none;">
+    <h2>📜 TARIX</h2>
+    <p>O'yin tarixi tez orada...</p>
+  </div>
   </div>
 
   <div class="footer">
@@ -607,17 +619,18 @@
     function showTab(tab) {
       const home = document.getElementById("tab-home");
       const bonus = document.getElementById("tab-bonus");
+      const friends = document.getElementById("tab-friends");
+      const history = document.getElementById("tab-history");
 
       if (home) home.style.display = "none";
       if (bonus) bonus.style.display = "none";
+      if (friends) friends.style.display = "none";
+      if (history) history.style.display = "none";
 
-      if (tab === "home" && home) {
-        home.style.display = "block";
-      }
-
-      if (tab === "bonus" && bonus) {
-        bonus.style.display = "block";
-      }
+      if (tab === "home" && home) home.style.display = "block";
+      if (tab === "bonus" && bonus) bonus.style.display = "block";
+      if (tab === "friends" && friends) friends.style.display = "block";
+      if (tab === "history" && history) history.style.display = "block";
     }
     function updateTaskButtons() {
       for (let id = 1; id <= 3; id++) {
