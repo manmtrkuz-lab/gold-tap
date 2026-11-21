@@ -533,6 +533,68 @@
       font-size: 35px;
       color: #ffd24a;
       margin-bottom: 5px;
+      filter: drop-shadow(0 0 9px rgba(255, 187, 0, .65));
+    }
+
+    .ref-link-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 12px 0;
+      padding: 10px 11px;
+      border: 1px solid rgba(218, 171, 54, .7);
+      border-radius: 13px;
+      background: rgba(12, 10, 6, .72);
+      text-align: left;
+    }
+    .ref-link-wrap .ref-chain { color: #ffd34e; font-size: 23px; }
+    #referralLink {
+      flex: 1;
+      min-width: 0;
+      padding: 7px 0;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: #ffe7a0;
+      font-size: 12px;
+    }
+    .copy-ref {
+      border: 0;
+      background: transparent;
+      color: #ffd34e;
+      font-size: 21px;
+      padding: 4px;
+    }
+    .ref-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin: 10px 0 14px;
+    }
+    .ref-stat {
+      padding: 10px 6px;
+      border: 1px solid rgba(218, 171, 54, .55);
+      border-radius: 12px;
+      background: rgba(42, 29, 7, .55);
+      color: #e9d69c;
+      font-size: 12px;
+    }
+    .ref-stat strong { display: block; margin-top: 5px; color: #ffdf70; font-size: 17px; }
+    .milestone-icon { float: left; margin-right: 10px; font-size: 25px; }
+    .milestone-copy { overflow: hidden; }
+    .milestone-track {
+      height: 7px;
+      margin-top: 8px;
+      overflow: hidden;
+      border-radius: 20px;
+      background: rgba(115, 83, 23, .55);
+    }
+    .milestone-track span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #e89b00, #ffe36a);
+      box-shadow: 0 0 8px rgba(255, 202, 44, .6);
     }
 
     .invite-copy {
@@ -630,8 +692,17 @@
       <div class="tab-heading"><span>👥</span><h2 data-i18n="friendsTitle">👥 DO'STLAR</h2></div>
       <p class="tab-description" data-i18n="friendsDesc">Do'stlaringni taklif qil va GOLD yig!</p>
       <div class="invite-card">
-        <div class="invite-symbol">↗</div>
-        <div class="invite-copy" data-i18n="inviteDesc">Do‘stlaringizni taklif qiling va o‘yinni birga o‘ynang</div>
+        <div class="invite-symbol">♛</div>
+        <div class="invite-copy" data-i18n="refLinkLabel">Сизнинг реферал ҳаволангиз</div>
+        <div class="ref-link-wrap">
+          <span class="ref-chain">🔗</span>
+          <input id="referralLink" readonly value="https://t.me/goldtap_global_bot?start=invite" aria-label="Referral link">
+          <button class="copy-ref" onclick="copyReferralLink()" aria-label="Copy referral link">▢</button>
+        </div>
+        <div class="ref-stats">
+          <div class="ref-stat"><span data-i18n="invitedLabel">Таклиф қилинган</span><strong id="invitedCount">0</strong></div>
+          <div class="ref-stat"><span data-i18n="earnedLabel">Ишланган</span><strong id="referralEarned">+0 GOLD</strong></div>
+        </div>
         <button class="action invite-action" onclick="inviteFriends()" data-i18n="invite">👥 INVITE FRIENDS</button>
       </div>
 
@@ -685,7 +756,7 @@
         subtitle:"НАЖИМАЙ • СОБИРАЙ • РАСТИ", balance:"ВАШ БАЛАНС GOLD", energy:"ЭНЕРГИЯ", dailyTitle:"🎁 ЕЖЕДНЕВНЫЙ БОНУС",
         dailyButton:"🎁 ЕЖЕДНЕВНЫЙ БОНУС +100 GOLD", friendsTitle:"👥 ДРУЗЬЯ",
         friendsDesc:"Приглашайте друзей и собирайте GOLD!", inviteDesc:"Приглашайте друзей и играйте вместе", invite:"👥 ПРИГЛАСИТЬ ДРУЗЕЙ",
-        tasks:"🎯 ЗАДАНИЯ", milestones:"🏆 ЭТАПЫ TAP",
+        tasks:"🎯 ЗАДАНИЯ", milestones:"🏆 ЭТАПЫ TAP", refLinkLabel:"Ваша реферальная ссылка", invitedLabel:"Приглашено", earnedLabel:"Заработано",
         milestoneDesc:"Награда выдаётся автоматически при достижении этапа. Каждая награда доступна один раз.",
         totalTapsLabel:"Всего TAP:", ranking:"🏅 РЕЙТИНГ", home:"ГЛАВНАЯ", bonus:"БОНУС",
         friends:"ДРУЗЬЯ", milestonesNav:"ЭТАПЫ", footer:"GOLD TAP — ТВОЁ ЗОЛОТОЕ ПРИКЛЮЧЕНИЕ",
@@ -702,7 +773,7 @@
         subtitle:"БОСИНГ • ЙИҒИНГ • ЎСИНГ", balance:"GOLD БАЛАНСИНГИЗ", energy:"ЭНЕРГИЯ", dailyTitle:"🎁 КУНЛИК БОНУС",
         dailyButton:"🎁 КУНЛИК БОНУС +100 GOLD", friendsTitle:"👥 ДЎСТЛАР",
         friendsDesc:"Дўстларингизни таклиф қилинг ва GOLD йиғинг!", inviteDesc:"Дўстларингизни таклиф қилинг ва бирга ўйнаң", invite:"👥 ДЎСТЛАРНИ ТАКЛИФ ҚИЛИШ",
-        tasks:"🎯 ВАЗИФАЛАР", milestones:"🏆 TAP БОСҚИЧЛАРИ",
+        tasks:"🎯 ВАЗИФАЛАР", milestones:"🏆 TAP БОСҚИЧЛАРИ", refLinkLabel:"Сизнинг реферал ҳаволангиз", invitedLabel:"Таклиф қилинган", earnedLabel:"Ишланган",
         milestoneDesc:"Босқичга етганда совға автоматик берилади. Ҳар бир совға бир марта олинади.",
         totalTapsLabel:"Жами TAP:", ranking:"🏅 РЕЙТИНГ", home:"АСОСИЙ", bonus:"БОНУС",
         friends:"ДЎСТЛАР", milestonesNav:"БОСҚИЧЛАР", footer:"GOLD TAP — СИЗНИНГ ОЛТИН САРГУЗАШТИНГИЗ",
@@ -719,7 +790,7 @@
         subtitle:"BOSING • YIG‘ING • O‘SING", balance:"GOLD BALANSINGIZ", energy:"ENERGIYA", dailyTitle:"🎁 KUNLIK BONUS",
         dailyButton:"🎁 KUNLIK BONUS +100 GOLD", friendsTitle:"👥 DO‘STLAR",
         friendsDesc:"Do‘stlaringizni taklif qiling va GOLD yig‘ing!", inviteDesc:"Do‘stlaringizni taklif qiling va birga o‘ynang", invite:"👥 DO‘STLARNI TAKLIF QILISH",
-        tasks:"🎯 VAZIFALAR", milestones:"🏆 TAP BOSQICHLARI",
+        tasks:"🎯 VAZIFALAR", milestones:"🏆 TAP BOSQICHLARI", refLinkLabel:"Sizning referal havolangiz", invitedLabel:"Taklif qilingan", earnedLabel:"Ishlangan",
         milestoneDesc:"Bosqichga yetganda sovg‘a avtomatik beriladi. Har bir sovg‘a bir marta olinadi.",
         totalTapsLabel:"Jami TAP:", ranking:"🏅 REYTING", home:"ASOSIY", bonus:"BONUS",
         friends:"DO‘STLAR", milestonesNav:"BOSQICHLAR", footer:"GOLD TAP — SIZNING OLTIN SARGUZASHTINGIZ",
@@ -845,10 +916,11 @@
         const progress = Math.min(100, Math.floor((totalTaps / item.taps) * 100));
         const status = done ? tr("got") : totalTaps >= item.taps ? tr("ready") : progress + "%";
         return '<div class="milestone-item ' + (done ? "done" : "") + '">' +
+          '<span class="milestone-icon">🪙</span><div class="milestone-copy">' +
           '<strong>' + item.taps.toLocaleString() + ' TAP — ' + item.label + '</strong>' +
-          '<small>' + status + '</small>' +
           '<small>' + (done ? tr("claimed") : tr("progress") + ": " + Math.min(totalTaps, item.taps).toLocaleString() + " / " + item.taps.toLocaleString()) + '</small>' +
-          '</div>';
+          '<div class="milestone-track"><span style="width:' + progress + '%"></span></div>' +
+          '</div></div>';
       }).join("");
     }
 
@@ -1007,8 +1079,24 @@
         String(seconds).padStart(2, "0");
     }
 
+    function copyReferralLink() {
+      const field = document.getElementById("referralLink");
+      const link = field ? field.value : "https://t.me/goldtap_global_bot?start=invite";
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(link).then(() => {
+          document.getElementById("message").textContent = tr("inviteCopied");
+        }).catch(() => {
+          field.focus(); field.select();
+          document.getElementById("message").textContent = link;
+        });
+      } else if (field) {
+        field.focus(); field.select();
+        document.getElementById("message").textContent = link;
+      }
+    }
+
     function inviteFriends() {
-      const link = "https://t.me/goldtap_global_bot?start=invite";
+      const link = document.getElementById("referralLink")?.value || "https://t.me/goldtap_global_bot?start=invite";
       const shareLink =
         "https://t.me/share/url?url=" +
         encodeURIComponent(link) +
