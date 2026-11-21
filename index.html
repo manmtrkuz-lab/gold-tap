@@ -203,14 +203,44 @@
 
     .bottom-nav button {
       flex: 1;
-      background: transparent;
+      -webkit-appearance: none;
+      appearance: none;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-select: none;
+      outline: none !important;
+      background: transparent !important;
+      background-color: transparent !important;
+      background-image: none !important;
       border: 1px solid transparent;
       border-radius: 14px;
-      color: #e9cf83;
+      color: #e9cf83 !important;
       font-size: 19px;
       padding: 7px 2px;
       cursor: pointer;
       transition: 0.2s;
+      box-shadow: none;
+    }
+
+    .bottom-nav button:focus,
+    .bottom-nav button:focus-visible,
+    .bottom-nav button:active {
+      outline: none !important;
+      -webkit-tap-highlight-color: transparent;
+      background: transparent !important;
+      background-color: transparent !important;
+      box-shadow: none;
+    }
+
+    .bottom-nav button.active {
+      background: linear-gradient(135deg, #ffd700, #b8860b) !important;
+      background-color: #d6a900 !important;
+      background-image: linear-gradient(135deg, #ffd700, #b8860b) !important;
+      color: #1a1000 !important;
+      border: 1px solid #ffe66d;
+      box-shadow: 0 0 15px gold;
+      transform: translateY(-4px);
     }
 
     .bottom-nav button span {
