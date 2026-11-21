@@ -1,61 +1,22 @@
 <!DOCTYPE html>
 <html lang="uz">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GOLD TAP</title>
-
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
   <style>
-    .bottom-nav {
-      position: fixed;
-      bottom: 10px;
-      left: 10px;
-      right: 10px;
-      z-index: 999;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      padding: 7px 3px;
-      background: rgba(25, 20, 10, 0.96);
-      border: 1px solid #c9a448;
-      border-radius: 18px;
-      box-shadow: 0 0 12px #8b691f;
-    }
-
-    .bottom-nav button {
-      background: transparent;
-      border: none;
-      color: #e9cf83;
-      font-size: 19px;
-      padding: 4px 2px;
-    }
-
-    .bottom-nav button span {
-      display: block;
-      font-size: 10px;
-      margin-top: 3px;
-    }
-
-
-    body {
-      padding-bottom: 100px;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
       min-height: 100vh;
+      padding: 25px 15px 110px;
       background: radial-gradient(circle at top, #49340c, #17130a 45%, #090909);
       color: #fff6da;
       font-family: Arial, sans-serif;
       text-align: center;
-      padding: 25px 15px;
     }
 
     h1 {
@@ -83,10 +44,7 @@
       background: rgba(20, 17, 9, 0.85);
     }
 
-    .label {
-      color: #cbb879;
-      font-size: 18px;
-    }
+    .label { color: #cbb879; font-size: 18px; }
 
     #score {
       font-size: 75px;
@@ -97,6 +55,8 @@
     }
 
     .coin {
+      position: relative;
+      overflow: visible;
       width: 250px;
       height: 250px;
       max-width: 75vw;
@@ -116,11 +76,28 @@
       -webkit-appearance: none;
       -webkit-tap-highlight-color: transparent;
       outline: none;
-      background-color: transparent;
     }
 
-    .coin:active {
-      transform: scale(0.94);
+    .coin:active { transform: scale(0.94); }
+
+    .tap-float {
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #ffe66d;
+      font-size: 28px;
+      font-weight: bold;
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 100;
+      text-shadow: 0 0 15px gold;
+      animation: goldFloat 0.8s ease-out forwards;
+    }
+
+    @keyframes goldFloat {
+      from { opacity: 1; margin-top: 0; }
+      to { opacity: 0; margin-top: -100px; }
     }
 
     .energy {
@@ -158,8 +135,11 @@
       cursor: pointer;
     }
 
-    .action:active {
-      background: #68450d;
+    .action:active { background: #68450d; }
+
+    .action:disabled {
+      opacity: 0.8;
+      cursor: not-allowed;
     }
 
     #bonusTimer {
@@ -183,57 +163,48 @@
       letter-spacing: 2px;
     }
 
-    .footer {
-      margin-top: 25px;
-      color: #a99560;
-      font-size: 13px;
-      letter-spacing: 2px;
+    /* Each tab is hidden; only the selected tab is shown. */
+    .tab-content { display: none; }
+    #tab-home { display: block; }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      right: 10px;
+      z-index: 999;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 7px 3px;
+      background: rgba(25, 20, 10, 0.96);
+      border: 1px solid #c9a448;
+      border-radius: 18px;
+      box-shadow: 0 0 12px #8b691f;
     }
 
-    .footer {
-      margin-top: 25px;
-      color: #a99560;
-      font-size: 13px;
-      letter-spacing: 2px;
+    .bottom-nav button {
+      flex: 1;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 14px;
+      color: #e9cf83;
+      font-size: 19px;
+      padding: 7px 2px;
+      cursor: pointer;
+      transition: 0.2s;
     }
 
-    .coin {
-      position: relative;
-      overflow: visible;
+    .bottom-nav button span {
+      display: block;
+      font-size: 10px;
+      margin-top: 3px;
     }
 
-    .tap-float {
-      position: absolute;
-      top: 20%;
-      left: 50%;
-      transform: translateX(-50%);
-      color: #ffe66d;
-      font-size: 28px;
-      font-weight: bold;
-      white-space: nowrap;
-      pointer-events: none;
-      z-index: 100;
-      text-shadow: 0 0 15px gold;
-      animation: goldFloat 0.8s ease-out forwards;
-    }
-
-    @keyframes goldFloat {
-      from {
-        opacity: 1;
-        margin-top: 0;
-      }
-
-      to {
-        opacity: 0;
-        margin-top: -100px;
-      }
-    }
-
-    bottom-nav button.active {
+    .bottom-nav button.active {
       background: linear-gradient(135deg, #ffd700, #b8860b);
       color: #1a1000;
       border: 1px solid #ffe66d;
-      border-radius: 14px;
       box-shadow: 0 0 15px gold;
       transform: translateY(-4px);
     }
@@ -246,125 +217,109 @@
 </head>
 
 <body>
-
   <h1>GOLD TAP 👑</h1>
   <div class="subtitle">TAP • COLLECT • RISE</div>
 
   <div class="panel">
-    <div id="tab-home" class="tab-content>
-    <div class=" label">YOUR GOLD BALANCE</div>
+    <!-- HOME TAB -->
+    <section id="tab-home" class="tab-content">
+      <div class="label">YOUR GOLD BALANCE</div>
+      <div id="score">0</div>
 
-    <div id="score">0</div>
-
-    <button class="coin" onclick="tapCoin()">
-      GOLD<br>TAP
-    </button>
-
-    <div class="energy">
-      ⚡ ENERGY:
-      <span id="energy">100</span> / 100
-    </div>
-
-    <div class="bar">
-      <div class="fill" id="energyBar"></div>
-    </div>
-
-
-    <button class="action" onclick="inviteFriends()">
-      👥 INVITE FRIENDS
-    </button>
-    <div class="tasks">
-      <h2>🎯 TASKS</h2>
-
-      <button class="action" id="task1" onclick="claimTask(1, 2)">
-        📢 1-CHANNEL — +2 GOLD / TAP
+      <button class="coin" onclick="tapCoin()">
+        GOLD<br>TAP
       </button>
 
-      <button class="action" id="task2" onclick="claimTask(2, 3)">
-        📢 2-CHANNEL — +3 GOLD / TAP
-      </button>
+      <div class="energy">
+        ⚡️ ENERGY: <span id="energy">100</span> / 100
+      </div>
 
-      <button class="action" id="task3" onclick="claimTask(3, 5)">
-        📢 3-CHANNEL — +5 GOLD / TAP
-      </button>
+      <div class="bar">
+        <div class="fill" id="energyBar"></div>
+      </div>
+    </section>
 
-      <div id="tapLevel">CURRENT TAP: 1 GOLD</div>
-    </div>
+    <!-- BONUS TAB -->
+    <section id="tab-bonus" class="tab-content">
+      <h2>🎁 DAILY BONUS</h2>
+      <button class="action" onclick="dailyBonus()">🎁 DAILY BONUS +100 GOLD</button>
+      <div id="bonusTimer">Бонус таймери: --:--:--</div>
+    </section>
+
+    <!-- FRIENDS TAB -->
+    <section id="tab-friends" class="tab-content">
+      <h2>👥 DO'STLAR</h2>
+      <p>Do'stlaringni taklif qil va GOLD yig!</p>
+      <button class="action" onclick="inviteFriends()">👥 INVITE FRIENDS</button>
+
+      <div class="tasks">
+        <h2>🎯 TASKS</h2>
+
+        <button class="action" id="task1" onclick="claimTask(1, 2)">
+          📢 1-CHANNEL — +2 GOLD / TAP
+        </button>
+
+        <button class="action" id="task2" onclick="claimTask(2, 3)">
+          📢 2-CHANNEL — +3 GOLD / TAP
+        </button>
+
+        <button class="action" id="task3" onclick="claimTask(3, 5)">
+          📢 3-CHANNEL — +5 GOLD / TAP
+        </button>
+
+        <div id="tapLevel">CURRENT TAP: 1 GOLD</div>
+      </div>
+    </section>
+
+    <!-- HISTORY TAB -->
+    <section id="tab-history" class="tab-content">
+      <h2>📜 TARIX</h2>
+      <p>O'yin tarixi tez orada...</p>
+    </section>
+
+    <!-- Shared message: visible from every tab -->
     <div class="message" id="message"></div>
   </div>
-  <div id="tab-bonus" class="tab-content">
 
-    <button class="action" onclick="dailyBonus()">
-      🎁 DAILY BONUS +100 GOLD
-    </button>
+  <div class="footer">GOLD TAP - YOUR GOLD ADVENTURE</div>
 
-    <div id="bonusTimer">
-      Бонус таймери: --:--:--
-    </div>
-
-
-  </div>
-  <div id="tab-friends" class="tab-content" style="display:none;">
-    <h2>👥 DO'STLAR</h2>
-    <p>Do'stlaringni taklif qil va GOLD yig!</p>
-    <button class="action" onclick="inviteFriends()">
-      INVITE FRIENDS
-    </button>
-  </div>
-
-  <div id="tab-history" class="tab-content" style="display:none;">
-    <h2>📜 TARIX</h2>
-    <p>O'yin tarixi tez orada...</p>
-  </div>
-  </div>
-
-  <div class="footer">
-    GOLD TAP - YOUR GOLD ADVENTURE
-  </div>
-
-  </div>
+  <nav class="bottom-nav">
+    <button class="active" onclick="showTab('home')">🪙<span>АСОСИЙ</span></button>
+    <button onclick="showTab('bonus')">🎁<span>БОНУС</span></button>
+    <button onclick="showTab('friends')">👥<span>ДЎСТЛАР</span></button>
+    <button onclick="showTab('history')">📜<span>ТАРИХ</span></button>
+  </nav>
 
   <script>
-
-    // ==========================
-    // GOLD TAP SETTINGS
-    // ==========================
-
     const MAX_ENERGY = 100;
     const ENERGY_INTERVAL = 3000;
     const BONUS_INTERVAL = 86400000;
 
     let score = Number(localStorage.getItem("goldScore")) || 0;
-
-    let energy = Number(
-      localStorage.getItem("goldEnergy") ?? 100
-    );
-
+    let energy = Number(localStorage.getItem("goldEnergy") ?? 100);
     energy = Math.max(0, Math.min(MAX_ENERGY, energy));
 
-    const tg = window.Telegram?.WebApp;
+    let tapMultiplier = Number(localStorage.getItem("tapMultiplier")) || 1;
 
+    let claimedTasks;
+    try {
+      claimedTasks = JSON.parse(localStorage.getItem("claimedTasks") || "[]");
+      if (!Array.isArray(claimedTasks)) claimedTasks = [];
+    } catch (error) {
+      claimedTasks = [];
+    }
+
+    const tg = window.Telegram?.WebApp;
     if (tg) {
       tg.ready();
       tg.expand();
     }
 
-    // ==========================
-    // ENERGY TIME
-    // ==========================
-
     let lastEnergyTime =
       Number(localStorage.getItem("goldEnergyTime")) || Date.now();
 
-    if (energy >= MAX_ENERGY) {
-      lastEnergyTime = Date.now();
-    }
-
+    if (energy >= MAX_ENERGY) lastEnergyTime = Date.now();
     localStorage.setItem("goldEnergyTime", lastEnergyTime);
-
-    // ==========================
-    // SAVE DATA
-    // ==========================
 
     function saveGame() {
       localStorage.setItem("goldScore", score);
@@ -372,83 +327,51 @@
       localStorage.setItem("goldEnergyTime", lastEnergyTime);
     }
 
-    // ==========================
-    // UPDATE SCREEN
-    // ==========================
-
     function updateScreen() {
-
       document.getElementById("score").textContent = score;
-
       document.getElementById("energy").textContent = energy;
-
-      document.getElementById("energyBar").style.width =
-        energy + "%";
+      document.getElementById("energyBar").style.width = energy + "%";
     }
 
-    // ==========================
-    // TAP COIN
-    // ==========================
-
-    let tapMultiplier = Number(
-      localStorage.getItem("tapMultiplier")
-    ) || 1;
+    function showTapFloat() {
+      const coin = document.querySelector(".coin");
+      const popup = document.createElement("span");
+      popup.className = "tap-float";
+      popup.textContent = "+" + tapMultiplier + " GOLD";
+      coin.appendChild(popup);
+      setTimeout(() => popup.remove(), 800);
+    }
 
     function tapCoin() {
       recoverEnergy();
 
       if (energy <= 0) {
-        document.getElementById("message").textContent =
-          "Энергия тугади!";
+        document.getElementById("message").textContent = "Энергия тугади!";
         return;
       }
 
       score += tapMultiplier;
       energy--;
-
-      localStorage.setItem("goldScore", score);
-      localStorage.setItem("goldEnergy", energy);
       document.getElementById("message").textContent =
         "+" + tapMultiplier + " GOLD! 🪙";
+
       showTapFloat();
+      saveGame();
       updateScreen();
-      function showTapFloat() {
-        const coin = document.querySelector(".coin");
-
-        const popup = document.createElement("span");
-
-        popup.className = "tap-float";
-        popup.textContent = "+" + tapMultiplier + " GOLD";
-
-        coin.appendChild(popup);
-
-        setTimeout(() => {
-          popup.remove();
-        }, 800);
-      }
     }
-    // ==========================
-    // DAILY BONUS
-    // ==========================
 
     function dailyBonus() {
-
       const now = Date.now();
-
-      const lastBonus =
-        Number(localStorage.getItem("lastBonusTime")) || 0;
+      const lastBonus = Number(localStorage.getItem("lastBonusTime")) || 0;
 
       if (now - lastBonus < BONUS_INTERVAL) {
-
         document.getElementById("message").textContent =
           "Бонус вақти ҳали келмади!";
-
         updateBonusTimer();
         return;
       }
 
       score += 100;
-
       localStorage.setItem("goldScore", score);
       localStorage.setItem("lastBonusTime", now);
 
@@ -459,16 +382,9 @@
       updateBonusTimer();
     }
 
-    // ==========================
-    // BONUS TIMER
-    // ==========================
-
     function updateBonusTimer() {
-
       const timer = document.getElementById("bonusTimer");
-
-      const lastBonus =
-        Number(localStorage.getItem("lastBonusTime")) || 0;
+      const lastBonus = Number(localStorage.getItem("lastBonusTime")) || 0;
 
       if (!lastBonus) {
         timer.textContent = "🎁 Бонус олишга тайёр!";
@@ -481,14 +397,8 @@
       );
 
       const hours = Math.floor(remaining / 3600000);
-
-      const minutes = Math.floor(
-        (remaining % 3600000) / 60000
-      );
-
-      const seconds = Math.floor(
-        (remaining % 60000) / 1000
-      );
+      const minutes = Math.floor((remaining % 3600000) / 60000);
+      const seconds = Math.floor((remaining % 60000) / 1000);
 
       timer.textContent =
         "🎁 " +
@@ -497,15 +407,8 @@
         String(seconds).padStart(2, "0");
     }
 
-    // ==========================
-    // INVITE FRIENDS
-    // ==========================
-
     function inviteFriends() {
-
-      const link =
-        "https://t.me/goldtap_global_bot?start=invite";
-
+      const link = "https://t.me/goldtap_global_bot?start=invite";
       const shareLink =
         "https://t.me/share/url?url=" +
         encodeURIComponent(link) +
@@ -528,51 +431,89 @@
       }
     }
 
-    // ==========================
-    // ONLINE + OFFLINE ENERGY
-    // ==========================
-
     function recoverEnergy() {
-
       const now = Date.now();
 
       if (energy >= MAX_ENERGY) {
-
         energy = MAX_ENERGY;
         lastEnergyTime = now;
-
         saveGame();
         return;
       }
 
-      const elapsed = Math.floor(
-        (now - lastEnergyTime) / ENERGY_INTERVAL
-      );
+      const elapsed = Math.floor((now - lastEnergyTime) / ENERGY_INTERVAL);
 
       if (elapsed > 0) {
-
-        energy = Math.min(
-          MAX_ENERGY,
-          energy + elapsed
-        );
-
+        energy = Math.min(MAX_ENERGY, energy + elapsed);
         lastEnergyTime += elapsed * ENERGY_INTERVAL;
 
-        if (energy >= MAX_ENERGY) {
-          lastEnergyTime = now;
-        }
+        if (energy >= MAX_ENERGY) lastEnergyTime = now;
 
         saveGame();
         updateScreen();
       }
     }
 
-    // ==========================
+    function setTapMultiplier(level) {
+      tapMultiplier = level;
+      localStorage.setItem("tapMultiplier", tapMultiplier);
+      document.getElementById("message").textContent =
+        "TAP қиймати: " + level + " GOLD";
+      updateTaskButtons();
+    }
+
+    function claimTask(taskId, level) {
+      if (claimedTasks.includes(taskId)) {
+        document.getElementById("message").textContent =
+          "Бу вазифа аввал бажарилган!";
+        return;
+      }
+
+      claimedTasks.push(taskId);
+      localStorage.setItem("claimedTasks", JSON.stringify(claimedTasks));
+
+      tapMultiplier = Math.max(tapMultiplier, level);
+      localStorage.setItem("tapMultiplier", tapMultiplier);
+
+      document.getElementById("message").textContent =
+        "Табриклаймиз! +" + level + " TAP!";
+
+      updateScreen();
+      updateTaskButtons();
+    }
+
+    function showTab(tab) {
+      const tabs = ["home", "bonus", "friends", "history"];
+
+      tabs.forEach((name) => {
+        const section = document.getElementById("tab-" + name);
+        if (section) section.style.display = name === tab ? "block" : "none";
+      });
+
+      document.querySelectorAll(".bottom-nav button").forEach((button, index) => {
+        button.classList.toggle("active", tabs[index] === tab);
+      });
+    }
+
+    function updateTaskButtons() {
+      for (let id = 1; id <= 3; id++) {
+        const button = document.getElementById("task" + id);
+
+        if (button && claimedTasks.includes(id)) {
+          button.disabled = true;
+          button.textContent = "✅ COMPLETED";
+        }
+      }
+
+      document.getElementById("tapLevel").textContent =
+        "CURRENT TAP: " + tapMultiplier + " GOLD";
+    }
 
     recoverEnergy();
-
     updateScreen();
     updateBonusTimer();
+    updateTaskButtons();
+    showTab("home");
 
     setInterval(recoverEnergy, 1000);
     setInterval(updateBonusTimer, 1000);
@@ -588,101 +529,6 @@
       recoverEnergy();
       updateBonusTimer();
     });
-    // TAP MULTIPLIER TEST
-    function setTapMultiplier(level) {
-      tapMultiplier = level;
-
-      localStorage.setItem("tapMultiplier", level);
-
-      document.getElementById("message").textContent =
-        "TAP қиймати: " + level + " GOLD";
-
-      updateScreen();
-    }
-
-    // ONE-TIME TASK SYSTEM
-    let claimedTasks = JSON.parse(
-      localStorage.getItem("claimedTasks") || "[]"
-    );
-
-    function claimTask(taskId, level) {
-
-      if (claimedTasks.includes(taskId)) {
-        document.getElementById("message").textContent =
-          "Бу вазифа аввал бажарилган!";
-        return;
-      }
-
-      claimedTasks.push(taskId);
-
-      localStorage.setItem(
-        "claimedTasks",
-        JSON.stringify(claimedTasks)
-      );
-
-      tapMultiplier = Math.max(tapMultiplier, level);
-
-      localStorage.setItem("tapMultiplier", tapMultiplier);
-
-      document.getElementById("message").textContent =
-        "Табриклаймиз! +" + level + " TAP!";
-
-      updateScreen();
-      updateTaskButtons();
-    }
-    function showTab(tab) {
-      const home = document.getElementById("tab-home");
-      const bonus = document.getElementById("tab-bonus");
-      const friends = document.getElementById("tab-friends");
-      const history = document.getElementById("tab-history");
-
-      if (home) home.style.display = "none";
-      if (bonus) bonus.style.display = "none";
-      if (friends) friends.style.display = "none";
-      if (history) history.style.display = "none";
-
-      if (tab === "home" && home) home.style.display = "block";
-      if (tab === "bonus" && bonus) bonus.style.display = "block";
-      if (tab === "friends" && friends) friends.style.display = "block";
-      if (tab === "history" && history) history.style.display = "block";
-
-      document.querySelectorAll(".bottom-nav button").forEach((btn, index) => {
-        const tabs = ["home", "bonus", "friends", "history"];
-        btn.classList.toggle("active", tabs[index] === tab);
-      });
-    }
-    function updateTaskButtons() {
-      for (let id = 1; id <= 3; id++) {
-        const button = document.getElementById("task" + id);
-
-        if (button && claimedTasks.includes(id)) {
-          button.disabled = true;
-          button.textContent = "✅ COMPLETED";
-        }
-      }
-
-      document.getElementById("tapLevel").textContent =
-        "CURRENT TAP: " + tapMultiplier + " GOLD";
-    }
-
-    updateTaskButtons();</script>
-  <nav class="bottom-nav">
-    <button onclick="showTab('home')">
-      🪙<span>АСОСИЙ</span>
-    </button>
-
-    <button onclick="showTab('bonus')">
-      🎁<span>БОНУС</span>
-    </button>
-
-    <button onclick="showTab('friends')">
-      👥<span>ДЎСТЛАР</span>
-    </button>
-
-    <button onclick="showTab('history')">
-      📜<span>ТАРИХ</span>
-    </button>
-  </nav>
+  </script>
 </body>
-
 </html>
