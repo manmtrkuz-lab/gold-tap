@@ -107,12 +107,15 @@ main{min-width:0}.view{display:none;animation:fade .22s ease}.view.active{displa
  </div>
 </section>
 <section class="view" id="view-channel">
- <div class="welcome"><div><div class="eyebrow">GOLD TAP COMMUNITY</div><h1>Каналга аъзо бўлиш</h1><div class="sub">GOLD TAP янгиликлари ва эълонлари шу ерда бўлади.</div></div><span class="badge">OFFICIAL CHANNEL</span></div>
+ <div class="welcome"><div><div class="eyebrow">GOLD TAP COMMUNITY</div><h1>Каналга аъзо бўлиш</h1><div class="sub">GOLD TAP янгиликлари, янгиланишлар ва расмий эълонлар.</div></div><span class="badge">OFFICIAL CHANNEL</span></div>
  <div class="panel" style="text-align:center;padding:32px 18px">
-  <div style="font-size:42px;margin-bottom:10px">📢</div>
-  <h3 class="section-title">Расмий канал</h3>
-  <p class="sub" style="max-width:430px;margin:0 auto 16px">Канал ҳаволаси ҳозирча қўшилмаган. Ҳавола тайёр бўлганда шу ерга жойлаштирамиз.</p>
-  <button class="secondary" disabled>Канал ҳаволаси тез кунда</button>
+  <div style="font-size:46px;margin-bottom:10px">📢</div>
+  <h3 class="section-title">GOLD TAP OFFICIAL</h3>
+  <p class="sub" style="max-width:430px;margin:0 auto 18px">Расмий каналимизга обуна бўлинг ва 100 GOLD бонус олинг!</p>
+  <a class="action" href="https://t.me/GoldTapOfficiall" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none;min-width:220px">✈️ Каналга ўтиш</a>
+  <button class="secondary" id="checkChannel" style="display:block;margin:12px auto 0;min-width:220px">✓ Обунани текшириш · +100 GOLD</button>
+  <p class="tiny" id="channelStatus" style="margin-top:14px">Канал: @GoldTapOfficiall</p>
+  <p class="tiny" style="max-width:460px;margin:8px auto 0">Бонус бот сервери каналга аъзоликни тасдиқлагандан кейин берилади.</p>
  </div>
 </section>
 <section class="view" id="view-invite">
@@ -248,8 +251,10 @@ const ruDict={
 
 'Мавсум 01':'Сезон 01','Ҳар 30 кунда янги мусобақа бошланади.':'Новый турнир начинается каждые 30 дней.',
 'СИЗНИНГ ЎРНИНГИЗ':'ВАШЕ МЕСТО','Тез орада':'Скоро',
-'SEASON 01 ·':'СЕЗОН 01 ·','DAYS':'ДНЕЙ','Player ID:':'ID игрока:'
-
+'SEASON 01 ·':'СЕЗОН 01 ·','DAYS':'ДНЕЙ','Player ID:':'ID игрока:',
+'GOLD TAP янгиликлари, янгиланишлар ва расмий эълонлар.':'Новости GOLD TAP, обновления и официальные объявления.',
+'Расмий каналимизга обуна бўлинг ва янгиликларни биринчи бўлиб билиб олинг!':'Подпишитесь на наш официальный канал и узнавайте новости первыми!',
+'Каналга ўтиш':'Перейти в канал'
 };
 const latDict={
 'Бош саҳифа':'Bosh sahifa','Вазифалар':'Vazifalar','Upgrade':'Yangilash','Рейтинг':'Reyting','Профиль':'Profil',
@@ -313,8 +318,10 @@ const latDict={
 
 'Мавсум 01':'Mavsum 01','Ҳар 30 кунда янги мусобақа бошланади.':'Har 30 kunda yangi musobaqa boshlanadi.',
 'СИЗНИНГ ЎРНИНГИЗ':'SIZNING OʻRNINGIZ','Тез орада':'Tez orada',
-'SEASON 01 ·':'MAVSUM 01 ·','DAYS':'KUN','Player ID:':'Oʻyinchi ID:'
-
+'SEASON 01 ·':'MAVSUM 01 ·','DAYS':'KUN','Player ID:':'Oʻyinchi ID:',
+'GOLD TAP янгиликлари, янгиланишлар ва расмий эълонлар.':'GOLD TAP yangiliklari, yangilanishlar va rasmiy eʼlonlar.',
+'Расмий каналимизга обуна бўлинг ва янгиликларни биринчи бўлиб билиб олинг!':'Rasmiy kanalimizga obuna boʻling va yangiliklarni birinchi boʻlib bilib oling!',
+'Каналга ўтиш':'Kanalga oʻtish'
 };
 function transliterateUz(text){
  const map={
@@ -406,6 +413,22 @@ function tap(){
  f.className='float';f.textContent='+'+state.power;f.style.left=(coin.left-rect.left+coin.width/2-15)+'px';f.style.top=(coin.top-rect.top+15)+'px';area.appendChild(f);setTimeout(()=>f.remove(),800);
 }
 $('tapBtn').addEventListener('click',tap);
+
+// Membership must be verified by the bot backend, never by browser-side data.
+$('checkChannel').addEventListener('click',()=>{
+ const status=$('channelStatus');
+ if(window.Telegram?.WebApp?.sendData){
+  window.Telegram.WebApp.sendData(JSON.stringify({
+   action:'check_channel_subscription',
+   channel:'@GoldTapOfficiall',
+   reward:100
+  }));
+  status.textContent='Текшириш сўрови ботга юборилди. Натижани ботдан кутинг.';
+ }else{
+  status.textContent='Mini App’ни Telegram ичида бот орқали очинг.';
+  toast('Mini App’ни Telegram ичида очинг');
+ }
+});
 $('buyPower').addEventListener('click',()=>{const cost=100*state.powerLevel;if(state.gold<cost)return;state.gold-=cost;state.powerLevel++;state.power++;save();render();toast('Tap Power кучайтирилди!')});
 $('buyEnergy').addEventListener('click',()=>{const cost=150*state.energyLevel;if(state.gold<cost)return;state.gold-=cost;state.energyLevel++;state.maxEnergy+=25;state.energy=Math.min(state.maxEnergy,state.energy+25);save();render();toast('Энергия лимити ошди!')});
 const referralCode='GOLD-'+String(state.createdAt).slice(-6).toUpperCase();
