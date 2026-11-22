@@ -1,1239 +1,214 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GOLD TAP — Play</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-  <style>
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      padding: 25px 15px 110px;
-      background: radial-gradient(circle at top, #49340c, #17130a 45%, #090909);
-      color: #fff6da;
-      font-family: Arial, sans-serif;
-      text-align: center;
-    }
-
-    h1 {
-      color: #ffd65c;
-      font-size: 42px;
-      letter-spacing: 6px;
-      text-shadow: 0 0 15px #ffbd24, 0 0 30px #bd8110;
-      margin: 15px 0 5px;
-    }
-
-    .subtitle {
-      color: #c9b56a;
-      letter-spacing: 4px;
-      font-size: 12px;
-      margin-bottom: 45px;
-    }
-
-    .language-row {
-      max-width: 500px;
-      margin: 0 auto 14px;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      gap: 8px;
-      color: #e9cf83;
-      font-size: 13px;
-    }
-    .language-row select {
-      background: #211909;
-      color: #ffe6a0;
-      border: 1px solid #c69a30;
-      border-radius: 10px;
-      padding: 8px 10px;
-      font-size: 13px;
-    }
-    .panel {
-      width: 100%;
-      max-width: 500px;
-      margin: auto;
-      padding: 30px 20px;
-      border: 1px solid #a77c19;
-      border-radius: 25px;
-      background: rgba(20, 17, 9, 0.85);
-    }
-
-    .label { color: #cbb879; font-size: 18px; }
-
-    #score {
-      font-size: 75px;
-      font-weight: bold;
-      margin: 25px 0;
-      color: #fff0a8;
-      text-shadow: 0 0 20px #ffcc42;
-    }
-
-    .coin {
-      position: relative;
-      overflow: visible;
-      width: 250px;
-      height: 250px;
-      max-width: 75vw;
-      max-height: 75vw;
-      border-radius: 50%;
-      border: 8px solid #ffe88c;
-      background: radial-gradient(circle at 30% 25%, #fff5a0, #ffc42e 50%, #a96b08);
-      color: #623800;
-      font-size: 38px;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 0 25px #ffca36, 0 0 55px #b47b12;
-      margin: 0 auto 35px;
-      display: block;
-      transition: transform 0.08s;
-      appearance: none;
-      -webkit-appearance: none;
-      -webkit-tap-highlight-color: transparent;
-      outline: none;
-    }
-
-    .coin:active { transform: scale(0.94); }
-
-    .tap-float {
-      position: absolute;
-      top: 20%;
-      left: 50%;
-      transform: translateX(-50%);
-      color: #ffe66d;
-      font-size: 28px;
-      font-weight: bold;
-      white-space: nowrap;
-      pointer-events: none;
-      z-index: 100;
-      text-shadow: 0 0 15px gold;
-      animation: goldFloat 0.8s ease-out forwards;
-    }
-
-    @keyframes goldFloat {
-      from { opacity: 1; margin-top: 0; }
-      to { opacity: 0; margin-top: -100px; }
-    }
-
-    .energy {
-      font-size: 22px;
-      margin: 10px 0;
-      color: #ffdb70;
-    }
-
-    .bar {
-      width: 100%;
-      height: 14px;
-      background: #493716;
-      border-radius: 20px;
-      overflow: hidden;
-      margin: 15px 0 25px;
-    }
-
-    .fill {
-      height: 100%;
-      width: 100%;
-      background: linear-gradient(90deg, #d18a08, #ffe27c);
-      transition: width 0.3s;
-    }
-
-    .action {
-      width: 100%;
-      padding: 22px 10px;
-      margin: 8px 0;
-      border: 1px solid #c69a30;
-      border-radius: 20px;
-      background: rgba(72, 49, 9, 0.45);
-      color: #ffe6a0;
-      font-size: 21px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .action:active { background: #68450d; }
-
-    .action:disabled {
-      opacity: 0.8;
-      cursor: not-allowed;
-    }
-
-    #bonusTimer {
-      color: #ffe6a0;
-      font-size: 20px;
-      margin: 3px 0 18px;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .message {
-      min-height: 30px;
-      margin: 15px 0;
-      color: #ffdf70;
-      font-size: 16px;
-    }
-
-    .footer {
-      margin-top: 25px;
-      color: #a99560;
-      font-size: 13px;
-      letter-spacing: 2px;
-    }
-
-    /* Each tab is hidden; only the selected tab is shown. */
-    .tab-content { display: none; text-align: center; }
-    #tab-home { display: block; }
-
-    .bottom-nav {
-      -webkit-tap-highlight-color: transparent;
-      position: fixed;
-      bottom: 10px;
-      left: 10px;
-      right: 10px;
-      z-index: 999;
-      display: flex;
-      align-items: stretch;
-      justify-content: space-between;
-      gap: 6px;
-      padding: 7px;
-      background: rgba(25, 20, 10, 0.96);
-      border: 1px solid #c9a448;
-      border-radius: 22px;
-      box-shadow: 0 0 12px #8b691f;
-    }
-
-    .bottom-nav button {
-      flex: 1 1 0;
-      min-width: 0;
-      min-height: 82px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 3px;
-      padding: 6px 2px;
-      -webkit-appearance: none;
-      appearance: none;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-      user-select: none;
-      -webkit-user-select: none;
-      outline: none !important;
-      border: 1px solid transparent;
-      border-radius: 18px;
-      background: transparent !important;
-      background-color: transparent !important;
-      background-image: none !important;
-      color: #e9cf83 !important;
-      font-size: 19px;
-      line-height: 1.1;
-      cursor: pointer;
-      transition: background 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
-      box-shadow: none;
-    }
-
-    .bottom-nav button:focus,
-    .bottom-nav button:focus-visible,
-    .bottom-nav button:active {
-      outline: none !important;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .bottom-nav button.active {
-      border: 1px solid #ffe66d !important;
-      border-radius: 18px !important;
-      background: linear-gradient(135deg, #ffd700, #b8860b) !important;
-      background-color: #d6a900 !important;
-      color: #1a1000 !important;
-      box-shadow: 0 0 15px rgba(255, 215, 0, 0.65) !important;
-      transform: translateY(-2px);
-    }
-
-    .bottom-nav .nav-icon {
-      width: 43px;
-      height: 43px;
-      flex: 0 0 43px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0;
-      font-size: 29px;
-      line-height: 1;
-    }
-
-    .bottom-nav .home-coin {
-      border: 3px solid #fff0a0;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 25%, #fff6a8, #ffd02f 48%, #a96b08 100%);
-      color: #754600;
-      font-family: Georgia, serif;
-      font-size: 25px;
-      font-weight: 900;
-      text-shadow: 0 1px 0 #fff3a0;
-      box-shadow: 0 0 10px #ffd43b, inset 0 0 0 2px rgba(125, 76, 0, 0.35);
-    }
-
-    .bottom-nav .nav-label {
-      display: block;
-      width: 100%;
-      min-height: 14px;
-      margin: 0;
-      text-align: center;
-      white-space: nowrap;
-      font-size: 10px;
-      line-height: 14px;
-      font-weight: 600;
-      color: inherit;
-    }
-
-    .bottom-nav button.active .home-coin {
-      box-shadow: 0 0 14px #ffdc45, inset 0 0 0 2px rgba(125, 76, 0, 0.35);
-    }
-
-    .history-list {
-      display: flex;
-      flex-direction: column;
-      gap: 9px;
-      margin-top: 14px;
-      text-align: left;
-    }
-
-    .history-item, .leaderboard-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      padding: 12px;
-      border: 1px solid rgba(201, 164, 72, 0.55);
-      border-radius: 13px;
-      background: rgba(72, 49, 9, 0.28);
-    }
-
-    .history-item small {
-      display: block;
-      margin-top: 4px;
-      color: #b9a779;
-      font-size: 11px;
-    }
-
-    .history-amount {
-      color: #ffe27c;
-      font-weight: bold;
-      white-space: nowrap;
-    }
-
-    .leaderboard-note {
-      color: #b9a779;
-      font-size: 12px;
-      line-height: 1.5;
-    }
-
-    .milestone-progress {
-      margin-top: 12px;
-      text-align: left;
-    }
-
-    .milestone-item {
-      padding: 12px;
-      margin-top: 9px;
-      border: 1px solid rgba(201, 164, 72, 0.55);
-      border-radius: 13px;
-      background: rgba(72, 49, 9, 0.28);
-    }
-
-    .milestone-item.done {
-      border-color: #d7ad35;
-      background: rgba(180, 137, 20, 0.18);
-    }
-
-    .milestone-item small {
-      display: block;
-      margin-top: 4px;
-      color: #b9a779;
-    }
-
-    body {
-      padding: 10px 14px 112px;
-      background:
-        radial-gradient(ellipse at 50% 28%, rgba(120, 76, 8, 0.25), transparent 48%),
-        radial-gradient(circle at top, #2b1c07, #100d07 48%, #070707);
-      overflow-x: hidden;
-    }
-
-    .language-row {
-      width: 100%;
-      max-width: 500px;
-      margin: 0 auto 16px;
-      min-height: 42px;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      gap: 7px;
-      padding-right: 2px;
-    }
-
-    .language-globe {
-      color: #f4c94e;
-      font-size: 19px;
-      line-height: 1;
-    }
-
-    .language-row select {
-      width: auto;
-      min-width: 116px;
-      max-width: 150px;
-      background: linear-gradient(135deg, #241906, #120f08);
-      color: #ffe6a0;
-      border: 1px solid #d5a51e;
-      border-radius: 22px;
-      padding: 8px 13px;
-      font-size: 13px;
-      box-shadow: 0 0 10px rgba(255, 190, 20, 0.12);
-      outline: none;
-    }
-
-    .panel {
-      max-width: 500px;
-      padding: 22px 16px 28px;
-      border: 1px solid rgba(211, 164, 43, 0.8);
-      border-radius: 26px;
-      background: linear-gradient(145deg, rgba(25, 19, 8, 0.96), rgba(12, 10, 6, 0.96));
-      box-shadow: 0 0 18px rgba(176, 119, 12, 0.12), inset 0 0 24px rgba(255, 190, 30, 0.025);
-    }
-
-    .balance-card {
-      position: relative;
-      margin: 12px auto 28px;
-      padding: 23px 15px 15px;
-      border: 1.5px solid #e7ad19;
-      border-radius: 24px;
-      background: radial-gradient(ellipse at 50% 0%, rgba(132, 85, 8, 0.3), rgba(25, 17, 5, 0.92) 70%);
-      box-shadow: 0 0 18px rgba(255, 181, 0, 0.24), inset 0 0 20px rgba(255, 198, 38, 0.06);
-    }
-
-    .crown-mark {
-      position: absolute;
-      top: -24px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: #ffd34e;
-      font-size: 34px;
-      line-height: 1;
-      text-shadow: 0 0 14px #ffb900;
-    }
-
-    .label {
-      color: #f3d477;
-      font-size: 17px;
-      font-weight: 700;
-      letter-spacing: 0.4px;
-    }
-
-    .balance-content {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 14px;
-      min-height: 92px;
-    }
-
-    .coin-stack {
-      color: #ffd64c;
-      font-size: 28px;
-      line-height: 0.75;
-      filter: drop-shadow(0 0 8px rgba(255, 183, 0, 0.7));
-    }
-
-    #score {
-      font-size: clamp(54px, 16vw, 76px);
-      margin: 4px 0 0;
-      color: #fff0a8;
-      text-shadow: 0 0 18px #ffcc42, 0 0 35px rgba(255, 183, 0, 0.45);
-      font-variant-numeric: tabular-nums;
-    }
-
-    .coin {
-      width: min(68vw, 270px);
-      height: min(68vw, 270px);
-      max-width: 270px;
-      max-height: 270px;
-      margin: 12px auto 28px;
-      border-width: 9px;
-      font-size: 43px;
-      letter-spacing: 1px;
-      color: #593300;
-      background: radial-gradient(circle at 32% 24%, #fff7ad 0%, #ffdc50 33%, #ffb900 68%, #b87508 100%);
-      box-shadow: 0 0 22px #ffca36, 0 0 52px rgba(255, 183, 0, 0.45), inset 0 0 0 5px rgba(255, 245, 166, 0.3);
-    }
-
-    .tab-heading {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      margin: 8px 0 22px;
-      color: #ffda63;
-    }
-
-    .tab-heading > span {
-      font-size: 42px;
-      line-height: 1.1;
-      filter: drop-shadow(0 0 9px rgba(255, 187, 0, 0.45));
-    }
-
-    .tab-heading h2 {
-      margin: 0;
-      color: #fff0c1;
-      font-size: clamp(21px, 5.5vw, 27px);
-      text-shadow: 0 0 12px rgba(255, 196, 44, 0.2);
-    }
-
-    .tab-description {
-      color: #d7c18a;
-      font-size: 15px;
-      line-height: 1.5;
-      margin: -8px 0 18px;
-    }
-
-    .action {
-      border-color: #dcae2c;
-      background: linear-gradient(145deg, rgba(83, 54, 9, 0.62), rgba(28, 20, 7, 0.9));
-      color: #ffe8a0;
-      box-shadow: inset 0 0 14px rgba(255, 193, 32, 0.05);
-    }
-
-    .bonus-action {
-      min-height: 112px;
-      border-radius: 22px;
-      font-size: 21px;
-      line-height: 1.35;
-      box-shadow: 0 0 13px rgba(255, 189, 20, 0.18), inset 0 0 14px rgba(255, 200, 40, 0.08);
-    }
-
-    #bonusTimer {
-      display: inline-block;
-      margin: 17px auto;
-      padding: 10px 17px;
-      border: 1px solid rgba(202, 155, 36, 0.75);
-      border-radius: 24px;
-      background: rgba(20, 15, 6, 0.7);
-      font-size: 17px;
-    }
-
-    .invite-card {
-      padding: 18px 14px;
-      border: 1px solid rgba(215, 165, 37, 0.8);
-      border-radius: 20px;
-      background: rgba(68, 44, 8, 0.22);
-    }
-
-    .invite-symbol {
-      font-size: 35px;
-      color: #ffd24a;
-      margin-bottom: 5px;
-      filter: drop-shadow(0 0 9px rgba(255, 187, 0, .65));
-    }
-
-    .ref-link-wrap {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin: 12px 0;
-      padding: 10px 11px;
-      border: 1px solid rgba(218, 171, 54, .7);
-      border-radius: 13px;
-      background: rgba(12, 10, 6, .72);
-      text-align: left;
-    }
-    .ref-link-wrap .ref-chain { color: #ffd34e; font-size: 23px; }
-    #referralLink {
-      flex: 1;
-      min-width: 0;
-      padding: 7px 0;
-      border: 0;
-      outline: 0;
-      background: transparent;
-      color: #ffe7a0;
-      font-size: 12px;
-    }
-    .copy-ref {
-      border: 0;
-      background: transparent;
-      color: #ffd34e;
-      font-size: 21px;
-      padding: 4px;
-    }
-    .ref-stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin: 10px 0 14px;
-    }
-    .ref-stat {
-      padding: 10px 6px;
-      border: 1px solid rgba(218, 171, 54, .55);
-      border-radius: 12px;
-      background: rgba(42, 29, 7, .55);
-      color: #e9d69c;
-      font-size: 12px;
-    }
-    .ref-stat strong { display: block; margin-top: 5px; color: #ffdf70; font-size: 17px; }
-    .milestone-icon { float: left; margin-right: 10px; font-size: 25px; }
-    .milestone-copy { overflow: hidden; }
-    .milestone-track {
-      height: 7px;
-      margin-top: 8px;
-      overflow: hidden;
-      border-radius: 20px;
-      background: rgba(115, 83, 23, .55);
-    }
-    .milestone-track span {
-      display: block;
-      height: 100%;
-      border-radius: inherit;
-      background: linear-gradient(90deg, #e89b00, #ffe36a);
-      box-shadow: 0 0 8px rgba(255, 202, 44, .6);
-    }
-
-    .invite-copy {
-      color: #e8d39b;
-      line-height: 1.5;
-      margin-bottom: 12px;
-    }
-
-    .invite-action {
-      margin-top: 8px;
-      border-radius: 30px;
-      background: linear-gradient(135deg, #ffd52d, #e49a00);
-      color: #241500;
-    }
-
-    .tasks {
-      margin-top: 25px;
-    }
-
-    .tasks h2 {
-      color: #ffdc73;
-      font-size: 21px;
-    }
-
-    #tapLevel {
-      color: #f6d36b;
-      margin-top: 12px;
-    }
-
-    .milestone-item, .history-item, .leaderboard-item {
-      border-color: rgba(218, 171, 54, 0.72);
-      border-radius: 16px;
-      background: linear-gradient(120deg, rgba(73, 48, 8, 0.4), rgba(20, 15, 7, 0.65));
-      padding: 14px;
-    }
-
-    .message {
-      color: #ffdf70;
-      margin: 15px 0 0;
-    }
-
-    @media (max-width: 380px) {
-      body { padding-left: 10px; padding-right: 10px; }
-      .panel { padding-left: 12px; padding-right: 12px; }
-      .bottom-nav { gap: 3px; padding: 6px; }
-      .bottom-nav .nav-icon { width: 38px; height: 38px; flex-basis: 38px; font-size: 26px; }
-      .bottom-nav .nav-label { font-size: 9px; }
-    }
-
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090a0d">
+<title>GOLD TAP — Mini App</title>
+<style>
+:root{--bg:#090a0d;--panel:#12151b;--panel2:#181c24;--gold:#f3bd4e;--gold2:#ffe3a0;--muted:#9299a6;--line:#292e38;--green:#5dd6a0;--red:#ff7777}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -15%,#4a3514 0,#17130e 24%,var(--bg) 58%);color:#f5f6f8;font:15px/1.45 Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;min-height:100vh}
+button{font:inherit;cursor:pointer}button:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.app{max-width:1180px;margin:auto;padding:18px 20px 100px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:8px 0 18px;border-bottom:1px solid #ffffff12}
+.logo{font-size:21px;letter-spacing:3px;font-weight:950;color:var(--gold2);text-shadow:0 0 22px #f3bd4e35}.logo small{display:block;font-size:9px;letter-spacing:4px;color:#9b8a68;font-weight:700;margin-top:1px}
+.top-right{display:flex;align-items:center;gap:9px}.season-chip,.lang-btn{border:1px solid #5b4828;background:#17150f;color:var(--gold2);padding:8px 12px;border-radius:99px;font-size:12px}.lang-btn{background:#171b22;border-color:var(--line);color:#d9dce2}
+.layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:22px;padding-top:20px}.sidebar{background:#101319bd;border:1px solid var(--line);border-radius:20px;padding:12px;height:max-content;position:sticky;top:14px}
+.navbtn{display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:transparent;border:0;color:#aeb4bf;padding:12px;border-radius:12px;margin:2px 0;font-size:13px;transition:.18s}.navbtn:hover,.navbtn.active{background:linear-gradient(100deg,#49371988,#29201466);color:var(--gold2)}.navbtn.active{box-shadow:inset 2px 0 var(--gold)}.navicon{width:20px;text-align:center;font-size:17px}
+.side-note{border-top:1px solid var(--line);margin-top:12px;padding:14px 9px 5px;color:#838b98;font-size:11px}
+main{min-width:0}.view{display:none;animation:fade .22s ease}.view.active{display:block}@keyframes fade{from{opacity:.45;transform:translateY(4px)}to{opacity:1;transform:none}}
+.welcome{display:flex;justify-content:space-between;gap:15px;align-items:flex-end;margin:4px 0 18px}.eyebrow{color:var(--gold);font-size:10px;font-weight:800;letter-spacing:2.5px}.welcome h1{font-size:clamp(25px,4vw,36px);line-height:1.1;margin:7px 0 4px}.sub{color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:13px}.panel{background:linear-gradient(145deg,#191d25,#11141a);border:1px solid var(--line);border-radius:18px;padding:17px;box-shadow:0 12px 30px #0002}.span-12{grid-column:span 12}.span-8{grid-column:span 8}.span-7{grid-column:span 7}.span-6{grid-column:span 6}.span-5{grid-column:span 5}.span-4{grid-column:span 4}
+.balance-panel{position:relative;overflow:hidden;background:radial-gradient(circle at 90% 10%,#74521d77,transparent 35%),linear-gradient(130deg,#292114,#15171c 70%);min-height:175px}.balance-panel:after{content:"G";position:absolute;right:20px;bottom:-62px;font-size:210px;font-weight:900;color:#f3bd4e0b;pointer-events:none}
+.label{font-size:11px;color:#aeb4bf;letter-spacing:1.2px;text-transform:uppercase}.balance{font-size:clamp(36px,6vw,54px);font-weight:900;letter-spacing:-2px;color:var(--gold2);margin:8px 0 2px}.balance small{font-size:15px;letter-spacing:1px;color:var(--gold)}.tiny{font-size:11px;color:var(--muted)}
+.energy-head,.row-between{display:flex;justify-content:space-between;align-items:center;gap:10px}.energy-num{font-size:21px;font-weight:800;color:#fff}.bar{height:9px;background:#292e38;border-radius:99px;overflow:hidden;margin:12px 0 7px}.bar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,#bd8528,var(--gold2));border-radius:99px;transition:width .25s}
+.tap-area{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:320px;background:radial-gradient(circle at 50% 45%,#6e4c1e3b,transparent 48%),linear-gradient(145deg,#1b1d23,#101217);position:relative;overflow:hidden}
+.coin{width:190px;height:190px;border-radius:50%;border:5px solid #f9d77c;background:radial-gradient(circle at 35% 25%,#fff0bb,#dca33b 38%,#8c5b18 75%,#f6cb64);box-shadow:0 0 0 9px #f3bd4e13,0 0 55px #f3bd4e38,inset 0 4px 12px #fff9;display:grid;place-items:center;color:#53370e;font-size:78px;font-weight:1000;text-shadow:0 2px 1px #fff8;transition:transform .08s;user-select:none}
+.coin:active{transform:scale(.94)}.tap-btn{border:0;background:transparent;padding:0;margin:8px 0 13px}.tap-hint{font-size:12px;color:#aeb4bf}.tap-hint b{color:var(--gold2)}
+.float{position:absolute;color:#ffe39b;font-size:22px;font-weight:900;pointer-events:none;animation:floatup .75s ease-out forwards}@keyframes floatup{to{transform:translateY(-75px);opacity:0}}
+.section-title{font-size:17px;font-weight:800;margin:0 0 14px}.metric{font-size:27px;font-weight:850;color:var(--gold2);margin-top:5px}.metric-sub{color:var(--muted);font-size:11px}
+.action{border:1px solid #745b2b;background:linear-gradient(130deg,#f0c15b,#c58b2b);color:#211807;border-radius:11px;padding:10px 14px;font-size:12px;font-weight:850;box-shadow:0 5px 18px #e0a73a20}.action:hover{filter:brightness(1.08)}.action:disabled{opacity:.45;cursor:not-allowed;filter:grayscale(.5)}.secondary{border:1px solid var(--line);background:#20252e;color:#e7e9ed;border-radius:10px;padding:9px 12px;font-size:12px}.danger{border-color:#633737;color:#ffb2b2;background:#2b171a}
+.list{display:flex;flex-direction:column;gap:9px}.item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border:1px solid #ffffff0d;background:#ffffff04;border-radius:12px}.item-main{min-width:0}.item-title{font-size:13px;font-weight:750}.item-desc{font-size:11px;color:var(--muted);margin-top:3px}.reward{font-size:12px;color:var(--gold2);font-weight:800;white-space:nowrap}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 8px;border-radius:99px;background:#2c2518;border:1px solid #66502a;color:var(--gold2);font-size:10px}
+.table{width:100%;border-collapse:collapse}.table td,.table th{text-align:left;padding:11px 8px;border-bottom:1px solid var(--line);font-size:12px}.table th{color:var(--muted);font-weight:600}.table tr:last-child td{border-bottom:0}.rank{color:var(--gold2);font-weight:900;width:30px}.you{background:#4a381c55}
+.profile-avatar{width:58px;height:58px;border-radius:18px;background:linear-gradient(135deg,#ffe3a0,#a96d1e);color:#38240a;display:grid;place-items:center;font-size:26px;font-weight:900}
+.field{width:100%;background:#0d1015;border:1px solid var(--line);border-radius:10px;padding:11px;color:#fff;margin:6px 0 12px}.field:focus{outline:1px solid var(--gold)}label{font-size:11px;color:var(--muted)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,20px);opacity:0;background:#222831;border:1px solid #555d69;border-radius:12px;padding:11px 16px;font-size:12px;z-index:20;transition:.25s;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
+.mobile-nav{display:none}
+.empty{color:var(--muted);font-size:12px;padding:12px 0}
+.admin-lock{padding:18px;border:1px dashed #69552e;border-radius:14px;color:#c8b98f;font-size:12px}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.sidebar{display:none}.mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:10;background:#0e1117f5;border-top:1px solid var(--line);justify-content:space-around;padding:7px 3px calc(7px + env(safe-area-inset-bottom));backdrop-filter:blur(12px)}.mobile-nav .navbtn{width:auto;display:flex;flex-direction:column;gap:2px;padding:5px 8px;font-size:9px;margin:0}.mobile-nav .navicon{font-size:17px}.app{padding:12px 13px 95px}.layout{padding-top:13px}}
+@media(max-width:580px){.span-8,.span-7,.span-6,.span-5,.span-4{grid-column:span 12}.welcome{align-items:flex-start;flex-direction:column}.coin{width:165px;height:165px;font-size:68px}.tap-area{min-height:285px}.season-chip{display:none}.panel{padding:14px}}
+</style>
 </head>
-
 <body>
-  <div class="language-row">
-    <span class="language-globe">◎</span>
-    <select id="languageSelect" aria-label="Language" onchange="setLanguage(this.value)">
-      <option value="ru">Русский</option>
-      <option value="uzc">Ўзбекча</option>
-      <option value="uzl">O‘zbekcha</option>
-    </select>
-  </div>
-
-  <div class="panel">
-    <!-- HOME TAB -->
-    <section id="tab-home" class="tab-content">
-      <div class="balance-card">
-        <div class="crown-mark">♛</div>
-        <div class="label" data-i18n="balance">YOUR GOLD BALANCE</div>
-        <div class="balance-content">
-          <div class="coin-stack" aria-hidden="true">🪙<br>🪙</div>
-          <div id="score">0</div>
-        </div>
-      </div>
-
-      <button class="coin" onclick="tapCoin()">TAP</button>
-
-      <div class="energy">
-        ⚡️ <span data-i18n="energy">ENERGY</span>: <span id="energy">100</span> / 100
-      </div>
-
-      <div class="bar">
-        <div class="fill" id="energyBar"></div>
-      </div>
-    </section>
-
-    <!-- BONUS TAB -->
-    <section id="tab-bonus" class="tab-content">
-      <div class="tab-heading"><span>🎁</span><h2 data-i18n="dailyTitle">🎁 DAILY BONUS</h2></div>
-      <button class="action bonus-action" onclick="dailyBonus()" data-i18n="dailyButton">🎁 DAILY BONUS +100 GOLD</button>
-      <div id="bonusTimer">Бонус таймери: --:--:--</div>
-    </section>
-
-    <!-- FRIENDS TAB -->
-    <section id="tab-friends" class="tab-content">
-      <div class="tab-heading"><span>👥</span><h2 data-i18n="friendsTitle">👥 DO'STLAR</h2></div>
-      <p class="tab-description" data-i18n="friendsDesc">Do'stlaringni taklif qil va GOLD yig!</p>
-      <div class="invite-card">
-        <div class="invite-symbol">♛</div>
-        <div class="invite-copy" data-i18n="refLinkLabel">Сизнинг реферал ҳаволангиз</div>
-        <div class="ref-link-wrap">
-          <span class="ref-chain">🔗</span>
-          <input id="referralLink" readonly value="https://t.me/goldtap_global_bot?start=invite" aria-label="Referral link">
-          <button class="copy-ref" onclick="copyReferralLink()" aria-label="Copy referral link">▢</button>
-        </div>
-        <div class="ref-stats">
-          <div class="ref-stat"><span data-i18n="invitedLabel">Таклиф қилинган</span><strong id="invitedCount">0</strong></div>
-          <div class="ref-stat"><span data-i18n="earnedLabel">Ишланган</span><strong id="referralEarned">+0 GOLD</strong></div>
-        </div>
-        <button class="action invite-action" onclick="inviteFriends()" data-i18n="invite">👥 INVITE FRIENDS</button>
-      </div>
-
-      <div class="tasks">
-        <h2 data-i18n="tasks">🎯 TASKS</h2>
-
-        <button class="action" id="task1" onclick="claimTask(1, 2)">
-          📢 1-CHANNEL — +2 GOLD / TAP
-        </button>
-
-        <button class="action" id="task2" onclick="claimTask(2, 3)">
-          📢 2-CHANNEL — +3 GOLD / TAP
-        </button>
-
-        <button class="action" id="task3" onclick="claimTask(3, 5)">
-          📢 3-CHANNEL — +5 GOLD / TAP
-        </button>
-
-        <div id="tapLevel">CURRENT TAP: 1 GOLD</div>
-      </div>
-    </section>
-
-    <!-- HISTORY TAB -->
-    <section id="tab-history" class="tab-content">
-      <div class="tab-heading"><span>🏆</span><h2 data-i18n="milestones">🏆 TAP МАРРАЛАРИ</h2></div>
-      <p class="leaderboard-note" data-i18n="milestoneDesc">Ҳар бир босқичга етганда совға автоматик берилади. Ҳар бир совға фақат бир марта олинади.</p>
-      <div class="milestone-progress">
-        <strong><span data-i18n="totalTapsLabel">Жами TAP:</span> <span id="totalTaps">0</span></strong>
-        <div id="milestoneList" class="history-list"></div>
-      </div>
-
-      <h2 style="margin-top:28px;" data-i18n="ranking">🏅 REYTING</h2>
-      <div id="leaderboardList" class="history-list"></div>
-      <p class="leaderboard-note" id="rankingNote"></p>
-    </section>
-
-    <!-- Shared message: visible from every tab -->
-    <div class="message" id="message"></div>
-  </div>
-
-  <nav class="bottom-nav">
-    <button class="active" onclick="showTab('home')"><span class="nav-icon home-coin">G</span><span class="nav-label" data-i18n="home">АСОСИЙ</span></button>
-    <button onclick="showTab('bonus')"><span class="nav-icon">🎁</span><span class="nav-label" data-i18n="bonus">БОНУС</span></button>
-    <button onclick="showTab('friends')"><span class="nav-icon">👥</span><span class="nav-label" data-i18n="friends">ДЎСТЛАР</span></button>
-    <button onclick="showTab('history')"><span class="nav-icon">🏆</span><span class="nav-label" data-i18n="milestonesNav">МАРРАЛАР</span></button>
-  </nav>
-
-  <script>
-    const LANG = {
-      ru: {
-        subtitle:"НАЖИМАЙ • СОБИРАЙ • РАСТИ", balance:"ВАШ БАЛАНС GOLD", energy:"ЭНЕРГИЯ", dailyTitle:"🎁 ЕЖЕДНЕВНЫЙ БОНУС",
-        dailyButton:"🎁 ЕЖЕДНЕВНЫЙ БОНУС +100 GOLD", friendsTitle:"👥 ДРУЗЬЯ",
-        friendsDesc:"Приглашайте друзей и собирайте GOLD!", inviteDesc:"Приглашайте друзей и играйте вместе", invite:"👥 ПРИГЛАСИТЬ ДРУЗЕЙ",
-        tasks:"🎯 ЗАДАНИЯ", milestones:"🏆 ЭТАПЫ TAP", refLinkLabel:"Ваша реферальная ссылка", invitedLabel:"Приглашено", earnedLabel:"Заработано",
-        milestoneDesc:"Награда выдаётся автоматически при достижении этапа. Каждая награда доступна один раз.",
-        totalTapsLabel:"Всего TAP:", ranking:"🏅 РЕЙТИНГ", home:"ГЛАВНАЯ", bonus:"БОНУС",
-        friends:"ДРУЗЬЯ", milestonesNav:"ЭТАПЫ", footer:"GOLD TAP — ТВОЁ ЗОЛОТОЕ ПРИКЛЮЧЕНИЕ",
-        coin:"GOLD\nTAP", tapLevel:"ТЕКУЩАЯ НАГРАДА ЗА TAP:", noEnergy:"Энергия закончилась!",
-        bonusWait:"Бонус пока недоступен!", bonusSuccess:"Поздравляем! +100 GOLD!",
-        inviteCopied:"Ссылка скопирована!", taskDone:"Это задание уже выполнено!",
-        taskSuccess:"Поздравляем! TAP увеличен на {n}!", tapValue:"Награда за TAP: {n} GOLD",
-        completed:"✅ ВЫПОЛНЕНО", got:"✅ Получено", ready:"🎁 Награда доступна",
-        progress:"Прогресс", claimed:"Награда получена", empty:"Пока нет достижений.",
-        localRank:"Пока это локальный тестовый рейтинг. Общий рейтинг появится после подключения сервера и базы данных.",
-        timerReady:"🎁 Бонус доступен!", timerPrefix:"🎁 До бонуса:"
-      },
-      uzc: {
-        subtitle:"БОСИНГ • ЙИҒИНГ • ЎСИНГ", balance:"GOLD БАЛАНСИНГИЗ", energy:"ЭНЕРГИЯ", dailyTitle:"🎁 КУНЛИК БОНУС",
-        dailyButton:"🎁 КУНЛИК БОНУС +100 GOLD", friendsTitle:"👥 ДЎСТЛАР",
-        friendsDesc:"Дўстларингизни таклиф қилинг ва GOLD йиғинг!", inviteDesc:"Дўстларингизни таклиф қилинг ва бирга ўйнаң", invite:"👥 ДЎСТЛАРНИ ТАКЛИФ ҚИЛИШ",
-        tasks:"🎯 ВАЗИФАЛАР", milestones:"🏆 TAP БОСҚИЧЛАРИ", refLinkLabel:"Сизнинг реферал ҳаволангиз", invitedLabel:"Таклиф қилинган", earnedLabel:"Ишланган",
-        milestoneDesc:"Босқичга етганда совға автоматик берилади. Ҳар бир совға бир марта олинади.",
-        totalTapsLabel:"Жами TAP:", ranking:"🏅 РЕЙТИНГ", home:"АСОСИЙ", bonus:"БОНУС",
-        friends:"ДЎСТЛАР", milestonesNav:"БОСҚИЧЛАР", footer:"GOLD TAP — СИЗНИНГ ОЛТИН САРГУЗАШТИНГИЗ",
-        coin:"GOLD\nTAP", tapLevel:"ҲОЗИРГИ TAP МУКОФОТИ:", noEnergy:"Энергия тугади!",
-        bonusWait:"Бонус вақти ҳали келмади!", bonusSuccess:"Табриклаймиз! +100 GOLD!",
-        inviteCopied:"Таклиф ҳаволаси нусхаланди!", taskDone:"Бу вазифа аввал бажарилган!",
-        taskSuccess:"Табриклаймиз! TAP қийматига {n} қўшилди!", tapValue:"TAP қиймати: {n} GOLD",
-        completed:"✅ БАЖАРИЛДИ", got:"✅ ОЛИНДИ", ready:"🎁 СОВҒА ТАЙЁР",
-        progress:"Жараён", claimed:"Бу совға олинган", empty:"Ҳали марралар йўқ.",
-        localRank:"Ҳозирча бу маҳаллий тест рейтинги. Умумий рейтинг сервер ва база улангандан кейин ишлайди.",
-        timerReady:"🎁 Бонусни олиш мумкин!", timerPrefix:"🎁 Бонусгача:"
-      },
-      uzl: {
-        subtitle:"BOSING • YIG‘ING • O‘SING", balance:"GOLD BALANSINGIZ", energy:"ENERGIYA", dailyTitle:"🎁 KUNLIK BONUS",
-        dailyButton:"🎁 KUNLIK BONUS +100 GOLD", friendsTitle:"👥 DO‘STLAR",
-        friendsDesc:"Do‘stlaringizni taklif qiling va GOLD yig‘ing!", inviteDesc:"Do‘stlaringizni taklif qiling va birga o‘ynang", invite:"👥 DO‘STLARNI TAKLIF QILISH",
-        tasks:"🎯 VAZIFALAR", milestones:"🏆 TAP BOSQICHLARI", refLinkLabel:"Sizning referal havolangiz", invitedLabel:"Taklif qilingan", earnedLabel:"Ishlangan",
-        milestoneDesc:"Bosqichga yetganda sovg‘a avtomatik beriladi. Har bir sovg‘a bir marta olinadi.",
-        totalTapsLabel:"Jami TAP:", ranking:"🏅 REYTING", home:"ASOSIY", bonus:"BONUS",
-        friends:"DO‘STLAR", milestonesNav:"BOSQICHLAR", footer:"GOLD TAP — SIZNING OLTIN SARGUZASHTINGIZ",
-        coin:"GOLD\nTAP", tapLevel:"HOZIRGI TAP MUKOFOTI:", noEnergy:"Energiya tugadi!",
-        bonusWait:"Bonus vaqti hali kelmadi!", bonusSuccess:"Tabriklaymiz! +100 GOLD!",
-        inviteCopied:"Taklif havolasi nusxalandi!", taskDone:"Bu vazifa avval bajarilgan!",
-        taskSuccess:"Tabriklaymiz! TAP qiymatiga {n} qo‘shildi!", tapValue:"TAP qiymati: {n} GOLD",
-        completed:"✅ BAJARILDI", got:"✅ OLINди", ready:"🎁 SOVG‘A TAYYOR",
-        progress:"Jarayon", claimed:"Bu sovg‘a olingan", empty:"Hali marralar yo‘q.",
-        localRank:"Hozircha bu mahalliy test reytingi. Umumiy reyting server va baza ulangandan keyin ishlaydi.",
-        timerReady:"🎁 Bonusni olish mumkin!", timerPrefix:"🎁 Bonusgacha:"
-      }
-    };
-    let currentLang = localStorage.getItem("goldTapLanguage") || "ru";
-    function tr(key, vars={}) {
-      let value = (LANG[currentLang] && LANG[currentLang][key]) || LANG.ru[key] || key;
-      Object.keys(vars).forEach(k => value = value.replace("{"+k+"}", vars[k]));
-      return value;
-    }
-    function setLanguage(lang) {
-      currentLang = LANG[lang] ? lang : "ru";
-      localStorage.setItem("goldTapLanguage", currentLang);
-      document.querySelectorAll("[data-i18n]").forEach(el => {
-        const key = el.getAttribute("data-i18n");
-        if (LANG[currentLang][key]) el.textContent = LANG[currentLang][key];
-      });
-      const coin = document.querySelector(".coin");
-      if (coin) coin.innerHTML = tr("coin").replace("\n","<br>");
-      updateTaskButtons();
-      updateBonusTimer();
-      renderMilestones();
-      renderLeaderboard();
-    }
-
-    const MAX_ENERGY = 100;
-    const ENERGY_INTERVAL = 3000;
-    const BONUS_INTERVAL = 86400000;
-
-    let score = Number(localStorage.getItem("goldScore")) || 0;
-    let energy = Number(localStorage.getItem("goldEnergy") ?? 100);
-    energy = Math.max(0, Math.min(MAX_ENERGY, energy));
-
-    let tapMultiplier = Number(localStorage.getItem("tapMultiplier")) || 1;
-    let totalTaps = Number(localStorage.getItem("totalTaps")) || 0;
-
-    let claimedMilestones;
-    try {
-      claimedMilestones = JSON.parse(localStorage.getItem("claimedMilestones") || "[]");
-      if (!Array.isArray(claimedMilestones)) claimedMilestones = [];
-    } catch (error) {
-      claimedMilestones = [];
-    }
-
-    const milestones = [
-      { taps: 1000, type: "gold", reward: 100, label: "+100 GOLD" },
-      { taps: 5000, type: "gold", reward: 1000, label: "+1 000 GOLD" },
-      { taps: 10000, type: "tap", reward: 6, label: "TAP +6 GOLD" },
-      { taps: 25000, type: "gold", reward: 2500, label: "+2 500 GOLD" },
-      { taps: 50000, type: "tap", reward: 7, label: "TAP +7 GOLD" },
-      { taps: 100000, type: "gold", reward: 10000, label: "+10 000 GOLD" },
-      { taps: 250000, type: "tap", reward: 8, label: "TAP +8 GOLD" },
-      { taps: 500000, type: "gold", reward: 25000, label: "+25 000 GOLD" }
-    ];
-
-    let claimedTasks;
-    try {
-      claimedTasks = JSON.parse(localStorage.getItem("claimedTasks") || "[]");
-      if (!Array.isArray(claimedTasks)) claimedTasks = [];
-    } catch (error) {
-      claimedTasks = [];
-    }
-
-    const tg = window.Telegram?.WebApp;
-    if (tg) {
-      tg.ready();
-      tg.expand();
-    }
-
-    let lastEnergyTime =
-      Number(localStorage.getItem("goldEnergyTime")) || Date.now();
-
-    if (energy >= MAX_ENERGY) lastEnergyTime = Date.now();
-    localStorage.setItem("goldEnergyTime", lastEnergyTime);
-
-    function saveGame() {
-      localStorage.setItem("goldScore", score);
-      localStorage.setItem("goldEnergy", energy);
-      localStorage.setItem("goldEnergyTime", lastEnergyTime);
-      localStorage.setItem("totalTaps", totalTaps);
-      localStorage.setItem("tapMultiplier", tapMultiplier);
-    }
-
-    // GOLD history is stored on this device for now.
-    function addHistory(kind, amount, details) {
-      let history = [];
-      try {
-        history = JSON.parse(localStorage.getItem("goldHistory") || "[]");
-        if (!Array.isArray(history)) history = [];
-      } catch (error) {
-        history = [];
-      }
-
-      history.unshift({
-        kind: kind,
-        amount: amount,
-        details: details,
-        time: Date.now()
-      });
-
-      history = history.slice(0, 50);
-      localStorage.setItem("goldHistory", JSON.stringify(history));
-      renderHistory();
-    }
-
-    function renderMilestones() {
-      const list = document.getElementById("milestoneList");
-      const total = document.getElementById("totalTaps");
-      if (!list || !total) return;
-
-      total.textContent = totalTaps.toLocaleString();
-      list.innerHTML = milestones.map((item) => {
-        const done = claimedMilestones.includes(item.taps);
-        const progress = Math.min(100, Math.floor((totalTaps / item.taps) * 100));
-        const status = done ? tr("got") : totalTaps >= item.taps ? tr("ready") : progress + "%";
-        return '<div class="milestone-item ' + (done ? "done" : "") + '">' +
-          '<span class="milestone-icon">🪙</span><div class="milestone-copy">' +
-          '<strong>' + item.taps.toLocaleString() + ' TAP — ' + item.label + '</strong>' +
-          '<small>' + (done ? tr("claimed") : tr("progress") + ": " + Math.min(totalTaps, item.taps).toLocaleString() + " / " + item.taps.toLocaleString()) + '</small>' +
-          '<div class="milestone-track"><span style="width:' + progress + '%"></span></div>' +
-          '</div></div>';
-      }).join("");
-    }
-
-    function checkMilestones() {
-      milestones.forEach((item) => {
-        if (totalTaps >= item.taps && !claimedMilestones.includes(item.taps)) {
-          if (item.type === "gold") {
-            score += item.reward;
-            addHistory("TAP MILESTONE", item.reward, item.taps.toLocaleString() + " TAP совғаси");
-          } else {
-            tapMultiplier += item.reward;
-            addHistory("TAP LEVEL", 0, item.taps.toLocaleString() + " TAP: TAP +" + item.reward + " GOLD");
-          }
-          claimedMilestones.push(item.taps);
-          localStorage.setItem("claimedMilestones", JSON.stringify(claimedMilestones));
-          localStorage.setItem("tapMultiplier", tapMultiplier);
-        }
-      });
-      localStorage.setItem("totalTaps", totalTaps);
-      renderMilestones();
-      updateTaskButtons();
-    }
-
-    function renderHistory() {
-      const list = document.getElementById("historyList");
-      if (!list) return;
-
-      let history = [];
-      try {
-        history = JSON.parse(localStorage.getItem("goldHistory") || "[]");
-        if (!Array.isArray(history)) history = [];
-      } catch (error) {
-        history = [];
-      }
-
-      if (history.length === 0) {
-        list.innerHTML = '<p class="leaderboard-note">' + tr("empty") + '</p>';
-        return;
-      }
-
-      list.innerHTML = history.map((item) => {
-        const date = new Date(item.time).toLocaleString();
-        const sign = item.amount > 0 ? "+" : "";
-        const amountText = item.amount ? sign + item.amount + " GOLD" : "";
-        return '<div class="history-item">' +
-          '<div><strong>' + escapeHistoryText(item.kind) + '</strong>' +
-          '<small>' + escapeHistoryText(item.details) + ' · ' + escapeHistoryText(date) + '</small></div>' +
-          '<div class="history-amount">' + amountText + '</div></div>';
-      }).join("");
-    }
-
-    function escapeHistoryText(value) {
-      return String(value).replace(/[&<>"']/g, (char) => ({
-        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-      }[char]));
-    }
-
-    function renderLeaderboard() {
-      const list = document.getElementById("leaderboardList");
-      if (!list) return;
-
-      const playerName =
-        (tg && tg.initDataUnsafe && tg.initDataUnsafe.user &&
-         (tg.initDataUnsafe.user.first_name || tg.initDataUnsafe.user.username)) ||
-        "Сиз";
-
-      const rankingNote = document.getElementById("rankingNote");
-      if (rankingNote) rankingNote.textContent = tr("localRank");
-      list.innerHTML =
-        '<div class="leaderboard-item">' +
-        '<strong>🥇 1. ' + escapeHistoryText(playerName) + '</strong>' +
-        '<span class="history-amount">' + score + ' GOLD</span>' +
-        '</div>';
-    }
-
-    function updateScreen() {
-      document.getElementById("score").textContent = score;
-      document.getElementById("energy").textContent = energy;
-      document.getElementById("energyBar").style.width = energy + "%";
-    }
-
-    function showTapFloat() {
-      const coin = document.querySelector(".coin");
-      const popup = document.createElement("span");
-      popup.className = "tap-float";
-      popup.textContent = "+" + tapMultiplier + " GOLD";
-      coin.appendChild(popup);
-      setTimeout(() => popup.remove(), 800);
-    }
-
-    function tapCoin() {
-      recoverEnergy();
-
-      if (energy <= 0) {
-        document.getElementById("message").textContent = tr("noEnergy");
-        return;
-      }
-
-      score += tapMultiplier;
-      energy--;
-      totalTaps++;
-      checkMilestones();
-      document.getElementById("message").textContent =
-        "+" + tapMultiplier + " GOLD! 🪙";
-
-      showTapFloat();
-      saveGame();
-      updateScreen();
-    }
-
-    function dailyBonus() {
-      const now = Date.now();
-      const lastBonus = Number(localStorage.getItem("lastBonusTime")) || 0;
-
-      if (now - lastBonus < BONUS_INTERVAL) {
-        document.getElementById("message").textContent =
-          tr("bonusWait");
-        updateBonusTimer();
-        return;
-      }
-
-      score += 100;
-      addHistory("DAILY BONUS", 100, "Кунлик бонус");
-      localStorage.setItem("goldScore", score);
-      localStorage.setItem("lastBonusTime", now);
-
-      document.getElementById("message").textContent =
-        tr("bonusSuccess");
-
-      updateScreen();
-      updateBonusTimer();
-    }
-
-    function updateBonusTimer() {
-      const timer = document.getElementById("bonusTimer");
-      const lastBonus = Number(localStorage.getItem("lastBonusTime")) || 0;
-
-      if (!lastBonus) {
-        timer.textContent = tr("timerReady");
-        return;
-      }
-
-      const remaining = Math.max(
-        0,
-        BONUS_INTERVAL - (Date.now() - lastBonus)
-      );
-
-      const hours = Math.floor(remaining / 3600000);
-      const minutes = Math.floor((remaining % 3600000) / 60000);
-      const seconds = Math.floor((remaining % 60000) / 1000);
-
-      timer.textContent =
-        tr("timerPrefix") + " " +
-        String(hours).padStart(2, "0") + ":" +
-        String(minutes).padStart(2, "0") + ":" +
-        String(seconds).padStart(2, "0");
-    }
-
-    function copyReferralLink() {
-      const field = document.getElementById("referralLink");
-      const link = field ? field.value : "https://t.me/goldtap_global_bot?start=invite";
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(link).then(() => {
-          document.getElementById("message").textContent = tr("inviteCopied");
-        }).catch(() => {
-          field.focus(); field.select();
-          document.getElementById("message").textContent = link;
-        });
-      } else if (field) {
-        field.focus(); field.select();
-        document.getElementById("message").textContent = link;
-      }
-    }
-
-    function inviteFriends() {
-      const link = document.getElementById("referralLink")?.value || "https://t.me/goldtap_global_bot?start=invite";
-      const shareLink =
-        "https://t.me/share/url?url=" +
-        encodeURIComponent(link) +
-        "&text=" +
-        encodeURIComponent("GOLD TAP ўйинига қўшил!");
-
-      if (tg) {
-        tg.openTelegramLink(shareLink);
-      } else if (navigator.clipboard) {
-        navigator.clipboard.writeText(link)
-          .then(() => {
-            document.getElementById("message").textContent =
-              tr("inviteCopied");
-          })
-          .catch(() => {
-            document.getElementById("message").textContent = link;
-          });
-      } else {
-        document.getElementById("message").textContent = link;
-      }
-    }
-
-    function recoverEnergy() {
-      const now = Date.now();
-
-      if (energy >= MAX_ENERGY) {
-        energy = MAX_ENERGY;
-        lastEnergyTime = now;
-        saveGame();
-        return;
-      }
-
-      const elapsed = Math.floor((now - lastEnergyTime) / ENERGY_INTERVAL);
-
-      if (elapsed > 0) {
-        energy = Math.min(MAX_ENERGY, energy + elapsed);
-        lastEnergyTime += elapsed * ENERGY_INTERVAL;
-
-        if (energy >= MAX_ENERGY) lastEnergyTime = now;
-
-        saveGame();
-        updateScreen();
-      }
-    }
-
-    function setTapMultiplier(level) {
-      tapMultiplier = level;
-      localStorage.setItem("tapMultiplier", tapMultiplier);
-      document.getElementById("message").textContent =
-        tr("tapValue", {n: level});
-      updateTaskButtons();
-    }
-
-    function claimTask(taskId, level) {
-      if (claimedTasks.includes(taskId)) {
-        document.getElementById("message").textContent =
-          tr("taskDone");
-        return;
-      }
-
-      claimedTasks.push(taskId);
-      localStorage.setItem("claimedTasks", JSON.stringify(claimedTasks));
-
-      tapMultiplier = Math.max(tapMultiplier, level);
-      addHistory("ВАЗИФА", 0, "TAP даражаси " + tapMultiplier + " GOLD бўлди");
-      localStorage.setItem("tapMultiplier", tapMultiplier);
-
-      document.getElementById("message").textContent =
-        tr("taskSuccess", {n: level});
-
-      updateScreen();
-      updateTaskButtons();
-    }
-
-    function showTab(tab) {
-      const tabs = ["home", "bonus", "friends", "history"];
-
-      tabs.forEach((name) => {
-        const section = document.getElementById("tab-" + name);
-        if (section) section.style.display = name === tab ? "block" : "none";
-      });
-
-      document.querySelectorAll(".bottom-nav button").forEach((button, index) => {
-        button.classList.toggle("active", tabs[index] === tab);
-      });
-
-      if (tab === "history") {
-        renderMilestones();
-        renderLeaderboard();
-      }
-    }
-
-    function updateTaskButtons() {
-      const taskLabels = {
-        ru: ["📢 1-Й КАНАЛ — +2 GOLD / TAP", "📢 2-Й КАНАЛ — +3 GOLD / TAP", "📢 3-Й КАНАЛ — +5 GOLD / TAP"],
-        uzc: ["📢 1-КАНАЛ — +2 GOLD / TAP", "📢 2-КАНАЛ — +3 GOLD / TAP", "📢 3-КАНАЛ — +5 GOLD / TAP"],
-        uzl: ["📢 1-KANAL — +2 GOLD / TAP", "📢 2-KANAL — +3 GOLD / TAP", "📢 3-KANAL — +5 GOLD / TAP"]
-      };
-      for (let id = 1; id <= 3; id++) {
-        const button = document.getElementById("task" + id);
-        if (!button) continue;
-        if (claimedTasks.includes(id)) {
-          button.disabled = true;
-          button.textContent = tr("completed");
-        } else {
-          button.disabled = false;
-          button.textContent = taskLabels[currentLang][id - 1];
-        }
-      }
-      document.getElementById("tapLevel").textContent =
-        tr("tapLevel") + " " + tapMultiplier + " GOLD";
-    }
-
-    document.getElementById("languageSelect").value = currentLang;
-    setLanguage(currentLang);
-    recoverEnergy();
-    updateScreen();
-    updateBonusTimer();
-    updateTaskButtons();
-    renderMilestones();
-    renderLeaderboard();
-    showTab("home");
-
-    setInterval(recoverEnergy, 1000);
-    setInterval(updateBonusTimer, 1000);
-
-    document.addEventListener("visibilitychange", () => {
-      if (!document.hidden) {
-        recoverEnergy();
-        updateBonusTimer();
-      }
-    });
-
-    window.addEventListener("focus", () => {
-      recoverEnergy();
-      updateBonusTimer();
-    });
-  </script>
+<div class="app">
+<header class="topbar">
+  <div class="logo">GOLD TAP<small>THE GOLDEN ARENA</small></div>
+  <div class="top-right"><span class="season-chip" id="seasonChip">SEASON 01 · 30 DAYS</span><button class="lang-btn" id="langBtn">UZ ▾</button></div>
+</header>
+<div class="layout">
+<aside class="sidebar" id="desktopNav">
+  <button class="navbtn active" data-view="home"><span class="navicon">⌂</span><span data-i="home">Бош саҳифа</span></button>
+  <button class="navbtn" data-view="tasks"><span class="navicon">✦</span><span data-i="tasks">Вазифалар</span></button>
+  <button class="navbtn" data-view="upgrade"><span class="navicon">⚡</span><span data-i="upgrade">Upgrade</span></button>
+  <button class="navbtn" data-view="ranking"><span class="navicon">♛</span><span data-i="ranking">Рейтинг</span></button>
+  <button class="navbtn" data-view="season"><span class="navicon">◷</span><span data-i="season">Мавсум</span></button>
+  <button class="navbtn" data-view="profile"><span class="navicon">◉</span><span data-i="profile">Профиль</span></button>
+  <button class="navbtn" data-view="shop"><span class="navicon">◇</span><span data-i="shop">Дўкон</span></button>
+  <button class="navbtn" data-view="admin"><span class="navicon">⚙</span><span data-i="admin">Админ</span></button>
+  <div class="side-note">GOLD TAP<br>Build 1.0 · Demo</div>
+</aside>
+<main>
+<section class="view active" id="view-home">
+ <div class="welcome"><div><div class="eyebrow">WELCOME TO THE ARENA</div><h1>Олтинни йиғ. <span style="color:var(--gold2)">Рейтингда кўтарил.</span></h1><div class="sub">Ҳар бир тап — янги имконият.</div></div><span class="badge">● LIVE DEMO</span></div>
+ <div class="grid">
+  <div class="panel balance-panel span-7"><div class="label">Сизнинг GOLD балансингиз</div><div class="balance" id="goldBalance">0 <small>GOLD</small></div><div class="tiny">Ўйин давомида тўпланган жами GOLD</div></div>
+  <div class="panel span-5"><div class="energy-head"><div><div class="label">ЭНЕРГИЯ</div><div class="energy-num" id="energyText">100 / 100</div></div><span style="font-size:25px">⚡</span></div><div class="bar"><i id="energyBar"></i></div><div class="row-between"><span class="tiny" id="energyRate">1 энергия / 3 сония</span><span class="tiny" id="energyPercent">100%</span></div></div>
+  <div class="panel tap-area span-8" id="tapArea"><div class="label" style="margin-bottom:14px">GOLD ЯРАТИШ</div><button class="tap-btn" id="tapBtn" aria-label="Tap to earn"><div class="coin">G</div></button><div class="tap-hint">Тап қилиш учун босинг · <b>+<span id="tapPower">1</span> GOLD</b></div></div>
+  <div class="panel span-4"><h3 class="section-title">Сизнинг натижалар</h3><div class="list">
+    <div class="item"><div class="item-main"><div class="item-title">Бугунги таплар</div><div class="item-desc">Жорий сессия</div></div><div class="reward" id="tapCount">0</div></div>
+    <div class="item"><div class="item-main"><div class="item-title">Upgrade даражаси</div><div class="item-desc">Tap Power</div></div><div class="reward" id="powerLevel">1</div></div>
+    <div class="item"><div class="item-main"><div class="item-title">Бажарилган вазифа</div><div class="item-desc">Жами</div></div><div class="reward" id="taskCount">0</div></div>
+    <button class="action" style="width:100%;margin-top:5px" data-go="tasks">Вазифаларни кўриш</button>
+  </div></div>
+  <div class="panel span-6"><div class="row-between"><h3 class="section-title">Кунлик вазифалар</h3><button class="secondary" data-go="tasks">Барчаси →</button></div><div class="list" id="homeTasks"></div></div>
+  <div class="panel span-6"><div class="row-between"><h3 class="section-title">ТОП рейтинг</h3><button class="secondary" data-go="ranking">Рейтинг →</button></div><div id="homeRanking"></div></div>
+ </div>
+</section>
+<section class="view" id="view-tasks">
+ <div class="welcome"><div><div class="eyebrow">DAILY CHALLENGES</div><h1>Кунлик вазифалар</h1><div class="sub">Вазифаларни бажаринг ва бонус GOLD олинг.</div></div><span class="badge">ҲАР КУНИ ЯНГИЛАНАДИ</span></div>
+ <div class="panel"><div class="row-between"><h3 class="section-title">Бугунги топшириқлар</h3><span class="badge" id="taskProgress">0 / 3</span></div><div class="list" id="allTasks"></div></div>
+</section>
+<section class="view" id="view-upgrade">
+ <div class="welcome"><div><div class="eyebrow">POWER YOUR GAME</div><h1>Upgrade маркази</h1><div class="sub">Ўйин имкониятларингизни кучайтиринг.</div></div><span class="badge">UPGRADE</span></div>
+ <div class="grid">
+  <div class="panel span-6"><div style="font-size:28px">👆</div><h3 class="section-title">Tap Power</h3><p class="sub">Ҳар бир босишда оладиган GOLD миқдорини оширади.</p><div class="metric" id="upgradePower">+1 GOLD</div><div class="tiny" id="powerCost">Кейинги нарх: 100 GOLD</div><button class="action" id="buyPower" style="margin-top:15px">Upgrade сотиб олиш</button></div>
+  <div class="panel span-6"><div style="font-size:28px">🔋</div><h3 class="section-title">Energy Capacity</h3><p class="sub">Энергиянинг максимал ҳажмини оширади.</p><div class="metric" id="upgradeEnergy">100</div><div class="tiny" id="energyCost">Кейинги нарх: 150 GOLD</div><button class="action" id="buyEnergy" style="margin-top:15px">Upgrade сотиб олиш</button></div>
+  <div class="panel span-12"><h3 class="section-title">Upgrade қоидалари</h3><p class="sub">Upgrade нархи ҳар бир даражада ошади. Харид муваффақиятли бўлса, GOLD балансидан ечилади. Ҳозирги версияда барча маълумотлар шу браузерда сақланади.</p></div>
+ </div>
+</section>
+<section class="view" id="view-ranking">
+ <div class="welcome"><div><div class="eyebrow">THE BEST PLAYERS</div><h1>GOLD рейтинги</h1><div class="sub">Жорий демо рейтинг. Серверга уланганда глобал рейтинг бўлади.</div></div><span class="badge">SEASON 01</span></div>
+ <div class="panel"><div class="row-between"><h3 class="section-title">Топ иштирокчилар</h3><span class="tiny">GOLD бўйича</span></div><div id="rankingTable"></div></div>
+</section>
+<section class="view" id="view-season">
+ <div class="welcome"><div><div class="eyebrow">30 DAY COMPETITION</div><h1>Мавсум 01</h1><div class="sub">Ҳар 30 кунда янги мусобақа бошланади.</div></div><span class="badge">ACTIVE SEASON</span></div>
+ <div class="grid">
+  <div class="panel span-8"><div class="label">МАВСУМ ЯКУНИГАЧА</div><div class="balance" id="seasonCountdown" style="font-size:38px">30 кун</div><div class="bar"><i id="seasonBar" style="width:0%"></i></div><div class="tiny" id="seasonDates">Мавсум бошланган сана: бугун</div></div>
+  <div class="panel span-4"><div class="label">СИЗНИНГ ЎРНИНГИЗ</div><div class="metric" id="seasonRank">#—</div><div class="metric-sub">Демо рейтингда</div></div>
+  <div class="panel span-12"><h3 class="section-title">Мавсум қоидалари</h3><ul class="sub"><li>Мавсум 30 кун давом этади.</li><li>Рейтинг GOLD миқдори бўйича ҳисобланади.</li><li>Мавсум якунида натижалар серверда тасдиқланиши керак.</li><li>Мукофотлар ва тақсимлаш тартиби кейин админ томонидан белгиланади.</li></ul></div>
+ </div>
+</section>
+<section class="view" id="view-profile">
+ <div class="welcome"><div><div class="eyebrow">PLAYER ACCOUNT</div><h1>Профиль</h1><div class="sub">Ўйиндаги маълумотларингиз.</div></div></div>
+ <div class="grid">
+  <div class="panel span-6"><div style="display:flex;align-items:center;gap:14px"><div class="profile-avatar" id="avatar">G</div><div><div class="item-title" id="profileName">Gold Player</div><div class="item-desc" id="profileId">Player ID: LOCAL-0001</div></div></div><label for="nameInput">Ўйинчи номи</label><input class="field" id="nameInput" maxlength="22" placeholder="Номингизни киритинг"><button class="action" id="saveName">Профильни сақлаш</button></div>
+  <div class="panel span-6"><h3 class="section-title">Статистика</h3><div class="list"><div class="item"><span class="item-desc">Жами GOLD</span><b class="reward" id="profileGold">0</b></div><div class="item"><span class="item-desc">Жами тап</span><b class="reward" id="profileTaps">0</b></div><div class="item"><span class="item-desc">Upgrade даражаси</span><b class="reward" id="profileLevel">1</b></div><div class="item"><span class="item-desc">Вазифалар</span><b class="reward" id="profileTasks">0</b></div></div></div>
+ </div>
+</section>
+<section class="view" id="view-shop">
+ <div class="welcome"><div><div class="eyebrow">GOLD STORE</div><h1>Дўкон</h1><div class="sub">GOLD пакетлари ва махсус таклифлар.</div></div><span class="badge">COMING SOON</span></div>
+ <div class="grid">
+  <div class="panel span-4"><div style="font-size:28px">🥇</div><h3 class="section-title">Starter Pack</h3><div class="metric">500 GOLD</div><p class="sub">Бошланғич пакет</p><button class="secondary" disabled>Тез орада</button></div>
+  <div class="panel span-4"><div style="font-size:28px">💰</div><h3 class="section-title">Pro Pack</h3><div class="metric">2,500 GOLD</div><p class="sub">Кенгайтирилган пакет</p><button class="secondary" disabled>Тез орада</button></div>
+  <div class="panel span-4"><div style="font-size:28px">👑</div><h3 class="section-title">Legend Pack</h3><div class="metric">10,000 GOLD</div><p class="sub">Катта пакет</p><button class="secondary" disabled>Тез орада</button></div>
+  <div class="panel span-12"><p class="sub">Тўлов тизими ҳали уланмаган. Ҳақиқий пул қабул қилиш учун Telegram талабларига мос тўлов провайдери ва серверда тасдиқлаш механизми керак. Бу демо ҳеч қандай тўлов амалга оширмайди.</p></div>
+ </div>
+</section>
+<section class="view" id="view-admin">
+ <div class="welcome"><div><div class="eyebrow">CONTROL CENTER</div><h1>Админ панели</h1><div class="sub">Локал демо бошқарув панели.</div></div><span class="badge">DEMO ONLY</span></div>
+ <div class="panel">
+  <div class="admin-lock" id="adminGate"><b>Админ кириши</b><p>Демо паролни киритинг. Парол: <b>goldtap-demo</b></p><input class="field" id="adminPass" type="password" placeholder="Админ пароли"><button class="action" id="adminLogin">Кириш</button></div>
+  <div id="adminContent" style="display:none"><div class="grid">
+   <div class="panel span-4"><div class="label">Жорий фойдаланувчи</div><div class="metric">1</div></div>
+   <div class="panel span-4"><div class="label">Жами GOLD</div><div class="metric" id="adminGold">0</div></div>
+   <div class="panel span-4"><div class="label">Жами тап</div><div class="metric" id="adminTaps">0</div></div>
+   <div class="panel span-12"><h3 class="section-title">Демо бошқарув</h3><p class="sub">Бу ерда фақат ушбу браузердаги тест маълумотлари кўринади. Реал фойдаланувчиларни бошқариш учун ҳимояланган backend ва админ авторизацияси шарт.</p><button class="secondary danger" id="resetGame">Демо маълумотларини ноллаш</button></div>
+  </div></div>
+ </div>
+</section>
+</main></div>
+<div class="mobile-nav" id="mobileNav">
+ <button class="navbtn active" data-view="home"><span class="navicon">⌂</span><span>Уй</span></button>
+ <button class="navbtn" data-view="tasks"><span class="navicon">✦</span><span>Вазифа</span></button>
+ <button class="navbtn" data-view="upgrade"><span class="navicon">⚡</span><span>Upgrade</span></button>
+ <button class="navbtn" data-view="ranking"><span class="navicon">♛</span><span>Рейтинг</span></button>
+ <button class="navbtn" data-view="profile"><span class="navicon">◉</span><span>Профиль</span></button>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+(() => {
+const $=id=>document.getElementById(id);
+const STORAGE='goldtap_demo_v1';
+const DAY=86400000;
+const defaults=()=>({gold:0,energy:100,maxEnergy:100,power:1,powerLevel:1,energyLevel:1,taps:0,name:'Gold Player',tasksDone:[],taskDate:new Date().toDateString(),seasonStart:Date.now(),createdAt:Date.now(),lang:'UZ',lastEnergy:Date.now()});
+let state;
+try{state={...defaults(),...JSON.parse(localStorage.getItem(STORAGE)||'{}')}}catch(e){state=defaults()}
+function save(){state.lastEnergy=Date.now();localStorage.setItem(STORAGE,JSON.stringify(state))}
+function toast(msg){const el=$('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),2100)}
+function fmt(n){return Math.floor(n).toLocaleString('en-US')}
+function recoverEnergy(){
+ const now=Date.now(), elapsed=Math.max(0,now-(state.lastEnergy||now)), gain=Math.floor(elapsed/3000);
+ if(gain>0){state.energy=Math.min(state.maxEnergy,state.energy+gain);state.lastEnergy=(state.lastEnergy||now)+gain*3000}
+}
+function dailyReset(){const today=new Date().toDateString();if(state.taskDate!==today){state.taskDate=today;state.tasksDone=[];save()}}
+const tasks=[
+ {id:'tap50',title:'Биринчи қадам',desc:'50 марта тап қилинг',goal:50,reward:30,progress:()=>Math.min(50,state.taps%1000000)},
+ {id:'tap150',title:'Фаол ўйинчи',desc:'150 марта тап қилинг',goal:150,reward:80,progress:()=>Math.min(150,state.taps%1000000)},
+ {id:'upgrade',title:'Кучайиш вақти',desc:'Бир марта Upgrade қилинг',goal:1,reward:50,progress:()=>Math.min(1,(state.powerLevel+state.energyLevel-2))}
+];
+function claimTask(id){const t=tasks.find(x=>x.id===id);if(!t||state.tasksDone.includes(id))return;if(t.progress()<t.goal){toast('Аввал вазифани бажаринг!');return}state.tasksDone.push(id);state.gold+=t.reward;save();render();toast('+'+t.reward+' GOLD мукофот!')}
+function taskHtml(t){const done=state.tasksDone.includes(t.id),p=t.progress();return `<div class="item"><div class="item-main"><div class="item-title">${t.title} ${done?'<span class="badge">Бажарилди</span>':''}</div><div class="item-desc">${t.desc} · ${Math.min(p,t.goal)}/${t.goal}</div><div class="bar" style="margin:8px 0 0;max-width:240px"><i style="width:${Math.min(100,p/t.goal*100)}%"></i></div></div><div style="text-align:right"><div class="reward">+${t.reward} GOLD</div><button class="${done?'secondary':'action'}" style="margin-top:7px" ${done?'disabled':''} onclick="window.claimGoldTask('${t.id}')">${done?'Олинди':p>=t.goal?'Олиш':'Бажариш'}</button></div></div>`}
+window.claimGoldTask=claimTask;
+function rankingData(){return [{name:'GoldenKing',gold:12500},{name:'TapMaster',gold:9800},{name:'GoldHunter',gold:7600},{name:'LuckyPlayer',gold:5200},{name:state.name,gold:state.gold,you:true}].sort((a,b)=>b.gold-a.gold)}
+function renderRanking(target){const data=rankingData();$(target).innerHTML=`<table class="table"><thead><tr><th>#</th><th>Ўйинчи</th><th>GOLD</th></tr></thead><tbody>${data.map((p,i)=>`<tr class="${p.you?'you':''}"><td class="rank">${i+1}</td><td>${p.name}${p.you?' (сиз)':''}</td><td class="reward">${fmt(p.gold)}</td></tr>`).join('')}</tbody></table>`;return data.findIndex(p=>p.you)+1}
+function render(){
+ recoverEnergy();dailyReset();
+ $('goldBalance').innerHTML=fmt(state.gold)+' <small>GOLD</small>';
+ $('energyText').textContent=fmt(state.energy)+' / '+fmt(state.maxEnergy);
+ $('energyBar').style.width=(state.energy/state.maxEnergy*100)+'%';
+ $('energyPercent').textContent=Math.floor(state.energy/state.maxEnergy*100)+'%';
+ $('tapPower').textContent=state.power;$('tapCount').textContent=fmt(state.taps);
+ $('powerLevel').textContent=state.powerLevel;$('taskCount').textContent=state.tasksDone.length;
+ $('homeTasks').innerHTML=tasks.map(taskHtml).join('');
+ $('allTasks').innerHTML=tasks.map(taskHtml).join('');
+ $('taskProgress').textContent=state.tasksDone.length+' / '+tasks.length;
+ renderRanking('homeRanking');const rank=renderRanking('rankingTable');
+ $('seasonRank').textContent='#'+rank;
+ $('upgradePower').textContent='+'+state.power+' GOLD';$('powerCost').textContent='Кейинги нарх: '+fmt(100*state.powerLevel)+' GOLD';
+ $('upgradeEnergy').textContent=fmt(state.maxEnergy);$('energyCost').textContent='Кейинги нарх: '+fmt(150*state.energyLevel)+' GOLD';
+ $('buyPower').disabled=state.gold<100*state.powerLevel;
+ $('buyEnergy').disabled=state.gold<150*state.energyLevel;
+ $('profileName').textContent=state.name;$('nameInput').value=state.name;$('avatar').textContent=(state.name[0]||'G').toUpperCase();
+ $('profileId').textContent='Player ID: LOCAL-'+String(state.createdAt).slice(-6);
+ $('profileGold').textContent=fmt(state.gold);$('profileTaps').textContent=fmt(state.taps);
+ $('profileLevel').textContent=state.powerLevel+' / '+state.energyLevel;$('profileTasks').textContent=state.tasksDone.length;
+ $('adminGold').textContent=fmt(state.gold);$('adminTaps').textContent=fmt(state.taps);
+ const elapsed=Math.max(0,Date.now()-state.seasonStart),left=Math.max(0,30*DAY-elapsed),days=Math.ceil(left/DAY);
+ $('seasonCountdown').textContent=days+' кун';$('seasonBar').style.width=Math.min(100,elapsed/(30*DAY)*100)+'%';
+ $('seasonDates').textContent='Бошланган: '+new Date(state.seasonStart).toLocaleDateString()+' · Тугаши: '+new Date(state.seasonStart+30*DAY).toLocaleDateString();
+ $('seasonChip').textContent='SEASON 01 · '+days+' DAYS';
+ save();
+}
+function tap(){
+ recoverEnergy();if(state.energy<1){toast('Энергия тугади. Тикланишини кутинг.');render();return}
+ state.energy-=1;state.gold+=state.power;state.taps++;save();render();
+ const area=$('tapArea'),coin=$('tapBtn').getBoundingClientRect(),rect=area.getBoundingClientRect(),f=document.createElement('div');
+ f.className='float';f.textContent='+'+state.power;f.style.left=(coin.left-rect.left+coin.width/2-15)+'px';f.style.top=(coin.top-rect.top+15)+'px';area.appendChild(f);setTimeout(()=>f.remove(),800);
+}
+$('tapBtn').addEventListener('click',tap);
+$('buyPower').addEventListener('click',()=>{const cost=100*state.powerLevel;if(state.gold<cost)return;state.gold-=cost;state.powerLevel++;state.power++;save();render();toast('Tap Power кучайтирилди!')});
+$('buyEnergy').addEventListener('click',()=>{const cost=150*state.energyLevel;if(state.gold<cost)return;state.gold-=cost;state.energyLevel++;state.maxEnergy+=25;state.energy=Math.min(state.maxEnergy,state.energy+25);save();render();toast('Энергия лимити ошди!')});
+$('saveName').addEventListener('click',()=>{const n=$('nameInput').value.trim();if(!n){toast('Исм киритинг');return}state.name=n;save();render();toast('Профиль сақланди')});
+$('langBtn').addEventListener('click',()=>{const langs=['UZ','RU','EN'];state.lang=langs[(langs.indexOf(state.lang)+1)%langs.length];$('langBtn').textContent=state.lang+' ▾';toast('Тил танланди: '+state.lang+' · Таржималар кейинги версияда');save()});
+$('adminLogin').addEventListener('click',()=>{if($('adminPass').value==='goldtap-demo'){$('adminGate').style.display='none';$('adminContent').style.display='block';toast('Демо админ панели очилди')}else toast('Парол нотўғри')});
+$('resetGame').addEventListener('click',()=>{if(confirm('Барча демо натижаларини ноллашни хоҳлайсизми?')){state=defaults();save();$('adminGate').style.display='block';$('adminContent').style.display='none';$('adminPass').value='';render();toast('Демо маълумотлари нолланди')}});
+function showView(name){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+name));document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===name));window.scrollTo({top:0,behavior:'smooth'});render()}
+document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.go)));
+$('langBtn').textContent=state.lang+' ▾';
+render();setInterval(()=>{recoverEnergy();render()},1000);
+})();
+</script>
 </body>
 </html>
