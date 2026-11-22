@@ -21,7 +21,7 @@ main{min-width:0}.view{display:none;animation:fade .22s ease}.view.active{displa
 .balance-panel{position:relative;overflow:hidden;background:radial-gradient(circle at 90% 10%,#74521d77,transparent 35%),linear-gradient(130deg,#292114,#15171c 70%);min-height:175px}.balance-panel:after{content:"G";position:absolute;right:20px;bottom:-62px;font-size:210px;font-weight:900;color:#f3bd4e0b;pointer-events:none}
 .label{font-size:11px;color:#aeb4bf;letter-spacing:1.2px;text-transform:uppercase}.balance{font-size:clamp(36px,6vw,54px);font-weight:900;letter-spacing:-2px;color:var(--gold2);margin:8px 0 2px}.balance small{font-size:15px;letter-spacing:1px;color:var(--gold)}.tiny{font-size:11px;color:var(--muted)}
 .energy-head,.row-between{display:flex;justify-content:space-between;align-items:center;gap:10px}.energy-num{font-size:21px;font-weight:800;color:#fff}.bar{height:9px;background:#292e38;border-radius:99px;overflow:hidden;margin:12px 0 7px}.bar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,#bd8528,var(--gold2));border-radius:99px;transition:width .25s}
-.tap-area{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:320px;background:radial-gradient(circle at 50% 45%,#6e4c1e3b,transparent 48%),linear-gradient(145deg,#1b1d23,#101217);position:relative;overflow:hidden}
+.tap-area{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:370px;background:radial-gradient(circle at 50% 45%,#6e4c1e3b,transparent 48%),linear-gradient(145deg,#1b1d23,#101217);position:relative;overflow:hidden}
 .coin{width:190px;height:190px;border-radius:50%;border:5px solid #f9d77c;background:radial-gradient(circle at 35% 25%,#fff0bb,#dca33b 38%,#8c5b18 75%,#f6cb64);box-shadow:0 0 0 9px #f3bd4e13,0 0 55px #f3bd4e38,inset 0 4px 12px #fff9;display:grid;place-items:center;color:#53370e;font-size:78px;font-weight:1000;text-shadow:0 2px 1px #fff8;transition:transform .08s;user-select:none}
 .coin:active{transform:scale(.94)}.tap-btn{appearance:none;-webkit-appearance:none;border:0;background:transparent;padding:0;margin:8px 0 13px;border-radius:50%;color:inherit;line-height:1}.tap-hint{font-size:12px;color:#aeb4bf}.tap-hint b{color:var(--gold2)}
 .float{position:absolute;z-index:5;display:block;width:auto;height:auto;padding:0;margin:0;border:0;background:transparent!important;color:#ffe39b;font-size:22px;line-height:1;font-weight:900;white-space:nowrap;pointer-events:none;user-select:none;text-shadow:0 2px 10px #000,0 0 12px #f3bd4e;animation:floatup .75s ease-out forwards}@keyframes floatup{to{transform:translateY(-75px);opacity:0}}
@@ -44,7 +44,7 @@ main{min-width:0}.view{display:none;animation:fade .22s ease}.view.active{displa
 <div class="app">
 <header class="topbar">
   <div class="logo">GOLD TAP<small>THE GOLDEN ARENA</small></div>
-  <div class="top-right"><span class="season-chip" id="seasonChip">SEASON 01 · 30 DAYS</span><button class="lang-btn" id="langBtn">UZ ▾</button></div>
+  <div class="top-right"><span class="season-chip" id="seasonChip">SEASON 01 · 30 DAYS</span><button class="lang-btn" id="langBtn">ЎЗ (КИР) ▾</button></div>
 </header>
 <div class="layout">
 <aside class="sidebar" id="desktopNav">
@@ -52,27 +52,18 @@ main{min-width:0}.view{display:none;animation:fade .22s ease}.view.active{displa
   <button class="navbtn" data-view="tasks"><span class="navicon">✦</span><span data-i="tasks">Вазифалар</span></button>
   <button class="navbtn" data-view="upgrade"><span class="navicon">⚡</span><span data-i="upgrade">Upgrade</span></button>
   <button class="navbtn" data-view="ranking"><span class="navicon">♛</span><span data-i="ranking">Рейтинг</span></button>
-  <button class="navbtn" data-view="season"><span class="navicon">◷</span><span data-i="season">Мавсум</span></button>
   <button class="navbtn" data-view="profile"><span class="navicon">◉</span><span data-i="profile">Профиль</span></button>
-  <button class="navbtn" data-view="shop"><span class="navicon">◇</span><span data-i="shop">Дўкон</span></button>
+  <button class="navbtn" data-view="invite"><span class="navicon">♧</span><span>Дўст таклиф қилиш</span></button>
+  <button class="navbtn" data-view="channel"><span class="navicon">◉</span><span>Каналга аъзо бўлиш</span></button>
   <button class="navbtn" data-view="admin"><span class="navicon">⚙</span><span data-i="admin">Админ</span></button>
   <div class="side-note">GOLD TAP<br>Build 1.0 · Demo</div>
 </aside>
 <main>
 <section class="view active" id="view-home">
- <div class="welcome"><div><div class="eyebrow">WELCOME TO THE ARENA</div><h1>Олтинни йиғ. <span style="color:var(--gold2)">Рейтингда кўтарил.</span></h1><div class="sub">Ҳар бир тап — янги имконият.</div></div><span class="badge">● LIVE DEMO</span></div>
  <div class="grid">
-  <div class="panel balance-panel span-7"><div class="label">Сизнинг GOLD балансингиз</div><div class="balance" id="goldBalance">0 <small>GOLD</small></div><div class="tiny">Ўйин давомида тўпланган жами GOLD</div></div>
-  <div class="panel span-5"><div class="energy-head"><div><div class="label">ЭНЕРГИЯ</div><div class="energy-num" id="energyText">100 / 100</div></div><span style="font-size:25px">⚡</span></div><div class="bar"><i id="energyBar"></i></div><div class="row-between"><span class="tiny" id="energyRate">1 энергия / 3 сония</span><span class="tiny" id="energyPercent">100%</span></div></div>
-  <div class="panel tap-area span-8" id="tapArea"><div class="label" style="margin-bottom:14px">GOLD ЯРАТИШ</div><button class="tap-btn" id="tapBtn" aria-label="Tap to earn"><div class="coin">G</div></button><div class="tap-hint">Тап қилиш учун босинг · <b>+<span id="tapPower">1</span> GOLD</b></div></div>
-  <div class="panel span-4"><h3 class="section-title">Сизнинг натижалар</h3><div class="list">
-    <div class="item"><div class="item-main"><div class="item-title">Бугунги таплар</div><div class="item-desc">Жорий сессия</div></div><div class="reward" id="tapCount">0</div></div>
-    <div class="item"><div class="item-main"><div class="item-title">Upgrade даражаси</div><div class="item-desc">Tap Power</div></div><div class="reward" id="powerLevel">1</div></div>
-    <div class="item"><div class="item-main"><div class="item-title">Бажарилган вазифа</div><div class="item-desc">Жами</div></div><div class="reward" id="taskCount">0</div></div>
-    <button class="action" style="width:100%;margin-top:5px" data-go="tasks">Вазифаларни кўриш</button>
-  </div></div>
-  <div class="panel span-6"><div class="row-between"><h3 class="section-title">Кунлик вазифалар</h3><button class="secondary" data-go="tasks">Барчаси →</button></div><div class="list" id="homeTasks"></div></div>
-  <div class="panel span-6"><div class="row-between"><h3 class="section-title">ТОП рейтинг</h3><button class="secondary" data-go="ranking">Рейтинг →</button></div><div id="homeRanking"></div></div>
+  <div class="panel balance-panel span-7"><div class="label">ЙИҒИЛГАН GOLD БАЛАНСИ</div><div class="balance" id="goldBalance">0 <small>GOLD</small></div><div class="tiny">Ҳар бир тап орқали GOLD тўпланади</div></div>
+  <div class="panel span-5"><div class="energy-head"><div><div class="label">ЭНЕРГИЯ ҚОЛДИҒИ</div><div class="energy-num" id="energyText">100 / 100</div></div><span style="font-size:25px">⚡</span></div><div class="bar"><i id="energyBar"></i></div><div class="row-between"><span class="tiny" id="energyRate">1 энергия / 3 сония тикланади</span><span class="tiny" id="energyPercent">100%</span></div></div>
+  <div class="panel tap-area span-12" id="tapArea"><div class="label" style="margin-bottom:14px">GOLD TAP</div><button class="tap-btn" id="tapBtn" aria-label="Tap to earn"><div class="coin">G</div></button><div class="tap-hint">Босинг ва GOLD йиғинг · <b>+<span id="tapPower">1</span> GOLD</b> · ҳар бир тапда 1 энергия сарфланади</div></div>
  </div>
 </section>
 <section class="view" id="view-tasks">
@@ -115,6 +106,24 @@ main{min-width:0}.view{display:none;animation:fade .22s ease}.view.active{displa
   <div class="panel span-12"><p class="sub">Тўлов тизими ҳали уланмаган. Ҳақиқий пул қабул қилиш учун Telegram талабларига мос тўлов провайдери ва серверда тасдиқлаш механизми керак. Бу демо ҳеч қандай тўлов амалга оширмайди.</p></div>
  </div>
 </section>
+<section class="view" id="view-channel">
+ <div class="welcome"><div><div class="eyebrow">GOLD TAP COMMUNITY</div><h1>Каналга аъзо бўлиш</h1><div class="sub">GOLD TAP янгиликлари ва эълонлари шу ерда бўлади.</div></div><span class="badge">OFFICIAL CHANNEL</span></div>
+ <div class="panel" style="text-align:center;padding:32px 18px">
+  <div style="font-size:42px;margin-bottom:10px">📢</div>
+  <h3 class="section-title">Расмий канал</h3>
+  <p class="sub" style="max-width:430px;margin:0 auto 16px">Канал ҳаволаси ҳозирча қўшилмаган. Ҳавола тайёр бўлганда шу ерга жойлаштирамиз.</p>
+  <button class="secondary" disabled>Канал ҳаволаси тез кунда</button>
+ </div>
+</section>
+<section class="view" id="view-invite">
+ <div class="welcome"><div><div class="eyebrow">GROW THE GOLD TAP COMMUNITY</div><h1>Дўст таклиф қилиш</h1><div class="sub">Дўстларингизни GOLD TAP'га таклиф қилинг.</div></div><span class="badge">INVITE &amp; PLAY</span></div>
+ <div class="grid">
+  <div class="panel span-7"><div style="font-size:32px">🤝</div><h3 class="section-title">Таклиф коди</h3><p class="sub">Кодингизни дўстларингизга юборинг. Telegram ботингиз ишга туширилганда шу код орқали таклифларни серверда ҳисоблаш мумкин.</p><div class="item"><div><div class="label">СИЗНИНГ КОДИНГИЗ</div><div class="metric" id="inviteCode" style="font-size:25px;letter-spacing:2px">GOLD-000000</div></div><button class="action" id="copyInvite">Кодни нусхалаш</button></div>
+  <button class="action" id="shareInvite" style="margin-top:13px;width:100%">Дўстга таклиф юбориш</button></div>
+  <div class="panel span-5"><div class="label">ТАКЛИФЛАР</div><div class="metric" id="inviteCount">0</div><div class="metric-sub">Ҳозирча демо ҳисоблагич</div><p class="sub" style="margin-top:15px">Ҳақиқий таклифлар сонини ҳисоблаш учун Telegram бот ва backend'да referral тизими уланиши керак.</p></div>
+  <div class="panel span-12"><h3 class="section-title">Қандай ишлайди?</h3><div class="list"><div class="item"><div class="item-title">1. Кодни нусхаланг</div><span class="reward">01</span></div><div class="item"><div class="item-title">2. Дўстингизга юборинг</div><span class="reward">02</span></div><div class="item"><div class="item-title">3. Дўстингиз бот орқали кирсин</div><span class="reward">03</span></div></div></div>
+ </div>
+</section>
 <section class="view" id="view-admin">
  <div class="welcome"><div><div class="eyebrow">CONTROL CENTER</div><h1>Админ панели</h1><div class="sub">Локал демо бошқарув панели.</div></div><span class="badge">DEMO ONLY</span></div>
  <div class="panel">
@@ -134,6 +143,8 @@ main{min-width:0}.view{display:none;animation:fade .22s ease}.view.active{displa
  <button class="navbtn" data-view="upgrade"><span class="navicon">⚡</span><span>Upgrade</span></button>
  <button class="navbtn" data-view="ranking"><span class="navicon">♛</span><span>Рейтинг</span></button>
  <button class="navbtn" data-view="profile"><span class="navicon">◉</span><span>Профиль</span></button>
+ <button class="navbtn" data-view="invite"><span class="navicon">♧</span><span>Дўст</span></button>
+ <button class="navbtn" data-view="channel"><span class="navicon">◉</span><span>Канал</span></button>
 </div>
 <div class="toast" id="toast"></div>
 <script>
@@ -141,20 +152,20 @@ main{min-width:0}.view{display:none;animation:fade .22s ease}.view.active{displa
 const $=id=>document.getElementById(id);
 const STORAGE='goldtap_demo_v1';
 const DAY=86400000;
-const defaults=()=>({gold:0,energy:100,maxEnergy:100,power:1,powerLevel:1,energyLevel:1,taps:0,name:'Gold Player',tasksDone:[],taskDate:new Date().toDateString(),seasonStart:Date.now(),createdAt:Date.now(),lang:'UZ',lastEnergy:Date.now()});
+const defaults=()=>({gold:0,energy:100,maxEnergy:100,power:1,powerLevel:1,energyLevel:1,taps:0,dailyTaps:0,name:'Gold Player',tasksDone:[],taskDate:new Date().toDateString(),seasonStart:Date.now(),createdAt:Date.now(),lang:'UZ-CYR',lastEnergy:Date.now()});
 let state;
-try{state={...defaults(),...JSON.parse(localStorage.getItem(STORAGE)||'{}')}}catch(e){state=defaults()}
+try{state={...defaults(),...JSON.parse(localStorage.getItem(STORAGE)||'{}')};if(state.lang==='UZ')state.lang='UZ-CYR'}catch(e){state=defaults()}
 function save(){localStorage.setItem(STORAGE,JSON.stringify(state))}
-function toast(msg){const el=$('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),2100)}
+function toast(msg){const el=$('toast');el.textContent=(typeof translateText==='function'?translateText(msg):msg);el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),2100)}
 function fmt(n){return Math.floor(n).toLocaleString('en-US')}
 function recoverEnergy(){
  const now=Date.now(), elapsed=Math.max(0,now-(state.lastEnergy||now)), gain=Math.floor(elapsed/3000);
  if(gain>0){state.energy=Math.min(state.maxEnergy,state.energy+gain);state.lastEnergy=(state.lastEnergy||now)+gain*3000;if(state.energy>=state.maxEnergy)state.lastEnergy=now}
 }
-function dailyReset(){const today=new Date().toDateString();if(state.taskDate!==today){state.taskDate=today;state.tasksDone=[];save()}}
+function dailyReset(){const today=new Date().toDateString();if(state.taskDate!==today){state.taskDate=today;state.tasksDone=[];state.dailyTaps=0;save()}}
 const tasks=[
- {id:'tap50',title:'Биринчи қадам',desc:'50 марта тап қилинг',goal:50,reward:30,progress:()=>Math.min(50,state.taps%1000000)},
- {id:'tap150',title:'Фаол ўйинчи',desc:'150 марта тап қилинг',goal:150,reward:80,progress:()=>Math.min(150,state.taps%1000000)},
+ {id:'tap50',title:'Биринчи қадам',desc:'50 марта тап қилинг',goal:50,reward:30,progress:()=>Math.min(50,state.dailyTaps||0)},
+ {id:'tap150',title:'Фаол ўйинчи',desc:'150 марта тап қилинг',goal:150,reward:80,progress:()=>Math.min(150,state.dailyTaps||0)},
  {id:'upgrade',title:'Кучайиш вақти',desc:'Бир марта Upgrade қилинг',goal:1,reward:50,progress:()=>Math.min(1,(state.powerLevel+state.energyLevel-2))}
 ];
 function claimTask(id){const t=tasks.find(x=>x.id===id);if(!t||state.tasksDone.includes(id))return;if(t.progress()<t.goal){toast('Аввал вазифани бажаринг!');return}state.tasksDone.push(id);state.gold+=t.reward;save();render();toast('+'+t.reward+' GOLD мукофот!')}
@@ -162,51 +173,253 @@ function taskHtml(t){const done=state.tasksDone.includes(t.id),p=t.progress();re
 window.claimGoldTask=claimTask;
 function rankingData(){return [{name:'GoldenKing',gold:12500},{name:'TapMaster',gold:9800},{name:'GoldHunter',gold:7600},{name:'LuckyPlayer',gold:5200},{name:state.name,gold:state.gold,you:true}].sort((a,b)=>b.gold-a.gold)}
 function renderRanking(target){const data=rankingData();$(target).innerHTML=`<table class="table"><thead><tr><th>#</th><th>Ўйинчи</th><th>GOLD</th></tr></thead><tbody>${data.map((p,i)=>`<tr class="${p.you?'you':''}"><td class="rank">${i+1}</td><td>${p.name}${p.you?' (сиз)':''}</td><td class="reward">${fmt(p.gold)}</td></tr>`).join('')}</tbody></table>`;return data.findIndex(p=>p.you)+1}
+
+// Two-way UI translation. Keep original Uzbek text for every rendered text node.
+
+const languageNames={'UZ-CYR':'ЎЗ (КИР)','UZ-LAT':'UZ (LOT)','RU':'РУ'};
+const originalNodes=new WeakMap();
+const attributeOriginals=new Map();
+const ruDict={
+'Бош саҳифа':'Главная','Вазифалар':'Задания','Upgrade':'Улучшения','Рейтинг':'Рейтинг','Профиль':'Профиль',
+'Дўст таклиф қилиш':'Пригласить друга','Каналга аъзо бўлиш':'Подписаться на канал','Админ':'Админ',
+'Уй':'Главная','Вазифа':'Задания','Дўст':'Друг','Канал':'Канал',
+'ЙИҒИЛГАН GOLD БАЛАНСИ':'БАЛАНС GOLD','Ҳар бир тап орқали GOLD тўпланади':'Получайте GOLD за каждое нажатие',
+'ЭНЕРГИЯ ҚОЛДИҒИ':'ОСТАТОК ЭНЕРГИИ','Босинг ва GOLD йиғинг':'Нажимайте и собирайте GOLD',
+'ҳар бир тапда 1 энергия сарфланади':'за нажатие расходуется 1 энергия',
+'Кунлик вазифалар':'Ежедневные задания','Вазифаларни бажаринг ва бонус GOLD олинг.':'Выполняйте задания и получайте бонусные GOLD.',
+'ҲАР КУНИ ЯНГИЛАНАДИ':'ОБНОВЛЯЕТСЯ ЕЖЕДНЕВНО','Бугунги топшириқлар':'Задания на сегодня',
+'Биринчи қадам':'Первый шаг','Фаол ўйинчи':'Активный игрок','Кучайиш вақти':'Время улучшений',
+'50 марта тап қилинг':'Нажмите 50 раз','150 марта тап қилинг':'Нажмите 150 раз',
+'Бир марта Upgrade қилинг':'Сделайте одно улучшение','Бажарилди':'Выполнено','Олинди':'Получено','Олиш':'Забрать','Бажариш':'Выполнить',
+'Upgrade маркази':'Центр улучшений','Ўйин имкониятларингизни кучайтиринг.':'Улучшайте игровые возможности.',
+'Ҳар бир босишда оладиган GOLD миқдорини оширади.':'Увеличивает количество GOLD за нажатие.',
+'Энергиянинг максимал ҳажмини оширади.':'Увеличивает максимальный запас энергии.',
+'Upgrade сотиб олиш':'Купить улучшение','Upgrade қоидалари':'Правила улучшений',
+'Upgrade нархи ҳар бир даражада ошади. Харид муваффақиятли бўлса, GOLD балансидан ечилади. Ҳозирги версияда барча маълумотлар шу браузерда сақланади.':'Стоимость растёт с каждым уровнем. GOLD списываются с баланса. В демоверсии данные хранятся в браузере.',
+'GOLD рейтинги':'Рейтинг GOLD','Жорий демо рейтинг. Серверга уланганда глобал рейтинг бўлади.':'Сейчас демонстрационный рейтинг. После подключения сервера будет глобальный рейтинг.',
+'Топ иштирокчилар':'Лучшие игроки','Ўйинчи':'Игрок','(сиз)':'(вы)',
+'Ўйиндаги маълумотларингиз.':'Ваши игровые данные.','Ўйинчи номи':'Имя игрока','Номингизни киритинг':'Введите имя',
+'Профильни сақлаш':'Сохранить профиль','Статистика':'Статистика','Жами GOLD':'Всего GOLD','Жами тап':'Всего нажатий',
+'Upgrade даражаси':'Уровень улучшений','Вазифалар':'Задания',
+'GOLD TAP янгиликлари ва эълонлари шу ерда бўлади.':'Здесь будут новости и объявления GOLD TAP.',
+'Расмий канал':'Официальный канал','Канал ҳаволаси ҳозирча қўшилмаган. Ҳавола тайёр бўлганда шу ерга жойлаштирамиз.':'Ссылка на канал пока не добавлена. Она появится здесь позже.',
+'Канал ҳаволаси тез кунда':'Ссылка скоро появится','Дўстларингизни GOLD TAP\'га таклиф қилинг.':'Приглашайте друзей в GOLD TAP.',
+'Таклиф коди':'Код приглашения','Кодингизни дўстларингизга юборинг. Telegram ботингиз ишга туширилганда шу код орқали таклифларни серверда ҳисоблаш мумкин.':'Отправьте код друзьям. После запуска Telegram-бота приглашения можно будет учитывать на сервере.',
+'СИЗНИНГ КОДИНГИЗ':'ВАШ КОД','Кодни нусхалаш':'Копировать код','Дўстга таклиф юбориш':'Отправить приглашение',
+'ТАКЛИФЛАР':'ПРИГЛАШЕНИЯ','Ҳозирча демо ҳисоблагич':'Пока демонстрационный счётчик',
+'Ҳақиқий таклифлар сонини ҳисоблаш учун Telegram бот ва backend\'да referral тизими уланиши керак.':'Для подсчёта приглашений нужна реферальная система на сервере Telegram-бота.',
+'Қандай ишлайди?':'Как это работает?','1. Кодни нусхаланг':'1. Скопируйте код','2. Дўстингизга юборинг':'2. Отправьте другу','3. Дўстингиз бот орқали кирсин':'3. Друг входит через бота',
+'Админ панели':'Панель администратора','Локал демо бошқарув панели.':'Локальная демонстрационная панель управления.',
+'Админ кириши':'Вход администратора','Кириш':'Войти','Админ пароли':'Пароль администратора',
+'Жорий фойдаланувчи':'Текущий пользователь','Жами тап':'Всего нажатий','Демо бошқарув':'Демо-управление',
+'Демо маълумотларини ноллаш':'Сбросить демо-данные','Кейинги нарх:':'Следующая цена:',
+' кун':' дней','Бошланган:':'Начало:','Тугаши:':'Окончание:','энергия':'энергии','сония':'секунды',
+'Энергия тугади. Тикланишини кутинг.':'Энергия закончилась. Дождитесь восстановления.',
+'Аввал вазифани бажаринг!':'Сначала выполните задание!','Кучайтирилди!':'Улучшение куплено!',
+'Энергия лимити ошди!':'Лимит энергии увеличен!','Профиль сақланди':'Профиль сохранён',
+'Исм киритинг':'Введите имя','Парол нотўғри':'Неверный пароль','Демо админ панели очилди':'Демо-панель администратора открыта',
+'Барча демо натижаларини ноллашни хоҳлайсизми?':'Сбросить все демо-результаты?',
+'Демо маълумотлари нолланди':'Демо-данные сброшены','Таклиф коди нусхаланди':'Код приглашения скопирован',
+'Таклиф матни нусхаланди':'Текст приглашения скопирован','Тил танланди:':'Выбран язык:',
+'Язык: Русский':'Язык: Русский','GOLD ЯРАТИШ':'ПОЛУЧЕНИЕ GOLD','SEASON 01 ·':'СЕЗОН 01 ·',
+'1 энергия / 3 сония тикланади':'1 энергия восстанавливается за 3 секунды',
+'GOLD бўйича':'По количеству GOLD','МАВСУМ ЯКУНИГАЧА':'ДО КОНЦА СЕЗОНА',
+'Мавсум бошланган сана: бугун':'Дата начала сезона: сегодня','Демо рейтингда':'В демо-рейтинге',
+'Мавсум қоидалари':'Правила сезона','Мавсум 30 кун давом этади.':'Сезон длится 30 дней.',
+'Рейтинг GOLD миқдори бўйича ҳисобланади.':'Рейтинг рассчитывается по количеству GOLD.',
+'Мавсум якунида натижалар серверда тасдиқланиши керак.':'По окончании сезона результаты должны быть подтверждены на сервере.',
+'Мукофотлар ва тақсимлаш тартиби кейин админ томонидан белгиланади.':'Награды и порядок распределения позже определит администратор.',
+'Дўкон':'Магазин','GOLD пакетлари ва махсус таклифлар.':'Пакеты GOLD и специальные предложения.',
+'Бошланғич пакет':'Стартовый пакет','Кенгайтирилган пакет':'Расширенный пакет','Катта пакет':'Большой пакет',
+'Тўлов тизими ҳали уланмаган. Ҳақиқий пул қабул қилиш учун Telegram талабларига мос тўлов провайдери ва серверда тасдиқлаш механизми керак. Бу демо ҳеч қандай тўлов амалга оширмайди.':'Платёжная система пока не подключена. Для приёма реальных платежей нужны подходящий требованиям Telegram платёжный провайдер и серверное подтверждение. Эта демоверсия не принимает платежи.',
+'GOLD бўйича':'По количеству GOLD','1 энергия / 3 сония тикланади':'1 энергия восстанавливается за 3 секунды',
+'Демо паролни киритинг. Парол:':'Введите демо-пароль. Пароль:',
+'Бу ерда фақат ушбу браузердаги тест маълумотлари кўринади. Реал фойдаланувчиларни бошқариш учун ҳимояланган backend ва админ авторизацияси шарт.':'Здесь отображаются только тестовые данные этого браузера. Для управления реальными пользователями нужны защищённый сервер и авторизация администратора.',
+'Tap Power кучайтирилди!':'Сила нажатия увеличена!','GOLD мукофот!':'Награда GOLD!',
+'GOLD TAP ўйинига қўшил! Менинг таклиф кодим:':'Присоединяйся к GOLD TAP! Мой код приглашения:',
+'Таклиф кодини нусхаланг:':'Скопируйте код приглашения:','Таклиф матнини нусхаланг:':'Скопируйте текст приглашения:',
+'THE GOLDEN ARENA':'ЗОЛОТАЯ АРЕНА','THE BEST PLAYERS':'ЛУЧШИЕ ИГРОКИ','30 DAY COMPETITION':'СОРЕВНОВАНИЕ · 30 ДНЕЙ',
+'ACTIVE SEASON':'АКТИВНЫЙ СЕЗОН','PLAYER ACCOUNT':'АККАУНТ ИГРОКА','GOLD STORE':'МАГАЗИН GOLD',
+'COMING SOON':'СКОРО','GOLD TAP COMMUNITY':'СООБЩЕСТВО GOLD TAP','OFFICIAL CHANNEL':'ОФИЦИАЛЬНЫЙ КАНАЛ',
+'GROW THE GOLD TAP COMMUNITY':'РАСШИРЯЙ СООБЩЕСТВО GOLD TAP','INVITE & PLAY':'ПРИГЛАШАЙ И ИГРАЙ',
+'CONTROL CENTER':'ЦЕНТР УПРАВЛЕНИЯ','DEMO ONLY':'ТОЛЬКО ДЕМО','Build 1.0 · Demo':'Версия 1.0 · Демо',
+'Starter Pack':'Стартовый набор','Pro Pack':'Профессиональный набор','Legend Pack':'Набор легенды',
+'SEASON 01 ·':'СЕЗОН 01 ·',
+
+'Мавсум 01':'Сезон 01','Ҳар 30 кунда янги мусобақа бошланади.':'Новый турнир начинается каждые 30 дней.',
+'СИЗНИНГ ЎРНИНГИЗ':'ВАШЕ МЕСТО','Тез орада':'Скоро',
+'SEASON 01 ·':'СЕЗОН 01 ·','DAYS':'ДНЕЙ','Player ID:':'ID игрока:'
+
+};
+const latDict={
+'Бош саҳифа':'Bosh sahifa','Вазифалар':'Vazifalar','Upgrade':'Yangilash','Рейтинг':'Reyting','Профиль':'Profil',
+'Дўст таклиф қилиш':'Doʻst taklif qilish','Каналга аъзо бўлиш':'Kanalga aʼzo boʻlish','Админ':'Admin',
+'ЙИҒИЛГАН GOLD БАЛАНСИ':'YIGʻILGAN GOLD BALANSI','Ҳар бир тап орқали GOLD тўпланади':'Har bir tap orqali GOLD toʻplanadi',
+'ЭНЕРГИЯ ҚОЛДИҒИ':'ENERGIYA QOLDIGʻI','Босинг ва GOLD йиғинг':'Bosing va GOLD yigʻing',
+'ҳар бир тапда 1 энергия сарфланади':'har bir tapda 1 energiya sarflanadi',
+'Кунлик вазифалар':'Kunlik vazifalar','Вазифаларни бажаринг ва бонус GOLD олинг.':'Vazifalarni bajaring va bonus GOLD oling.',
+'ҲАР КУНИ ЯНГИЛАНАДИ':'HAR KUNI YANGILANADI','Бугунги топшириқлар':'Bugungi topshiriqlar',
+'Биринчи қадам':'Birinchi qadam','Фаол ўйинчи':'Faol oʻyinchi','Кучайиш вақти':'Kuchayish vaqti',
+'50 марта тап қилинг':'50 marta tap qiling','150 марта тап қилинг':'150 marta tap qiling',
+'Бир марта Upgrade қилинг':'Bir marta yangilang','Бажарилди':'Bajarildi','Олинди':'Olindi','Олиш':'Olish','Бажариш':'Bajarish',
+'Upgrade маркази':'Yangilash markazi','Ўйин имкониятларингизни кучайтиринг.':'Oʻyin imkoniyatlaringizni kuchaytiring.',
+'Ҳар бир босишда оладиган GOLD миқдорини оширади.':'Har bir bosishda olinadigan GOLD miqdorini oshiradi.',
+'Энергиянинг максимал ҳажмини оширади.':'Energiya maksimal hajmini oshiradi.',
+'Upgrade сотиб олиш':'Yangilashni sotib olish','Upgrade қоидалари':'Yangilash qoidalari',
+'GOLD рейтинги':'GOLD reytingi','Жорий демо рейтинг. Серверга уланганда глобал рейтинг бўлади.':'Hozircha demo reyting. Serverga ulangach global reyting boʻladi.',
+'Топ иштирокчилар':'Eng yaxshi oʻyinchilar','Ўйинчи':'Oʻyinchi','(сиз)':'(siz)',
+'Ўйиндаги маълумотларингиз.':'Oʻyindagi maʼlumotlaringiz.','Ўйинчи номи':'Oʻyinchi nomi',
+'Номингизни киритинг':'Nom kiriting','Профильни сақлаш':'Profilni saqlash','Статистика':'Statistika',
+'Жами GOLD':'Jami GOLD','Жами тап':'Jami tap','Upgrade даражаси':'Yangilash darajasi',
+'GOLD TAP янгиликлари ва эълонлари шу ерда бўлади.':'GOLD TAP yangiliklari va eʼlonlari shu yerda boʻladi.',
+'Расмий канал':'Rasmiy kanal','Канал ҳаволаси ҳозирча қўшилмаган. Ҳавола тайёр бўлганда шу ерга жойлаштирамиз.':'Kanal havolasi hozircha qoʻshilmagan. Havola tayyor boʻlganda shu yerga joylaymiz.',
+'Канал ҳаволаси тез кунда':'Kanal havolasi tez kunda','Дўстларингизни GOLD TAP\'га таклиф қилинг.':'Doʻstlaringizni GOLD TAPʼga taklif qiling.',
+'Таклиф коди':'Taklif kodi','Кодингизни дўстларингизга юборинг. Telegram ботингиз ишга туширилганда шу код орқали таклифларни серверда ҳисоблаш мумкин.':'Kodingizni doʻstlaringizga yuboring. Telegram bot ishga tushganda takliflarni serverda hisoblash mumkin.',
+'СИЗНИНГ КОДИНГИЗ':'SIZNING KODINGIZ','Кодни нусхалаш':'Kodni nusxalash','Дўстга таклиф юбориш':'Doʻstga taklif yuborish',
+'ТАКЛИФЛАР':'TAKLIFLAR','Ҳозирча демо ҳисоблагич':'Hozircha demo hisoblagich',
+'Қандай ишлайди?':'Qanday ishlaydi?','1. Кодни нусхаланг':'1. Kodni nusxalang','2. Дўстингизга юборинг':'2. Doʻstingizga yuboring',
+'3. Дўстингиз бот орқали кирсин':'3. Doʻstingiz bot orqali kirsin','Админ панели':'Admin paneli',
+'Локал демо бошқарув панели.':'Lokal demo boshqaruv paneli.','Админ кириши':'Admin kirishi','Кириш':'Kirish',
+'Админ пароли':'Admin paroli','Жорий фойдаланувчи':'Joriy foydalanuvchi','Демо бошқарув':'Demo boshqaruv',
+'Демо маълумотларини ноллаш':'Demo maʼlumotlarini tozalash','Кейинги нарх:':'Keyingi narx:',
+'Бошланган:':'Boshlangan:','Тугаши:':'Tugashi:','Энергия тугади. Тикланишини кутинг.':'Energiya tugadi. Tiklanishini kuting.',
+'Аввал вазифани бажаринг!':'Avval vazifani bajaring!','Энергия лимити ошди!':'Energiya limiti oshdi!',
+'Профиль сақланди':'Profil saqlandi','Исм киритинг':'Ism kiriting','Парол нотўғри':'Parol notoʻgʻri',
+'Демо админ панели очилди':'Demo admin paneli ochildi','Демо маълумотлари нолланди':'Demo maʼlumotlari tozalandi',
+'Таклиф коди нусхаланди':'Taklif kodi nusxalandi','Таклиф матни нусхаланди':'Taklif matni nusxalandi',
+'GOLD ЯРАТИШ':'GOLD YIGʻISH','ЎЗ':'UZ',
+'1 энергия / 3 сония тикланади':'1 energiya / 3 soniyada tiklanadi',
+'GOLD бўйича':'GOLD boʻyicha','МАВСУМ ЯКУНИГАЧА':'MAVSUM YAKUNIGACHA',
+'Мавсум бошланган сана: бугун':'Mavsum boshlangan sana: bugun','Демо рейтингда':'Demo reytingda',
+'Мавсум қоидалари':'Mavsum qoidalari','Мавсум 30 кун давом этади.':'Mavsum 30 kun davom etadi.',
+'Рейтинг GOLD миқдори бўйича ҳисобланади.':'Reyting GOLD miqdori boʻyicha hisoblanadi.',
+'Мавсум якунида натижалар серверда тасдиқланиши керак.':'Mavsum yakunida natijalar serverda tasdiqlanishi kerak.',
+'Мукофотлар ва тақсимлаш тартиби кейин админ томонидан белгиланади.':'Mukofotlar va taqsimlash tartibi keyin admin tomonidan belgilanadi.',
+'Дўкон':'Doʻkon','GOLD пакетлари ва махсус таклифлар.':'GOLD paketlari va maxsus takliflar.',
+'Бошланғич пакет':'Boshlangʻich paket','Кенгайтирилган пакет':'Kengaytirilgan paket','Катта пакет':'Katta paket',
+'Тўлов тизими ҳали уланмаган. Ҳақиқий пул қабул қилиш учун Telegram талабларига мос тўлов провайдери ва серверда тасдиқлаш механизми керак. Бу демо ҳеч қандай тўлов амалга оширмайди.':'Toʻlov tizimi hali ulanmagan. Haqiqiy pul qabul qilish uchun Telegram talablariga mos toʻlov provayderi va serverda tasdiqlash mexanizmi kerak. Bu demo hech qanday toʻlov amalga oshirmaydi.',
+'Демо паролни киритинг. Парол:':'Demo parolni kiriting. Parol:',
+'Бу ерда фақат ушбу браузердаги тест маълумотлари кўринади. Реал фойдаланувчиларни бошқариш учун ҳимояланган backend ва админ авторизацияси шарт.':'Bu yerda faqat ushbu brauzerdagi test maʼlumotlari koʻrinadi. Real foydalanuvchilarni boshqarish uchun himoyalangan backend va admin avtorizatsiyasi shart.',
+'Tap Power кучайтирилди!':'Tap Power kuchaytirildi!','GOLD мукофот!':'GOLD mukofoti!',
+'GOLD TAP ўйинига қўшил! Менинг таклиф кодим:':'GOLD TAP oʻyiniga qoʻshil! Mening taklif kodim:',
+'Таклиф кодини нусхаланг:':'Taklif kodini nusxalang:','Таклиф матнини нусхаланг:':'Taklif matnini nusxalang:',
+'THE GOLDEN ARENA':'OLTIN MAYDON','THE BEST PLAYERS':'ENG YAXSHI OʻYINCHILAR','30 DAY COMPETITION':'30 KUNLIK MUSOBAQA',
+'ACTIVE SEASON':'FAOL MAVSUM','PLAYER ACCOUNT':'OʻYINCHI HISOBI','GOLD STORE':'GOLD DOʻKONI',
+'COMING SOON':'TEZ ORADA','GOLD TAP COMMUNITY':'GOLD TAP JAMOASI','OFFICIAL CHANNEL':'RASMIY KANAL',
+'GROW THE GOLD TAP COMMUNITY':'GOLD TAP JAMOASINI KENGAYTIRING','INVITE & PLAY':'TAKLIF QILING VA OʻYNANG',
+'CONTROL CENTER':'BOSHQARUV MARKAZI','DEMO ONLY':'FAQAT DEMO','Build 1.0 · Demo':'1.0-versiya · Demo',
+'Starter Pack':'Boshlangʻich toʻplam','Pro Pack':'Pro toʻplam','Legend Pack':'Afsona toʻplami',
+'SEASON 01 ·':'MAVSUM 01 ·',
+
+'Мавсум 01':'Mavsum 01','Ҳар 30 кунда янги мусобақа бошланади.':'Har 30 kunda yangi musobaqa boshlanadi.',
+'СИЗНИНГ ЎРНИНГИЗ':'SIZNING OʻRNINGIZ','Тез орада':'Tez orada',
+'SEASON 01 ·':'MAVSUM 01 ·','DAYS':'KUN','Player ID:':'Oʻyinchi ID:'
+
+};
+function transliterateUz(text){
+ const map={
+ 'А':'A','Б':'B','В':'V','Г':'G','Д':'D','Е':'E','Ё':'Yo','Ж':'J','З':'Z','И':'I','Й':'Y','К':'K','Л':'L','М':'M','Н':'N','О':'O','П':'P','Р':'R','С':'S','Т':'T','У':'U','Ф':'F','Х':'X','Ц':'Ts','Ч':'Ch','Ш':'Sh','Щ':'Shch','Ъ':'ʼ','Ы':'I','Ь':'','Э':'E','Ю':'Yu','Я':'Ya','Ў':'Oʻ','Қ':'Q','Ғ':'Gʻ','Ҳ':'H',
+ 'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ё':'yo','ж':'j','з':'z','и':'i','й':'y','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'x','ц':'ts','ч':'ch','ш':'sh','щ':'shch','ъ':'ʼ','ы':'i','ь':'','э':'e','ю':'yu','я':'ya','ў':'oʻ','қ':'q','ғ':'gʻ','ҳ':'h'
+ };
+ return text.replace(/[А-Яа-яЁёЎўҚқҒғҲҳЪъЬь]/g,ch=>map[ch]??ch);
+}
+function translateText(raw){
+ const source=String(raw);
+ if(state.lang==='UZ-CYR')return source;
+ const dict=state.lang==='RU'?ruDict:latDict;
+ let out=source;
+ for(const [from,to] of Object.entries(dict).sort((a,b)=>b[0].length-a[0].length))out=out.split(from).join(to);
+ if(state.lang==='UZ-LAT'){
+  out=transliterateUz(out);
+  out=out
+   .replace(/O[ʻ'‘’`´]/g,'Ö').replace(/o[ʻ'‘’`´]/g,'ö')
+   .replace(/G[ʻ'‘’`´]/g,'Ğ').replace(/g[ʻ'‘’`´]/g,'ğ')
+   .replace(/SH/g,'Ş').replace(/Sh/g,'Ş').replace(/sh/g,'ş')
+   .replace(/CH/g,'Ç').replace(/Ch/g,'Ç').replace(/ch/g,'ç');
+ }
+ return out;
+}
+function translateUI(){
+ const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+ const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
+ for(const node of nodes){
+  if(node.parentElement?.closest('script,style'))continue;
+  let record=originalNodes.get(node);
+  if(!record){record={original:node.nodeValue,last:node.nodeValue};originalNodes.set(node,record)}
+  else if(node.nodeValue!==record.last && node.nodeValue!==record.original){
+   record.original=node.nodeValue;
+  }
+  const next=translateText(record.original);
+  if(node.nodeValue!==next)node.nodeValue=next;
+  record.last=next;
+ }
+ const isRu=state.lang==='RU',isLat=state.lang==='UZ-LAT';
+ document.querySelectorAll('[placeholder],[title],[aria-label]').forEach(el=>{
+  ['placeholder','title','aria-label'].forEach(attr=>{
+   if(!el.hasAttribute(attr))return;
+   const key=attr+'|'+el.tagName+'|'+(el.id||'')+'|'+el.getAttribute(attr);
+   let original=attributeOriginals.get(key);
+   if(original===undefined){original=el.getAttribute(attr);attributeOriginals.set(key,original)}
+   el.setAttribute(attr,translateText(original));
+  });
+ });
+ $('nameInput').placeholder=isRu?'Введите имя':isLat?'Nom kiriting':'Номингизни киритинг';
+ $('adminPass').placeholder=isRu?'Пароль администратора':isLat?'Admin paroli':'Админ пароли';
+ $('langBtn').textContent=(languageNames[state.lang]||languageNames['UZ-CYR'])+' ▾';
+}
+function setText(id,value){const el=$(id);if(el)el.textContent=value}
 function render(){
  recoverEnergy();dailyReset();
- $('goldBalance').innerHTML=fmt(state.gold)+' <small>GOLD</small>';
- $('energyText').textContent=fmt(state.energy)+' / '+fmt(state.maxEnergy);
- $('energyBar').style.width=(state.energy/state.maxEnergy*100)+'%';
- $('energyPercent').textContent=Math.floor(state.energy/state.maxEnergy*100)+'%';
- $('tapPower').textContent=state.power;$('tapCount').textContent=fmt(state.taps);
- $('powerLevel').textContent=state.powerLevel;$('taskCount').textContent=state.tasksDone.length;
- $('homeTasks').innerHTML=tasks.map(taskHtml).join('');
- $('allTasks').innerHTML=tasks.map(taskHtml).join('');
- $('taskProgress').textContent=state.tasksDone.length+' / '+tasks.length;
- renderRanking('homeRanking');const rank=renderRanking('rankingTable');
- $('seasonRank').textContent='#'+rank;
- $('upgradePower').textContent='+'+state.power+' GOLD';$('powerCost').textContent='Кейинги нарх: '+fmt(100*state.powerLevel)+' GOLD';
- $('upgradeEnergy').textContent=fmt(state.maxEnergy);$('energyCost').textContent='Кейинги нарх: '+fmt(150*state.energyLevel)+' GOLD';
- $('buyPower').disabled=state.gold<100*state.powerLevel;
- $('buyEnergy').disabled=state.gold<150*state.energyLevel;
- $('profileName').textContent=state.name;$('nameInput').value=state.name;$('avatar').textContent=(state.name[0]||'G').toUpperCase();
- $('profileId').textContent='Player ID: LOCAL-'+String(state.createdAt).slice(-6);
- $('profileGold').textContent=fmt(state.gold);$('profileTaps').textContent=fmt(state.taps);
- $('profileLevel').textContent=state.powerLevel+' / '+state.energyLevel;$('profileTasks').textContent=state.tasksDone.length;
- $('adminGold').textContent=fmt(state.gold);$('adminTaps').textContent=fmt(state.taps);
+ setText('goldBalance', '');
+ const balance=$('goldBalance');if(balance)balance.innerHTML=fmt(state.gold)+' <small>GOLD</small>';
+ setText('energyText',fmt(state.energy)+' / '+fmt(state.maxEnergy));
+ const energyBar=$('energyBar');if(energyBar)energyBar.style.width=(state.energy/state.maxEnergy*100)+'%';
+ setText('energyPercent',Math.floor(state.energy/state.maxEnergy*100)+'%');
+ setText('tapPower',state.power);
+ const allTasks=$('allTasks');if(allTasks)allTasks.innerHTML=tasks.map(taskHtml).join('');
+ setText('taskProgress',state.tasksDone.length+' / '+tasks.length);
+ const rank=renderRanking('rankingTable');
+ setText('seasonRank','#'+rank);
+ setText('upgradePower','+'+state.power+' GOLD');setText('powerCost','Кейинги нарх: '+fmt(100*state.powerLevel)+' GOLD');
+ setText('upgradeEnergy',fmt(state.maxEnergy));setText('energyCost','Кейинги нарх: '+fmt(150*state.energyLevel)+' GOLD');
+ const buyPower=$('buyPower');if(buyPower)buyPower.disabled=state.gold<100*state.powerLevel;
+ const buyEnergy=$('buyEnergy');if(buyEnergy)buyEnergy.disabled=state.gold<150*state.energyLevel;
+ setText('profileName',state.name);const nameInput=$('nameInput');if(nameInput)nameInput.value=state.name;
+ setText('avatar',(state.name[0]||'G').toUpperCase());
+ setText('profileId','Player ID: LOCAL-'+String(state.createdAt).slice(-6));
+ setText('profileGold',fmt(state.gold));setText('profileTaps',fmt(state.taps));
+ setText('profileLevel',state.powerLevel+' / '+state.energyLevel);setText('profileTasks',state.tasksDone.length);
+ setText('adminGold',fmt(state.gold));setText('adminTaps',fmt(state.taps));
  const elapsed=Math.max(0,Date.now()-state.seasonStart),left=Math.max(0,30*DAY-elapsed),days=Math.ceil(left/DAY);
- $('seasonCountdown').textContent=days+' кун';$('seasonBar').style.width=Math.min(100,elapsed/(30*DAY)*100)+'%';
- $('seasonDates').textContent='Бошланган: '+new Date(state.seasonStart).toLocaleDateString()+' · Тугаши: '+new Date(state.seasonStart+30*DAY).toLocaleDateString();
- $('seasonChip').textContent='SEASON 01 · '+days+' DAYS';
+ setText('seasonCountdown',days+' кун');const seasonBar=$('seasonBar');if(seasonBar)seasonBar.style.width=Math.min(100,elapsed/(30*DAY)*100)+'%';
+ setText('seasonDates','Бошланган: '+new Date(state.seasonStart).toLocaleDateString()+' · Тугаши: '+new Date(state.seasonStart+30*DAY).toLocaleDateString());
+ setText('seasonChip','SEASON 01 · '+days+' DAYS');
+ const inviteCode='GOLD-'+String(state.createdAt).slice(-6).toUpperCase();
+ setText('inviteCode',inviteCode);setText('inviteCount','0');
+ translateUI();
  save();
 }
 function tap(){
  recoverEnergy();if(state.energy<1){toast('Энергия тугади. Тикланишини кутинг.');render();return}
- state.energy-=1;state.gold+=state.power;state.taps++;save();render();
+ state.energy-=1;state.gold+=state.power;state.taps++;state.dailyTaps=(state.dailyTaps||0)+1;save();render();
  const area=$('tapArea'),coin=$('tapBtn').getBoundingClientRect(),rect=area.getBoundingClientRect(),f=document.createElement('div');
  f.className='float';f.textContent='+'+state.power;f.style.left=(coin.left-rect.left+coin.width/2-15)+'px';f.style.top=(coin.top-rect.top+15)+'px';area.appendChild(f);setTimeout(()=>f.remove(),800);
 }
 $('tapBtn').addEventListener('click',tap);
 $('buyPower').addEventListener('click',()=>{const cost=100*state.powerLevel;if(state.gold<cost)return;state.gold-=cost;state.powerLevel++;state.power++;save();render();toast('Tap Power кучайтирилди!')});
 $('buyEnergy').addEventListener('click',()=>{const cost=150*state.energyLevel;if(state.gold<cost)return;state.gold-=cost;state.energyLevel++;state.maxEnergy+=25;state.energy=Math.min(state.maxEnergy,state.energy+25);save();render();toast('Энергия лимити ошди!')});
+const referralCode='GOLD-'+String(state.createdAt).slice(-6).toUpperCase();
+const inviteMessage='GOLD TAP ўйинига қўшил! Менинг таклиф кодим: '+referralCode;
+$('copyInvite').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(referralCode);toast('Таклиф коди нусхаланди')}catch(e){window.prompt('Таклиф кодини нусхаланг:',referralCode)}});
+$('shareInvite').addEventListener('click',async()=>{if(navigator.share){try{await navigator.share({title:'GOLD TAP',text:inviteMessage})}catch(e){}}else{try{await navigator.clipboard.writeText(inviteMessage);toast('Таклиф матни нусхаланди')}catch(e){window.prompt('Таклиф матнини нусхаланг:',inviteMessage)}}});
 $('saveName').addEventListener('click',()=>{const n=$('nameInput').value.trim();if(!n){toast('Исм киритинг');return}state.name=n;save();render();toast('Профиль сақланди')});
-$('langBtn').addEventListener('click',()=>{const langs=['UZ','RU','EN'];state.lang=langs[(langs.indexOf(state.lang)+1)%langs.length];$('langBtn').textContent=state.lang+' ▾';toast('Тил танланди: '+state.lang+' · Таржималар кейинги версияда');save()});
+$('langBtn').addEventListener('click',()=>{const order=['UZ-CYR','UZ-LAT','RU'];state.lang=order[(order.indexOf(state.lang)+1)%order.length];save();render();toast(state.lang==='RU'?'Язык: Русский':state.lang==='UZ-LAT'?'Til: Oʻzbekcha':'Тил: Ўзбекча')});
 $('adminLogin').addEventListener('click',()=>{if($('adminPass').value==='goldtap-demo'){$('adminGate').style.display='none';$('adminContent').style.display='block';toast('Демо админ панели очилди')}else toast('Парол нотўғри')});
 $('resetGame').addEventListener('click',()=>{if(confirm('Барча демо натижаларини ноллашни хоҳлайсизми?')){state=defaults();save();$('adminGate').style.display='block';$('adminContent').style.display='none';$('adminPass').value='';render();toast('Демо маълумотлари нолланди')}});
 function showView(name){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+name));document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===name));window.scrollTo({top:0,behavior:'smooth'});render()}
 document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
 document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.go)));
-$('langBtn').textContent=state.lang+' ▾';
+$('langBtn').textContent=(languageNames[state.lang]||languageNames['UZ-CYR'])+' ▾';
 render();setInterval(()=>{recoverEnergy();render()},1000);
 })();
 </script>
