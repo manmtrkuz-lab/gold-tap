@@ -107,12 +107,16 @@ main{min-width:0}.view{display:none;animation:fade .22s ease}.view.active{displa
  </div>
 </section>
 <section class="view" id="view-invite">
- <div class="welcome"><div><div class="eyebrow">GROW THE GOLD TAP COMMUNITY</div><h1>Дўст таклиф қилиш</h1><div class="sub">Дўстларингизни GOLD TAP'га таклиф қилинг.</div></div><span class="badge">INVITE &amp; PLAY</span></div>
+ <div class="welcome"><div><div class="eyebrow">GROW THE GOLD TAP COMMUNITY</div><h1>Дўст таклиф қилиш</h1><div class="sub">Шахсий ҳаволангизни юборинг — дўстингиз бот орқали қўшилади.</div></div><span class="badge">REAL REFERRAL LINK</span></div>
  <div class="grid">
-  <div class="panel span-7"><div style="font-size:32px">🤝</div><h3 class="section-title">Таклиф коди</h3><p class="sub">Кодингизни дўстларингизга юборинг. Telegram ботингиз ишга туширилганда шу код орқали таклифларни серверда ҳисоблаш мумкин.</p><div class="item"><div><div class="label">СИЗНИНГ КОДИНГИЗ</div><div class="metric" id="inviteCode" style="font-size:25px;letter-spacing:2px">GOLD-000000</div></div><button class="action" id="copyInvite">Кодни нусхалаш</button></div>
-  <button class="action" id="shareInvite" style="margin-top:13px;width:100%">Дўстга таклиф юбориш</button></div>
-  <div class="panel span-5"><div class="label">ТАКЛИФЛАР</div><div class="metric" id="inviteCount">0</div><div class="metric-sub">Ҳозирча демо ҳисоблагич</div><p class="sub" style="margin-top:15px">Ҳақиқий таклифлар сонини ҳисоблаш учун Telegram бот ва backend'да referral тизими уланиши керак.</p></div>
-  <div class="panel span-12"><h3 class="section-title">Қандай ишлайди?</h3><div class="list"><div class="item"><div class="item-title">1. Кодни нусхаланг</div><span class="reward">01</span></div><div class="item"><div class="item-title">2. Дўстингизга юборинг</div><span class="reward">02</span></div><div class="item"><div class="item-title">3. Дўстингиз бот орқали кирсин</div><span class="reward">03</span></div></div></div>
+  <div class="panel span-7"><div style="font-size:32px">🤝</div><h3 class="section-title">Сизнинг таклиф ҳаволангиз</h3><p class="sub">Ҳаволани дўстингизга юборинг. У ботда Start босиб биринчи марта кирса, сервер таклифни қайд этади.</p>
+   <div class="item"><div class="item-main"><div class="label">ШАХСИЙ ТАКЛИФ КОДИ</div><div class="metric" id="inviteCode" style="font-size:23px;letter-spacing:1px">GOLD-000000</div></div><button class="action" id="copyInvite">Кодни нусхалаш</button></div>
+   <div class="item" style="margin-top:9px"><div class="item-main"><div class="label">ТАКЛИФ ҲАВОЛАСИ</div><div class="tiny" id="inviteLink" style="overflow-wrap:anywhere">Тайёрланмоқда...</div></div><button class="secondary" id="copyInviteLink">Ҳаволани нусхалаш</button></div>
+   <button class="action" id="shareInvite" style="margin-top:13px;width:100%">✈️ Дўстга таклиф юбориш</button>
+   <p class="tiny" id="inviteStatus" style="margin-top:10px">Дўстингиз ботда Start босгандан кейин таклиф серверда текширилади.</p>
+  </div>
+  <div class="panel span-5"><div class="label">ТАКЛИФ ҚИЛИНГАН ДЎСТЛАР</div><div class="metric" id="inviteCount">—</div><div class="metric-sub">Сервер тасдиқлаган таклифлар</div><p class="sub" style="margin-top:15px">Ҳақиқий сони бот серверидан келади. Браузердаги сохта ҳисоблагич ишлатилмайди.</p></div>
+  <div class="panel span-12"><h3 class="section-title">Қандай ишлайди?</h3><div class="list"><div class="item"><div class="item-title">1. Шахсий ҳаволангизни дўстингизга юборинг</div><span class="reward">01</span></div><div class="item"><div class="item-title">2. Дўстингиз ҳавола орқали ботни очиб, Start босади</div><span class="reward">02</span></div><div class="item"><div class="item-title">3. Бот сервери янги фойдаланувчини текширади ва таклифни ҳисоблайди</div><span class="reward">03</span></div></div></div>
  </div>
 </section>
 </main></div>
@@ -254,7 +258,7 @@ const ruDict={
 'SEASON 01 ·':'СЕЗОН 01 ·','DAYS':'ДНЕЙ','Player ID:':'ID игрока:',
 'GOLD TAP янгиликлари, янгиланишлар ва расмий эълонлар.':'Новости GOLD TAP, обновления и официальные объявления.',
 'Расмий каналимизга обуна бўлинг ва янгиликларни биринчи бўлиб билиб олинг!':'Подпишитесь на наш официальный канал и узнавайте новости первыми!',
-'Каналга ўтиш':'Перейти в канал'
+'Каналга ўтиш':'Перейти в канал','Сизнинг таклиф ҳаволангиз':'Ваша ссылка-приглашение','ШАХСИЙ ТАКЛИФ КОДИ':'ЛИЧНЫЙ КОД','ТАКЛИФ ҲАВОЛАСИ':'ССЫЛКА-ПРИГЛАШЕНИЕ','ТАКЛИФ ҚИЛИНГАН ДЎСТЛАР':'ПРИГЛАШЁННЫЕ ДРУЗЬЯ'
 };
 const latDict={
 'Бош саҳифа':'Bosh sahifa','Вазифалар':'Vazifalar','Upgrade':'Yangilash','Рейтинг':'Reyting','Профиль':'Profil',
@@ -321,7 +325,7 @@ const latDict={
 'SEASON 01 ·':'MAVSUM 01 ·','DAYS':'KUN','Player ID:':'Oʻyinchi ID:',
 'GOLD TAP янгиликлари, янгиланишлар ва расмий эълонлар.':'GOLD TAP yangiliklari, yangilanishlar va rasmiy eʼlonlar.',
 'Расмий каналимизга обуна бўлинг ва янгиликларни биринчи бўлиб билиб олинг!':'Rasmiy kanalimizga obuna boʻling va yangiliklarni birinchi boʻlib bilib oling!',
-'Каналга ўтиш':'Kanalga oʻtish'
+'Каналга ўтиш':'Kanalga oʻtish','Сизнинг таклиф ҳаволангиз':'Sizning taklif havolangiz','ШАХСИЙ ТАКЛИФ КОДИ':'SHAXSIY TAKLIF KODI','ТАКЛИФ ҲАВОЛАСИ':'TAKLIF HAVOLASI','ТАКЛИФ ҚИЛИНГАН ДЎСТЛАР':'TAKLIF QILINGAN DOʻSTLAR'
 };
 function transliterateUz(text){
  const map={
@@ -421,10 +425,25 @@ $('checkChannel').addEventListener('click',()=>{
 });
 $('buyPower').addEventListener('click',()=>{const cost=100*state.powerLevel;if(state.gold<cost)return;state.gold-=cost;state.powerLevel++;state.power++;save();render();toast('Tap Power кучайтирилди!')});
 $('buyEnergy').addEventListener('click',()=>{const cost=150*state.energyLevel;if(state.gold<cost)return;state.gold-=cost;state.energyLevel++;state.maxEnergy+=25;state.energy=Math.min(state.maxEnergy,state.energy+25);save();render();toast('Энергия лимити ошди!')});
-const referralCode='GOLD-'+String(state.createdAt).slice(-6).toUpperCase();
-const inviteMessage='GOLD TAP ўйинига қўшил! Менинг таклиф кодим: '+referralCode;
-$('copyInvite').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(referralCode);toast('Таклиф коди нусхаланди')}catch(e){window.prompt('Таклиф кодини нусхаланг:',referralCode)}});
-$('shareInvite').addEventListener('click',async()=>{if(navigator.share){try{await navigator.share({title:'GOLD TAP',text:inviteMessage})}catch(e){}}else{try{await navigator.clipboard.writeText(inviteMessage);toast('Таклиф матни нусхаланди')}catch(e){window.prompt('Таклиф матнини нусхаланг:',inviteMessage)}}});
+function getInviteCode(){
+ const key='goldtap_referral_code_v1';
+ let code=localStorage.getItem(key);
+ if(!code){code='GOLD-'+Math.random().toString(36).slice(2,9).toUpperCase();localStorage.setItem(key,code)}
+ return code;
+}
+const referralCode=getInviteCode();
+const inviteLink='https://t.me/goldtap_global_bot?start='+encodeURIComponent(referralCode);
+const inviteMessage='GOLD TAP ўйинига қўшил! Менинг таклиф ҳаволам: '+inviteLink;
+async function copyValue(value,success){
+ try{await navigator.clipboard.writeText(value);toast(success)}
+ catch(e){window.prompt('Нусхаланг:',value)}
+}
+$('copyInvite').addEventListener('click',()=>copyValue(referralCode,'Таклиф коди нусхаланди'));
+$('copyInviteLink').addEventListener('click',()=>copyValue(inviteLink,'Таклиф ҳаволаси нусхаланди'));
+$('shareInvite').addEventListener('click',async()=>{
+ if(navigator.share){try{await navigator.share({title:'GOLD TAP',text:inviteMessage,url:inviteLink})}catch(e){}}
+ else{copyValue(inviteMessage,'Таклиф ҳаволаси нусхаланди')}
+});
 $('langBtn').addEventListener('click',()=>{const order=['UZ-CYR','UZ-LAT','RU'];state.lang=order[(order.indexOf(state.lang)+1)%order.length];save();render();toast(state.lang==='RU'?'Язык: Русский':state.lang==='UZ-LAT'?'Til: Oʻzbekcha':'Тил: Ўзбекча')});
 function showView(name){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+name));document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===name));window.scrollTo({top:0,behavior:'smooth'});render()}
 document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
