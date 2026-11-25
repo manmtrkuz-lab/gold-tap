@@ -59,7 +59,12 @@ main{min-width:0}.view{display:none;animation:fade .22s ease}.view.active{displa
 <main>
 <section class="view active" id="view-home">
  <div class="grid">
-  <div class="panel balance-panel span-7"><div class="label">ЙИҒИЛГАН GOLD БАЛАНСИ</div><div class="balance" id="goldBalance">0 <small>GOLD</small></div><div class="tiny">Ҳар бир тап орқали GOLD тўпланади</div><div class="tiny" id="dailyBonusStatus" style="margin-top:9px;color:var(--gold2)">Кунлик кириш бонуси: +1 000 GOLD</div></div>
+  <div class="panel balance-panel span-7"><div class="label">ЙИҒИЛГАН GOLD БАЛАНСИ</div><div class="balance" id="goldBalance">0 <small>GOLD</small></div><div class="tiny">Ҳар бир тап орқали GOLD тўпланади</div><div class="panel" style="margin-top:14px;padding:13px;background:#171a20;border-color:#5b4828;position:relative;z-index:1">
+    <div class="row-between"><div><div class="label">КУНЛИК БОНУС</div><div style="font-size:20px;font-weight:900;color:var(--gold2);margin-top:3px">+1 000 GOLD</div></div><span style="font-size:27px">🎁</span></div>
+    <div class="tiny" id="dailyBonusStatus" style="margin:8px 0;color:var(--gold2)">Бонусни олишга тайёр!</div>
+    <button class="action" id="claimDailyBonus" style="width:100%">🎁 Олиш</button>
+    <div class="tiny" id="dailyBonusTimer" style="margin-top:8px;text-align:center">Ҳозир олиш мумкин</div>
+   </div></div>
   <div class="panel span-5"><div class="energy-head"><div><div class="label">ЭНЕРГИЯ ҚОЛДИҒИ</div><div class="energy-num" id="energyText">100 / 100</div></div><span style="font-size:25px">⚡</span></div><div class="bar"><i id="energyBar"></i></div><div class="row-between"><span class="tiny" id="energyRate">1 энергия / 3 сония тикланади</span><span class="tiny" id="energyPercent">100%</span></div></div>
   <div class="panel tap-area span-12" id="tapArea"><div class="label" style="margin-bottom:14px">GOLD TAP</div><button class="tap-btn" id="tapBtn" aria-label="Tap to earn"><div class="coin">G</div></button><div class="tap-hint">Босинг ва GOLD йиғинг · <b>+<span id="tapPower">1</span> GOLD</b> · ҳар бир тапда 1 энергия сарфланади</div></div>
  </div>
@@ -125,7 +130,7 @@ main{min-width:0}.view{display:none;animation:fade .22s ease}.view.active{displa
 const $=id=>document.getElementById(id);
 const STORAGE='goldtap_demo_v1';
 const DAY=86400000;
-const defaults=()=>({gold:0,energy:100,maxEnergy:100,power:1,powerLevel:1,energyLevel:1,taps:0,dailyTaps:0,name:'Gold Player',tasksDone:[],taskDate:new Date().toDateString(),dailyRewardDate:'',createdAt:Date.now(),lang:'UZ-CYR',lastEnergy:Date.now()});
+const defaults=()=>({gold:0,energy:100,maxEnergy:100,power:1,powerLevel:1,energyLevel:1,taps:0,dailyTaps:0,name:'Gold Player',tasksDone:[],taskDate:new Date().toDateString(),dailyRewardDate:'',dailyRewardAt:0,createdAt:Date.now(),lang:'UZ-CYR',lastEnergy:Date.now()});
 let state;
 try{state={...defaults(),...JSON.parse(localStorage.getItem(STORAGE)||'{}')};if(state.lang==='UZ')state.lang='UZ-CYR'}catch(e){state=defaults()}
 function save(){localStorage.setItem(STORAGE,JSON.stringify(state))}
@@ -138,14 +143,29 @@ function recoverEnergy(){
 function dailyReset(){
   const today=new Date().toDateString();
   if(state.taskDate!==today){state.taskDate=today;state.tasksDone=[];state.dailyTaps=0;}
-  if(state.dailyRewardDate!==today){
-    state.gold=(Number(state.gold)||0)+1000;
-    state.dailyRewardDate=today;
-    save();
-    return true;
-  }
+  // Preserve the claimed state from the previous automatic-bonus version.
+  if(!state.dailyRewardAt && state.dailyRewardDate===today) state.dailyRewardAt=Date.now();
   return false;
 }
+const DAILY_COOLDOWN=24*60*60*1000;
+function claimDailyBonus(){
+  const now=Date.now(),last=Number(state.dailyRewardAt)||0;
+  if(last && now-last<DAILY_COOLDOWN){toast('Кунлик бонус ҳали тайёр эмас!');updateDailyBonus();return;}
+  state.gold=(Number(state.gold)||0)+1000;
+  state.dailyRewardAt=now;state.dailyRewardDate=new Date(now).toDateString();
+  save();render();toast('+1 000 GOLD бонус олинди!');
+}
+function updateDailyBonus(){
+  const btn=$('claimDailyBonus'),status=$('dailyBonusStatus'),timer=$('dailyBonusTimer');
+  if(!btn||!status||!timer)return;
+  const last=Number(state.dailyRewardAt)||0,remaining=DAILY_COOLDOWN-(Date.now()-last);
+  if(last && remaining>0){
+    btn.disabled=true;btn.textContent='✓ Олинди';status.textContent='Кунлик бонус олинди!';
+    const h=Math.floor(remaining/3600000),m=Math.floor((remaining%3600000)/60000),sec=Math.floor((remaining%60000)/1000);
+    timer.textContent='Кейинги бонус: '+String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
+  }else{btn.disabled=false;btn.textContent='🎁 Олиш';status.textContent='Бонусни олишга тайёр!';timer.textContent='Ҳозир олиш мумкин';}
+}
+
 const tasks=[
  {id:'tap50',title:'Биринчи қадам',desc:'50 марта тап қилинг',goal:50,reward:30,progress:()=>Math.min(50,state.dailyTaps||0)},
  {id:'tap150',title:'Фаол ўйинчи',desc:'150 марта тап қилинг',goal:150,reward:80,progress:()=>Math.min(150,state.dailyTaps||0)},
@@ -363,6 +383,7 @@ function render(){
  setText('tapPower',state.power);
  const allTasks=$('allTasks');if(allTasks)allTasks.innerHTML=tasks.map(taskHtml).join('');
  setText('taskProgress',state.tasksDone.length+' / '+tasks.length);
+  updateDailyBonus();
  const rank=renderRanking('rankingTable');
  setText('seasonRank','#'+rank);
  setText('upgradePower','+'+state.power+' GOLD');setText('powerCost','Кейинги нарх: '+fmt(100*state.powerLevel)+' GOLD');
@@ -381,6 +402,7 @@ function tap(){
  f.className='float';f.textContent='+'+state.power;f.style.left=(coin.left-rect.left+coin.width/2-15)+'px';f.style.top=(coin.top-rect.top+15)+'px';area.appendChild(f);setTimeout(()=>f.remove(),800);
 }
 $('tapBtn').addEventListener('click',tap);
+$('claimDailyBonus').addEventListener('click',claimDailyBonus);
 
 // Membership must be verified by the bot backend, never by browser-side data.
 $('checkChannel').addEventListener('click',()=>{
