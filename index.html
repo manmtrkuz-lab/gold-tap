@@ -126,6 +126,177 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 .extra-row>div:first-child{min-width:0;overflow-wrap:anywhere}
 .shop-note{overflow-wrap:anywhere}
 @media(max-width:420px){.mobile-nav .navbtn{flex-basis:60px;padding-left:5px;padding-right:5px}.balance{font-size:clamp(30px,9vw,48px)}}
+
+/* ===== GOLD TAP — PREMIUM VISUAL REFRESH ===== */
+:root{
+  --bg:#080a10;--panel:#111722;--panel2:#171f2c;--gold:#f5bd50;
+  --gold2:#ffe6a6;--muted:#9ba7b8;--line:#293344;--green:#65ddb0;
+}
+html{scroll-behavior:smooth}
+body{
+  background:
+    radial-gradient(ellipse at 50% -18%,rgba(190,132,39,.23),transparent 38%),
+    radial-gradient(ellipse at 100% 45%,rgba(37,76,112,.12),transparent 42%),
+    linear-gradient(180deg,#0b0e15 0%,#080a10 65%,#090c13 100%);
+  letter-spacing:.01em;
+}
+.app{max-width:1240px;padding:20px 22px 110px}
+.topbar{
+  padding:12px 2px 20px;border-bottom:1px solid rgba(255,226,166,.12);
+  position:relative
+}
+.topbar:after{
+  content:"";position:absolute;left:0;bottom:-1px;width:110px;height:1px;
+  background:linear-gradient(90deg,var(--gold),transparent)
+}
+.logo{font-size:23px;letter-spacing:4px;color:#ffe8b2;text-shadow:0 0 28px #e9ae4438}
+.logo small{font-size:9px;letter-spacing:4.5px;color:#b99a60}
+.lang-btn{
+  padding:9px 14px;border-radius:12px;background:linear-gradient(145deg,#1c2532,#111722);
+  border:1px solid #394354;color:#f4dfb4;font-weight:750
+}
+.layout{grid-template-columns:226px minmax(0,1fr);gap:24px;padding-top:24px}
+.sidebar{
+  background:rgba(16,22,32,.88);border:1px solid #293344;border-radius:22px;
+  padding:13px;box-shadow:0 18px 45px #0004;backdrop-filter:blur(16px)
+}
+.navbtn{
+  padding:13px 12px;border-radius:13px;color:#aeb9c9;font-weight:650;
+  transition:background .2s,border-color .2s,transform .2s
+}
+.navbtn:hover{transform:translateX(2px);background:#ffffff08}
+.navbtn:hover,.navbtn.active{
+  color:#ffe5a6;background:linear-gradient(100deg,rgba(193,139,49,.2),rgba(193,139,49,.045));
+}
+.navbtn.active{box-shadow:inset 3px 0 #efbd58,0 5px 18px #0002}
+.navicon{font-size:18px}
+.side-note{border-color:#2b3545;color:#7f8da1;line-height:1.8}
+.welcome{margin:7px 0 22px}
+.welcome h1{letter-spacing:-.8px;font-weight:850}
+.eyebrow{letter-spacing:3px;color:#e9b954}
+.sub{line-height:1.65;color:#a3afbf}
+.grid,.extra-grid{gap:15px}
+.panel,.extra-card{
+  background:linear-gradient(145deg,rgba(25,34,48,.96),rgba(14,20,30,.98));
+  border:1px solid #2a3546;border-radius:20px;padding:19px;
+  box-shadow:0 14px 36px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.025)
+}
+.balance-panel{
+  min-height:190px;display:flex;flex-direction:column;justify-content:center;
+  background:
+    radial-gradient(circle at 86% 18%,rgba(246,190,79,.22),transparent 34%),
+    linear-gradient(130deg,#302514 0%,#1a1d25 58%,#121923 100%);
+  border-color:#73572b
+}
+.balance-panel:before{
+  content:"";position:absolute;inset:12px;border:1px solid rgba(255,226,166,.09);
+  border-radius:13px;pointer-events:none
+}
+.balance-panel:after{right:22px;bottom:-72px;font-size:240px;color:#f3bd4e0d}
+.label{font-size:10px;letter-spacing:1.7px;color:#aeb9c8;font-weight:750}
+.balance{font-size:clamp(40px,6vw,60px);margin:10px 0 5px;color:#ffe7ae;text-shadow:0 5px 25px #e6ad4430}
+.tiny{color:#8f9bad;line-height:1.55}
+.tap-area{
+  min-height:390px;border-color:#39404a;
+  background:
+    radial-gradient(ellipse at 50% 48%,rgba(208,151,52,.19),transparent 38%),
+    radial-gradient(ellipse at 50% 100%,rgba(33,68,94,.15),transparent 55%),
+    linear-gradient(145deg,#19212d,#0e141e);
+}
+.tap-area:before{
+  content:"";position:absolute;inset:12px;border:1px solid rgba(255,255,255,.045);
+  border-radius:14px;pointer-events:none
+}
+.tap-area>.label{letter-spacing:3px;color:#e8c477}
+.coin{
+  width:204px;height:204px;border-width:6px;
+  background:
+    radial-gradient(circle at 32% 22%,#fff8d9 0%,#ffe18b 16%,#e6ae43 43%,#98601d 77%,#f8d477 100%);
+  box-shadow:0 0 0 10px rgba(245,189,80,.07),0 0 0 22px rgba(245,189,80,.035),
+    0 0 65px rgba(245,189,80,.34),inset 0 5px 15px #fff9,inset 0 -9px 18px #613b13aa;
+  color:#57380d;font-size:82px
+}
+.tap-btn{margin:12px 0 17px;filter:drop-shadow(0 16px 20px #0005)}
+.tap-hint{font-size:13px;color:#aeb9c8;text-align:center;padding:0 12px}
+.tap-hint b{color:#ffe5a6}
+.energy-head{align-items:center}
+.energy-num{font-size:24px;letter-spacing:-.5px}
+.bar{height:10px;background:#080d15;border:1px solid #2a3545;padding:1px}
+.bar>i{box-shadow:0 0 14px rgba(245,189,80,.35)}
+.section-title{font-size:18px;letter-spacing:-.2px}
+.metric,.extra-big{color:#ffe2a0;text-shadow:0 4px 18px #e9b64a1a}
+.level-panel{background:linear-gradient(130deg,#302514,#171e29);border-color:#71562b}
+.action{
+  border:1px solid #e5b451;background:linear-gradient(135deg,#ffe09a,#d99a32);
+  color:#241806;border-radius:12px;padding:11px 16px;font-size:12px;
+  font-weight:900;box-shadow:0 7px 22px #d99a3224;transition:transform .18s,filter .18s
+}
+.action:hover{transform:translateY(-1px);filter:brightness(1.06)}
+.action:active{transform:translateY(1px)}
+.secondary{
+  border:1px solid #354256;background:linear-gradient(145deg,#202b3a,#151d29);
+  color:#e6edf7;border-radius:12px;padding:10px 13px;font-weight:700
+}
+.secondary:hover{border-color:#8a6a36;background:#252b34}
+.item,.extra-row{
+  border:1px solid #2b3544;background:rgba(255,255,255,.025);border-radius:13px;padding:13px
+}
+.badge{background:#302718;border-color:#735a30;color:#ffe2a0;font-weight:800;letter-spacing:.3px}
+.table td,.table th{padding:13px 10px}
+.you{background:rgba(197,145,53,.09)}
+.field,.extra-input{
+  background:#0b111a;border:1px solid #354154;border-radius:12px;padding:12px 13px;
+  color:#f5f7fb
+}
+.field:focus,.extra-input:focus{outline:2px solid rgba(245,189,80,.42);border-color:#b98a3e}
+.shop-package{
+  background:linear-gradient(145deg,#2a2418,#151d28);border:1px solid #70572e;
+  border-radius:17px;padding:16px
+}
+.shop-package strong{font-size:19px;color:#ffe5a6}
+.shop-section-title{margin:25px 0 13px}
+.toast{
+  bottom:calc(24px + env(safe-area-inset-bottom));background:#1a2532;
+  border:1px solid #59677a;border-radius:14px;box-shadow:0 12px 35px #0008
+}
+.rank-dialog{background:linear-gradient(145deg,#1c2634,#0e141e);border-color:#806333}
+.rank-card{background:linear-gradient(145deg,#202b3a,#111823);border-color:#354256}
+.rank-card.selected{background:linear-gradient(145deg,#493719,#19202b);border-color:#f0bd58}
+.rank-detail{background:#151e29;border-color:#70572e}
+.mobile-nav{
+  background:rgba(10,15,23,.94);border-top:1px solid #303b4b;
+  box-shadow:0 -12px 35px rgba(0,0,0,.35);backdrop-filter:blur(20px);
+  padding-top:9px
+}
+.mobile-nav .navbtn{color:#8f9bad;border-radius:11px}
+.mobile-nav .navbtn.active{
+  color:#ffe4a4;background:linear-gradient(180deg,rgba(224,170,72,.16),rgba(224,170,72,.035));
+  box-shadow:inset 0 2px #eabb59
+}
+.mobile-nav .navicon{font-size:18px}
+@media(max-width:850px){
+ .app{padding:12px 14px calc(105px + env(safe-area-inset-bottom))}
+ .layout{padding-top:15px}
+ .mobile-nav{padding-bottom:calc(8px + env(safe-area-inset-bottom))}
+}
+@media(max-width:580px){
+ .topbar{padding:8px 1px 15px}
+ .logo{font-size:20px}
+ .grid,.extra-grid{gap:12px}
+ .panel,.extra-card{border-radius:17px;padding:15px}
+ .balance-panel{min-height:160px}
+ .tap-area{min-height:315px}
+ .coin{width:174px;height:174px;font-size:70px}
+ .welcome h1{font-size:27px}
+ .shop-packages{gap:9px}
+ .shop-package{padding:12px}
+ .shop-package strong{font-size:16px}
+ .mobile-nav .navbtn{flex-basis:62px;min-width:58px;padding:7px 4px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+
 </style>
 </head>
 <body>
@@ -150,14 +321,10 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 <section class="view active" id="view-home">
  <div class="shop-note" style="margin:0 0 12px;padding:10px 12px;border:1px solid #66502a;border-radius:12px;background:#171a20">ℹ️ Локал демо: маълумотлар шу браузерда сақланади. Ҳақиқий баланс, тўлов, реферал ва глобал рейтинг учун сервер керак.</div>
  <div class="grid">
-  <div class="panel balance-panel span-7"><div class="label">ЙИҒИЛГАН GOLD БАЛАНСИ</div><div class="balance" id="goldBalance">0 <small>GOLD</small></div><div class="tiny">Ҳар бир тап орқали GOLD тўпланади</div><div class="panel" style="margin-top:14px;padding:13px;background:#171a20;border-color:#5b4828;position:relative;z-index:1">
-    <div class="row-between"><div><div class="label">КУНЛИК БОНУС</div><div style="font-size:20px;font-weight:900;color:var(--gold2);margin-top:3px">+1 000 GOLD</div></div><span style="font-size:27px">🎁</span></div>
-    <div class="tiny" id="dailyBonusStatus" style="margin:8px 0;color:var(--gold2)">Бонусни олишга тайёр!</div>
-    <button class="action" id="claimDailyBonus" style="width:100%">🎁 Олиш</button>
-    <div class="tiny" id="dailyBonusTimer" style="margin-top:8px;text-align:center">Ҳозир олиш мумкин</div>
-   </div></div>
-  <div class="panel span-5"><div class="energy-head"><div><div class="label">ЭНЕРГИЯ ҚОЛДИҒИ</div><div class="energy-num" id="energyText">100 / 100</div></div><span style="font-size:25px">⚡</span></div><div class="bar"><i id="energyBar"></i></div><div class="row-between"><span class="tiny" id="energyRate">1 энергия / 3 сония тикланади</span><span class="tiny" id="energyPercent">100%</span></div></div>
+  <div class="panel balance-panel span-7"><div class="label">ЙИҒИЛГАН GOLD БАЛАНСИ</div><div class="balance" id="goldBalance">0 <small>GOLD</small></div><div class="tiny">Ҳар бир тап орқали GOLD тўпланади</div></div>
+
   <div class="panel tap-area span-12" id="tapArea"><div class="label" style="margin-bottom:14px">GOLD TAP</div><button class="tap-btn" id="tapBtn" aria-label="Tap to earn"><div class="coin">G</div></button><div class="tap-hint">Босинг ва GOLD йиғинг · <b>+<span id="tapPower">1</span> GOLD</b> · ҳар бир тапда 1 энергия сарфланади</div></div>
+  <div class="panel span-5"><div class="energy-head"><div><div class="label">ЭНЕРГИЯ ҚОЛДИҒИ</div><div class="energy-num" id="energyText">100 / 100</div></div><span style="font-size:25px">⚡</span></div><div class="bar"><i id="energyBar"></i></div><div class="row-between"><span class="tiny" id="energyRate">1 энергия / 3 сония тикланади</span><span class="tiny" id="energyPercent">100%</span></div></div>
  </div>
 </section>
 <section class="view" id="view-upgrade">
@@ -207,6 +374,13 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 <section class="view" id="view-rewards">
  <div class="welcome"><div><div class="eyebrow">DAILY REWARDS</div><h1>Бонуслар ва ютуқлар</h1><div class="sub">Ҳар куни киринг, қути очинг ва ютуқларни қўлга киритинг.</div></div><span class="badge">REWARDS CENTER</span></div>
  <div class="extra-grid">
+  <div class="panel" style="margin-top:14px;padding:13px;background:#171a20;border-color:#5b4828;position:relative;z-index:1">
+    <div class="row-between"><div><div class="label">КУНЛИК БОНУС</div><div style="font-size:20px;font-weight:900;color:var(--gold2);margin-top:3px">+1 000 GOLD</div></div><span style="font-size:27px">🎁</span></div>
+    <div class="tiny" id="dailyBonusStatus" style="margin:8px 0;color:var(--gold2)">Бонусни олишга тайёр!</div>
+    <button class="action" id="claimDailyBonus" style="width:100%">🎁 Олиш</button>
+    <div class="tiny" id="dailyBonusTimer" style="margin-top:8px;text-align:center">Ҳозир олиш мумкин</div>
+   </div>
+
   <div class="extra-card" style="grid-column:span 12">
    <div class="row-between"><div><div class="label">7 КУНЛИК КИРИШ БОНУСИ</div><h3>Ҳар куни мукофот</h3><p>7 кунлик кетма-кет кириш бонуслари.</p></div><div style="font-size:36px">📅</div></div>
    <div id="loginCalendar" class="extra-grid" style="grid-template-columns:repeat(7,minmax(0,1fr));gap:7px;margin-top:13px"></div>
