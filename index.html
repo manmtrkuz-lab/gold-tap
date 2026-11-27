@@ -297,6 +297,50 @@ body{
  *,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
 }
 
+
+/* ===== MOBILE WIDTH + LAYOUT FIX v3 ===== */
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+.app{width:100%;max-width:1240px;min-width:0}
+.layout{width:100%;min-width:0}
+main,.view,.grid,.extra-grid{min-width:0;max-width:100%}
+.grid{grid-template-columns:repeat(12,minmax(0,1fr))}
+@media (max-width:850px){
+  .app{width:100%;max-width:none;margin:0;padding-left:14px;padding-right:14px}
+  .layout{display:block;width:100%;padding-top:15px}
+  .sidebar{display:none}
+  main{display:block;width:100%;min-width:0}
+  .view{width:100%;min-width:0}
+  .grid,.extra-grid{width:100%;grid-template-columns:minmax(0,1fr);gap:12px}
+  .grid>.span-12,.grid>.span-8,.grid>.span-7,.grid>.span-6,
+  .grid>.span-5,.grid>.span-4,
+  .extra-grid>.span-12,.extra-grid>.span-8,.extra-grid>.span-7,
+  .extra-grid>.span-6,.extra-grid>.span-5,.extra-grid>.span-4{
+    grid-column:1 / -1 !important;
+    width:100% !important;
+    min-width:0 !important;
+  }
+  .extra-grid>[style*="grid-column"]{grid-column:1 / -1 !important;width:100% !important;min-width:0}
+  .panel,.extra-card{min-width:0;max-width:100%}
+  .balance-panel{min-height:160px}
+  .tap-area{width:100%;min-height:360px;padding:22px 14px 28px}
+  .tap-btn{max-width:100%}
+  .tap-hint{max-width:340px;margin:0 auto;line-height:1.65}
+  .mobile-nav{left:0;right:0;width:100%;max-width:100%;overflow-x:auto}
+}
+@media (max-width:580px){
+  .app{padding-left:12px;padding-right:12px}
+  .grid,.extra-grid{grid-template-columns:minmax(0,1fr);gap:11px}
+  .grid>* ,.extra-grid>*{grid-column:1 / -1 !important;width:100%;min-width:0}
+  .panel,.extra-card{padding:14px}
+  .tap-area{min-height:350px}
+  .coin{width:min(174px,52vw);height:min(174px,52vw);font-size:70px}
+  .balance{font-size:clamp(36px,10vw,52px)}
+  .mobile-nav{justify-content:flex-start}
+}
+@media (min-width:851px){
+  .grid{grid-template-columns:repeat(12,minmax(0,1fr))}
+}
+
 </style>
 </head>
 <body>
